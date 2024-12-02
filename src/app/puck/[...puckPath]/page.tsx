@@ -20,17 +20,16 @@ export default async function Page({
 }: {
   params: { puckPath?: string[] };
 }) {
-  const { puckPath = [] } = params;
+  const { puckPath = [] } = await Promise.resolve(params);
 
   const path = `/${puckPath.join("/")}`;
   console.log("path", path);
 
   const data = await api.puck.getPage({ path });
-
+  console.log("-----------------------AAAAAAAAAAAAAAA-----------------------");
   return (
     <div>
-      {path}
-      <div>src\app\puck\[...puckPath]\page.tsx</div>
+      <div>Create, Update</div>
       <Client path={path} data={data ?? {}} />
     </div>
   );

@@ -19,7 +19,7 @@ export default async function Page({
 }: {
   params: { puckPath?: string[] };
 }) {
-  const { puckPath = [] } = params;
+  const { puckPath = [] } = await Promise.resolve(params);
   const path = `/${puckPath.join("/")}`;
 
   const session = await auth();
@@ -33,8 +33,14 @@ export default async function Page({
   // if (!data) {
   //   return notFound();
   // }
+  console.log("-----------------------BBBBBBBBBBBBBBB-----------------------");
 
-  return <Client data={data} />;
+  return (
+    <div>
+      <div>READ</div>
+      <Client data={data} />
+    </div>
+  );
 }
 
 // Force Next.js to produce static pages: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic
