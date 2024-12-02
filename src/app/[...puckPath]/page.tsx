@@ -12,7 +12,7 @@
 
 import { Client } from "./client";
 import { notFound } from "next/navigation";
-import { type Metadata } from "next";
+import { Metadata } from "next";
 import { getPage } from "../../lib/get-page";
 
 export async function generateMetadata({

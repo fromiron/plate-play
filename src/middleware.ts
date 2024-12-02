@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-
 import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
+export function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
   if (req.method === "GET") {
+    console.log("Middleware executing for path:", req.nextUrl.pathname);
+
     // Rewrite routes that match "/[...puckPath]/edit" to "/puck/[...puckPath]"
     if (req.nextUrl.pathname.endsWith("/edit")) {
       const pathWithoutEdit = req.nextUrl.pathname.slice(
@@ -25,3 +26,7 @@ export async function middleware(req: NextRequest) {
 
   return res;
 }
+
+export const config = {
+  matcher: ["/puck/:path*", "/:path*/edit"],
+};
