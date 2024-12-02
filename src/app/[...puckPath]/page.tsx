@@ -11,33 +11,28 @@
  */
 
 import { Client } from "./client";
-import { notFound } from "next/navigation";
-import { Metadata } from "next";
-import { getPage } from "../../lib/get-page";
-
-export async function generateMetadata({
-  params: { puckPath = [] },
-}: {
-  params: { puckPath: string[] };
-}): Promise<Metadata> {
-  const path = `/${puckPath.join("/")}`;
-
-  return {
-    title: getPage(path)?.root.props?.title,
-  };
-}
+import { auth } from "@/server/auth";
+import { api } from "@/trpc/server";
 
 export default async function Page({
-  params: { puckPath = [] },
+  params,
 }: {
-  params: { puckPath: string[] };
+  params: { puckPath?: string[] };
 }) {
+  const { puckPath = [] } = params;
   const path = `/${puckPath.join("/")}`;
-  const data = getPage(path);
 
-  if (!data) {
-    return notFound();
+  const session = await auth();
+  console.log("session", session);
+  let data = null;
+  if (true) {
+    data = api.puck.getPage({ path: "testurl" });
   }
+  // const data = getPage(path);
+
+  // if (!data) {
+  //   return notFound();
+  // }
 
   return <Client data={data} />;
 }

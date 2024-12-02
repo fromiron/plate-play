@@ -13,30 +13,27 @@
 
 import "@measured/puck/puck.css";
 import { Client } from "./client";
-import { type Metadata } from "next";
-import { getPage } from "@/lib/get-page";
-
-export async function generateMetadata({
-  params: { puckPath = [] },
-}: {
-  params: { puckPath: string[] };
-}): Promise<Metadata> {
-  const path = `/${puckPath.join("/")}`;
-
-  return {
-    title: "Puck: " + path,
-  };
-}
+import { api } from "@/trpc/server";
 
 export default async function Page({
-  params: { puckPath = [] },
+  params,
 }: {
-  params: { puckPath: string[] };
+  params: { puckPath?: string[] };
 }) {
-  const path = `/${puckPath.join("/")}`;
-  const data = getPage(path);
+  const { puckPath = [] } = params;
 
-  return <Client path={path} data={data ?? {}} />;
+  const path = `/${puckPath.join("/")}`;
+  console.log("path", path);
+
+  const data = await api.puck.getPage({ path });
+
+  return (
+    <div>
+      {path}
+      <div>src\app\puck\[...puckPath]\page.tsx</div>
+      <Client path={path} data={data ?? {}} />
+    </div>
+  );
 }
 
 export const dynamic = "force-dynamic";
