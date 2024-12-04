@@ -13,6 +13,7 @@
 import { Client } from "./client";
 import { auth } from "@/server/auth";
 import { api } from "@/trpc/server";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -24,21 +25,16 @@ export default async function Page({
 
   const session = await auth();
   console.log("session", session);
-  let data = null;
-  if (true) {
-    data = api.puck.getPage({ path: "testurl" });
-  }
-  // const data = getPage(path);
+  const pageData = await api.puck.getPage({ path });
 
-  // if (!data) {
-  //   return notFound();
-  // }
+  if (!pageData?.data) {
+    return notFound();
+  }
   console.log("-----------------------BBBBBBBBBBBBBBB-----------------------");
 
   return (
     <div>
-      <div>READ</div>
-      <Client data={data} />
+      <Client data={pageData.data} />
     </div>
   );
 }

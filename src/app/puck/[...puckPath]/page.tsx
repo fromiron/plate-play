@@ -1,3 +1,5 @@
+import type { Data } from "@measured/puck";
+
 /**
  * This file implements a *magic* catch-all route that renders the Puck editor.
  *
@@ -25,12 +27,15 @@ export default async function Page({
   const path = `/${puckPath.join("/")}`;
   console.log("path", path);
 
-  const data = await api.puck.getPage({ path });
-  console.log("-----------------------AAAAAAAAAAAAAAA-----------------------");
+  const pageData = await api.puck.getPage({ path });
+  console.log(
+    "-----------------------AAAAAAAAAAAAAAA-----------------------",
+    pageData,
+  );
   return (
     <div>
       <div>Create, Update</div>
-      <Client path={path} data={data ?? {}} />
+      <Client path={path} data={pageData?.data ?? {}} />
     </div>
   );
 }
