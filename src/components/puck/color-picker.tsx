@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -18,15 +18,17 @@ export function ColorPicker({
     <Popover>
       <PopoverTrigger asChild>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
+          <div
+            className={buttonVariants({
+              variant: "outline",
+              size: "icon",
+            })}
             style={{ backgroundColor: value }}
           />
-          <div>{value}</div>
+          <span className="text-xs">{value}</span>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-fit">
+      <PopoverContent className="w-fit p-0 shadow-none">
         <SketchPicker
           color={value}
           onChange={({ rgb }: ColorResult) => {

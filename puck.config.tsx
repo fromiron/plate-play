@@ -101,10 +101,10 @@ export const config: Config<Props> = {
       defaultProps: {
         title: "text",
         textAlign: TEXT_ALIGNS.TEXT_ALIGN_LEFT,
-        textColor: "#000000",
+        textColor: "rgba(0, 0, 0, 1)",
         textSize: TEXT_SIZES.TEXT_SIZE_7XL,
         padding: PADDINGS[16],
-        bgColor: "#ffffff",
+        bgColor: "rgba(255, 255, 255, 1)",
         fontWeight: FONT_WEIGHTS.NORMAL,
       },
       render: ({
