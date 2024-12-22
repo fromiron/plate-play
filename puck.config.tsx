@@ -12,6 +12,9 @@ export const config: Config<Props> = {
     typography: {
       components: ["TextBlock"],
     },
+    layout: {
+      components: ["VerticalSpacer"],
+    },
   },
   components: {
     ...Components,

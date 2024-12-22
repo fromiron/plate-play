@@ -1,4 +1,5 @@
 import {
+  DEFAULT_COLORS,
   FONT_WEIGHT_CLASSES,
   FONT_WEIGHTS,
   type FontWeight,
@@ -18,10 +19,12 @@ import { ColorPicker } from "../parts/color-picker";
 export type TextBlockProps = {
   text: string;
   textAlign: TextAlign;
-  textColor: string;
   textSize: TextSize;
   padding: Padding;
-  bgColor: string;
+  colors: {
+    textColor: string;
+    bgColor: string;
+  };
   fontWeight: FontWeight;
 };
 
@@ -39,21 +42,27 @@ export const TextBlock: ComponentConfig<TextBlockProps> = {
         value: align,
       })),
     },
-    textColor: {
-      label: "テキストの色(Text Color)",
+    colors: {
+      label: "色(Color)",
       type: "custom",
       render: ({ field: { label }, onChange, value }) => (
         <FieldLabel label={label!}>
-          <ColorPicker value={value} onChange={onChange} />
-        </FieldLabel>
-      ),
-    },
-    bgColor: {
-      label: "背景色(Background Color)",
-      type: "custom",
-      render: ({ field: { label }, onChange, value }) => (
-        <FieldLabel label={label!}>
-          <ColorPicker value={value} onChange={onChange} />
+          <div className="flex space-x-4">
+            <ColorPicker
+              value={value?.textColor ?? DEFAULT_COLORS.BLACK}
+              onChange={(newColor) => {
+                onChange({ ...value, textColor: newColor });
+              }}
+              label="Text"
+            />
+            <ColorPicker
+              value={value?.bgColor ?? DEFAULT_COLORS.WHITE}
+              onChange={(newColor) => {
+                onChange({ ...value, bgColor: newColor });
+              }}
+              label="BG"
+            />
+          </div>
         </FieldLabel>
       ),
     },
@@ -85,20 +94,21 @@ export const TextBlock: ComponentConfig<TextBlockProps> = {
   defaultProps: {
     text: "text",
     textAlign: TEXT_ALIGNS.TEXT_ALIGN_LEFT,
-    textColor: "rgba(0, 0, 0, 1)",
     textSize: TEXT_SIZES.TEXT_SIZE_7XL,
     padding: PADDINGS[16],
-    bgColor: "rgba(255, 255, 255, 1)",
+    colors: {
+      textColor: DEFAULT_COLORS.BLACK,
+      bgColor: DEFAULT_COLORS.WHITE,
+    },
     fontWeight: FONT_WEIGHTS.NORMAL,
   },
   render: ({
     text,
     textAlign,
-    textColor,
     textSize,
     padding,
-    bgColor,
     fontWeight,
+    colors: { textColor, bgColor },
   }) => (
     <div
       className={`w-full ${textAlign} ${textSize} ${String(padding)} ${fontWeight}`}

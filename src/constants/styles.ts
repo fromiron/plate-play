@@ -1,3 +1,8 @@
+export const DEFAULT_COLORS = {
+  BLACK: "rgba(0, 0, 0, 1)",
+  WHITE: "rgba(255, 255, 255, 1)",
+};
+
 // TEXT ALIGNS
 export const TEXT_ALIGNS = {
   TEXT_ALIGN_LEFT: "text-left",
