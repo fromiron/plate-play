@@ -1,5 +1,5 @@
+import { ComponentNames, Components } from "@/components/puck/blocks";
 import type { ComponentConfig, Config } from "@measured/puck";
-import * as Components from "@/components/puck/blocks/index";
 
 type ExtractProps<T> = T extends ComponentConfig<infer P> ? P : never;
 
@@ -10,10 +10,10 @@ type Props = {
 export const config: Config<Props> = {
   categories: {
     typography: {
-      components: ["TextBlock"],
+      components: [...ComponentNames.typography] as (keyof typeof Components)[],
     },
     layout: {
-      components: ["VerticalSpacer", "Columns"],
+      components: [...ComponentNames.layout] as (keyof typeof Components)[],
     },
   },
   components: {

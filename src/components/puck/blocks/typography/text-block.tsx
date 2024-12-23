@@ -15,7 +15,7 @@ import {
 } from "@/constants/styles";
 import { labelize } from "@/lib/utils";
 import { type ComponentConfig, FieldLabel } from "@measured/puck";
-import { ColorPicker } from "../parts/color-picker";
+import { ColorPicker } from "../../parts/color-picker";
 export type TextBlockProps = {
   text: string;
   textAlign: TextAlign;

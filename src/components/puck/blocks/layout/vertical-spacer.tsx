@@ -1,6 +1,6 @@
 import { spacingOptions } from "@/constants/spacing-options";
 import { FieldLabel, type ComponentConfig } from "@measured/puck";
-import { ColorPicker } from "../parts/color-picker";
+import { ColorPicker } from "../../parts/color-picker";
 import { DEFAULT_COLORS } from "@/constants/styles";
 
 export type SpacerProps = {
