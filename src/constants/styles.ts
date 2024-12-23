@@ -3,6 +3,18 @@ export const DEFAULT_COLORS = {
   WHITE: "rgba(255, 255, 255, 1)",
 };
 
+// JUSTIFY ALIGNS
+export const CONTENT_ALIGNS = {
+  START: "flex-start",
+  END: "flex-end",
+  CENTER: "center",
+  BETWEEN: "space-between",
+  AROUND: "space-around",
+  EVENLY: "space-evenly",
+} as const;
+export type ContentAlign = (typeof CONTENT_ALIGNS)[keyof typeof CONTENT_ALIGNS];
+export const CONTENT_ALIGN_CLASSES = Object.values(CONTENT_ALIGNS);
+
 // TEXT ALIGNS
 export const TEXT_ALIGNS = {
   TEXT_ALIGN_LEFT: "text-left",

@@ -1,4 +1,3 @@
-import React from "react";
 import type { ComponentConfig } from "@measured/puck";
 import { DropZone } from "@measured/puck";
 import { spacingOptions } from "@/constants/spacing-options";
