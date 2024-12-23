@@ -13,7 +13,7 @@ export const config: Config<Props> = {
       components: ["TextBlock"],
     },
     layout: {
-      components: ["VerticalSpacer"],
+      components: ["VerticalSpacer", "Columns"],
     },
   },
   components: {

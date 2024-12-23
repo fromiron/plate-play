@@ -1,4 +1,5 @@
 export const spacingOptions = [
+  { label: "0px", value: "0px" },
   { label: "8px", value: "8px" },
   { label: "16px", value: "16px" },
   { label: "24px", value: "24px" },
@@ -19,5 +20,5 @@ export const spacingOptions = [
   { label: "144px", value: "144px" },
   { label: "152px", value: "152px" },
   { label: "160px", value: "160px" },
-  { label: "100%", value: "100%" },
+  { label: "320px", value: "320px" },
 ];
