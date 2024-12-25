@@ -15,6 +15,9 @@ export const config: Config<Props> = {
     layout: {
       components: [...ComponentNames.layout] as (keyof typeof Components)[],
     },
+    base: {
+      components: [...ComponentNames.base] as (keyof typeof Components)[],
+    },
   },
   components: {
     ...Components,

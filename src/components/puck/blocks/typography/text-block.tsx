@@ -108,7 +108,10 @@ export const TextBlock: ComponentConfig<TextBlockProps> = {
     textSize,
     padding,
     fontWeight,
-    colors: { textColor, bgColor },
+    colors: { textColor, bgColor } = {
+      textColor: DEFAULT_COLORS.BLACK,
+      bgColor: DEFAULT_COLORS.WHITE,
+    },
   }) => (
     <div
       className={`w-full ${textAlign} ${textSize} ${String(padding)} ${fontWeight}`}

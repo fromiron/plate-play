@@ -78,3 +78,6 @@ export const safeList = [
   ...PADDING_CLASSES,
   ...FONT_WEIGHT_CLASSES,
 ];
+
+export type Direction = "vertical" | "horizontal";
+export const DIRECTIONS = { VERTICAL: "vertical", HORIZONTAL: "horizontal" };
