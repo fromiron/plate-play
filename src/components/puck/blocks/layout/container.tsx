@@ -2,9 +2,19 @@ import {
   BORDER_ROUNDED,
   BORDER_ROUNDED_CLASSES,
   DEFAULT_COLORS,
+  DIRECTIONS,
   PADDING_CLASSES,
   type BorderRounded,
   type Padding,
+  GAP_SIZE,
+  MARGIN_TOP,
+  MARGIN_BOTTOM,
+  MarginTop,
+  MarginBottom,
+  MarginLeft,
+  MarginRight,
+  MARGIN_LEFT,
+  MARGIN_RIGHT,
 } from "@/constants/styles";
 import { DropZone, FieldLabel, type ComponentConfig } from "@measured/puck";
 import { ColorPicker } from "../../parts/color-picker";
@@ -14,11 +24,15 @@ export type ContainerProps = {
   padding: Padding;
   bgColor: string;
   borderRounded: BorderRounded;
+  marginTop: MarginTop;
+  marginBottom: MarginBottom;
+  marginLeft: MarginLeft;
+  marginRight: MarginRight;
 };
 export const Container: ComponentConfig<ContainerProps> = {
   fields: {
     padding: {
-      label: "余白(Padding)",
+      label: "内部余白(Padding)",
       type: "select",
       options: PADDING_CLASSES.map((p) => ({
         label: p.replace("p-", ""),
@@ -39,6 +53,38 @@ export const Container: ComponentConfig<ContainerProps> = {
         </FieldLabel>
       ),
     },
+    marginTop: {
+      label: "トップマージン(Top Margin)",
+      type: "select",
+      options: Object.entries(MARGIN_TOP).map(([label, value]) => ({
+        label: label.toLowerCase(),
+        value,
+      })),
+    },
+    marginBottom: {
+      label: "ボトムマージン(Bottom Margin)",
+      type: "select",
+      options: Object.entries(MARGIN_BOTTOM).map(([label, value]) => ({
+        label: label.toLowerCase(),
+        value,
+      })),
+    },
+    marginLeft: {
+      label: "左マージン(Left Margin)",
+      type: "select",
+      options: Object.entries(MARGIN_LEFT).map(([label, value]) => ({
+        label: label.toLowerCase(),
+        value,
+      })),
+    },
+    marginRight: {
+      label: "右マージン(Right Margin)",
+      type: "select",
+      options: Object.entries(MARGIN_RIGHT).map(([label, value]) => ({
+        label: label.toLowerCase(),
+        value,
+      })),
+    },
     borderRounded: {
       label: "Border Rounded",
       type: "select",
@@ -50,20 +96,43 @@ export const Container: ComponentConfig<ContainerProps> = {
   },
   defaultProps: {
     padding: "p-4",
-    bgColor: DEFAULT_COLORS.TRANSPARENT,
+    bgColor: DEFAULT_COLORS.WHITE,
     borderRounded: BORDER_ROUNDED.DEFAULT,
+    marginTop: MARGIN_TOP["0PX"],
+    marginBottom: MARGIN_BOTTOM["0PX"],
+    marginLeft: MARGIN_LEFT["0PX"],
+    marginRight: MARGIN_RIGHT["0PX"],
   },
-  render: ({ padding, bgColor, borderRounded }) => {
+  render: ({
+    padding,
+    bgColor,
+    borderRounded,
+    marginTop,
+    marginBottom,
+    marginLeft,
+    marginRight,
+  }) => {
     return (
       <div
         className={cn(
           padding,
           borderRounded,
-          "flex h-auto w-full flex-col items-center justify-center",
+          marginTop,
+          marginBottom,
+          marginLeft,
+          marginRight,
         )}
         style={{ backgroundColor: bgColor }}
       >
-        <DropZone zone={"container"} />
+        <DropZone
+          zone={"container"}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        />
       </div>
     );
   },
