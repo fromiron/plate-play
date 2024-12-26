@@ -1,6 +1,7 @@
 export const DEFAULT_COLORS = {
   BLACK: "rgba(0, 0, 0, 1)",
   WHITE: "rgba(255, 255, 255, 1)",
+  TRANSPARENT: "rgba(0, 0, 0, 0)",
 };
 
 // JUSTIFY ALIGNS
@@ -72,12 +73,28 @@ export const FONT_WEIGHTS = {
 export const FONT_WEIGHT_CLASSES = Object.values(FONT_WEIGHTS);
 export type FontWeight = (typeof FONT_WEIGHTS)[keyof typeof FONT_WEIGHTS];
 
+export type Direction = "vertical" | "horizontal";
+export const DIRECTIONS = { VERTICAL: "vertical", HORIZONTAL: "horizontal" };
+
+export const BORDER_ROUNDED = {
+  NONE: "rounded-none",
+  SM: "rounded-sm",
+  DEFAULT: "rounded",
+  MD: "rounded-md",
+  LG: "rounded-lg",
+  XL: "rounded-xl",
+  "2XL": "rounded-2xl",
+  "3XL": "rounded-3xl",
+  FULL: "rounded-full",
+} as const;
+export type BorderRounded =
+  (typeof BORDER_ROUNDED)[keyof typeof BORDER_ROUNDED];
+export const BORDER_ROUNDED_CLASSES = Object.values(BORDER_ROUNDED);
+
 export const safeList = [
   ...TEXT_ALIGN_CLASSES,
   ...TEXT_SIZE_CLASSES,
   ...PADDING_CLASSES,
   ...FONT_WEIGHT_CLASSES,
+  ...BORDER_ROUNDED_CLASSES,
 ];
-
-export type Direction = "vertical" | "horizontal";
-export const DIRECTIONS = { VERTICAL: "vertical", HORIZONTAL: "horizontal" };
