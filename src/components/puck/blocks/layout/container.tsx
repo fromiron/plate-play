@@ -2,19 +2,19 @@ import {
   BORDER_ROUNDED,
   BORDER_ROUNDED_CLASSES,
   DEFAULT_COLORS,
-  DIRECTIONS,
   PADDING_CLASSES,
-  type BorderRounded,
-  type Padding,
-  GAP_SIZE,
   MARGIN_TOP,
   MARGIN_BOTTOM,
+  MARGIN_LEFT,
+  MARGIN_RIGHT,
+} from "@/constants/styles";
+import type {
+  BorderRounded,
+  Padding,
   MarginTop,
   MarginBottom,
   MarginLeft,
   MarginRight,
-  MARGIN_LEFT,
-  MARGIN_RIGHT,
 } from "@/constants/styles";
 import { DropZone, FieldLabel, type ComponentConfig } from "@measured/puck";
 import { ColorPicker } from "../../parts/color-picker";
