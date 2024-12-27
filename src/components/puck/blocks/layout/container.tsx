@@ -121,6 +121,7 @@ export const Container: ComponentConfig<ContainerProps> = {
           marginBottom,
           marginLeft,
           marginRight,
+          "min-w-28",
         )}
         style={{ backgroundColor: bgColor }}
       >
@@ -128,6 +129,7 @@ export const Container: ComponentConfig<ContainerProps> = {
           zone={"container"}
           style={{
             display: "flex",
+            width: "100%",
             alignItems: "center",
             justifyContent: "center",
             flex: 1,
