@@ -1,9 +1,9 @@
-import { Icon } from "@/components/ui/icon";
 import {
   ICON_LIST,
   ICON_STYLES,
   ICONS,
-  type IconType,
+  IconStyle,
+  type Icon,
 } from "@/constants/icons";
 import {
   type Direction,
@@ -11,14 +11,13 @@ import {
   TEXT_SIZE_CLASSES,
   TEXT_SIZES,
 } from "@/constants/styles";
-import { cn } from "@/lib/utils";
 import type { ComponentConfig } from "@measured/puck";
-import type { IconWeight } from "@phosphor-icons/react/dist/lib/types";
+import { IconMenuPart } from "@/components/puck/blocks/parts/icon-menu-part";
 
-export type IconMenuProps = {
-  icon: IconType;
+export type IconMenuItemProps = {
+  icon: Icon;
   iconSize: number;
-  iconStyle: IconWeight;
+  iconStyle: IconStyle;
   title: string;
   titleSize: string;
   description: string;
@@ -28,13 +27,26 @@ export type IconMenuProps = {
   direction: Direction;
 };
 
-export const IconMenu: ComponentConfig<IconMenuProps> = {
+export const iconMenuItemDefaultProps: IconMenuItemProps = {
+  icon: ICON_LIST.COOKIE,
+  iconSize: 48,
+  iconStyle: ICON_STYLES.REGULAR,
+  title: "メニュー",
+  titleSize: TEXT_SIZES.TEXT_SIZE_LG,
+  description: "メニュー説明",
+  descriptionSize: TEXT_SIZES.TEXT_SIZE_BASE,
+  direction: DIRECTIONS.HORIZONTAL,
+  price: 0,
+  priceSize: TEXT_SIZES.TEXT_SIZE_BASE,
+};
+
+export const IconMenuItem: ComponentConfig<IconMenuItemProps> = {
   fields: {
     icon: {
       label: "アイコン",
       type: "select",
       options: Object.entries(ICON_LIST).map(([key]) => ({
-        label: ICONS[key as IconType].name,
+        label: ICONS[key as Icon].name,
         value: key,
       })),
     },
@@ -97,46 +109,8 @@ export const IconMenu: ComponentConfig<IconMenuProps> = {
       })),
     },
   },
-  defaultProps: {
-    icon: ICON_LIST.BOWL,
-    iconSize: 48,
-    iconStyle: ICON_STYLES.REGULAR!,
-    title: "Text",
-    titleSize: TEXT_SIZES.TEXT_SIZE_LG,
-    description: "Description",
-    descriptionSize: TEXT_SIZES.TEXT_SIZE_BASE,
-    direction: DIRECTIONS.HORIZONTAL as Direction,
-    price: 0,
-    priceSize: TEXT_SIZES.TEXT_SIZE_BASE,
-  },
-  render: ({
-    icon,
-    iconSize,
-    iconStyle,
-    title,
-    titleSize,
-    description,
-    descriptionSize,
-    direction,
-    price,
-    priceSize,
-  }) => {
-    const isVertical = direction === "vertical";
-    return (
-      <div
-        className={cn(
-          "flex",
-          { "flex-col": isVertical },
-          "items-center gap-4 p-4",
-        )}
-      >
-        <Icon icon={icon} size={iconSize} weight={iconStyle} />
-        <div>
-          <div className={cn(titleSize, "font-bold")}>{title}</div>
-          <div className={descriptionSize}>{description}</div>
-          <div className={cn(priceSize, "font-medium")}>¥{price}</div>
-        </div>
-      </div>
-    );
+  defaultProps: { ...iconMenuItemDefaultProps },
+  render: (props) => {
+    return <IconMenuPart {...props} />;
   },
 };

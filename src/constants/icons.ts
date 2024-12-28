@@ -130,9 +130,9 @@ export const ICONS = {
   },
 } as const;
 
-export type IconType = keyof typeof ICONS;
+export type Icon = keyof typeof ICONS;
 
-export const ICON_STYLES: Record<string, IconWeight> = {
+export const ICON_STYLES = {
   THIN: "thin",
   LIGHT: "light",
   REGULAR: "regular",
@@ -140,11 +140,12 @@ export const ICON_STYLES: Record<string, IconWeight> = {
   FILL: "fill",
   DUOTONE: "duotone",
 } as const;
+export type IconStyle = (typeof ICON_STYLES)[keyof typeof ICON_STYLES];
 
 export const ICON_LIST = Object.keys(ICONS).reduce(
   (acc, key) => {
-    acc[key as IconType] = key as IconType;
+    acc[key as Icon] = key as Icon;
     return acc;
   },
-  {} as Record<IconType, IconType>,
+  {} as Record<Icon, Icon>,
 );

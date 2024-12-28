@@ -56,8 +56,8 @@ export const TextMenuList: ComponentConfig<TextMenuListProps> = {
           label: "方向",
           type: "radio",
           options: [
-            { label: "縦", value: DIRECTIONS.VERTICAL! },
-            { label: "横", value: DIRECTIONS.HORIZONTAL! },
+            { label: "縦", value: DIRECTIONS.VERTICAL },
+            { label: "横", value: DIRECTIONS.HORIZONTAL },
           ],
         },
         price: {
@@ -83,7 +83,7 @@ export const TextMenuList: ComponentConfig<TextMenuListProps> = {
         titleSize: "text-lg",
         description: "説明",
         descriptionSize: "text-sm",
-        direction: DIRECTIONS.VERTICAL!,
+        direction: DIRECTIONS.VERTICAL,
         price: 100,
         priceSize: "text-lg",
       },

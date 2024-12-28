@@ -136,11 +136,11 @@ export const MARGIN_RIGHT = {
 export const MARGIN_RIGHT_CLASSES = Object.values(MARGIN_RIGHT);
 export type MarginRight = (typeof MARGIN_RIGHT)[keyof typeof MARGIN_RIGHT];
 
-export type Direction = "vertical" | "horizontal";
-export const DIRECTIONS: Record<string, Direction> = {
+export const DIRECTIONS = {
   VERTICAL: "vertical",
   HORIZONTAL: "horizontal",
-};
+} as const;
+export type Direction = (typeof DIRECTIONS)[keyof typeof DIRECTIONS];
 
 export const GAP_SIZE = {
   "0PX": "gap-0",
