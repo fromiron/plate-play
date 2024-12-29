@@ -12,7 +12,7 @@ type ClientProps = {
 };
 
 export function Client({ userId, path, data }: ClientProps) {
-  const createPage = api.plate.editPage.useMutation({
+  const createPlate = api.plate.editPlate.useMutation({
     onSuccess: () => {
       console.log("Success");
     },
@@ -20,14 +20,13 @@ export function Client({ userId, path, data }: ClientProps) {
       console.log("Error", error);
     },
   });
-
+  const plateTitle = data.root?.title ?? "New Page";
   const onPublish = async (data: Data) => {
-    createPage.mutate({ userId, path, data });
+    createPlate.mutate({ userId, path, data, plateTitle });
   };
 
   return (
     <Puck
-      headerTitle={"Plate Editor"}
       config={config}
       data={data}
       onPublish={async (data) => {

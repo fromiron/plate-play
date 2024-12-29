@@ -17,7 +17,7 @@ export default async function Page({
   }
   const userId = session.user.id ?? "";
   const path = `/${platePath.join("/")}`;
-  const pageData = await api.plate.getPage({ path });
+  const pageData = await api.plate.getPlate({ path });
   return <Client userId={userId} path={path} data={pageData?.data ?? {}} />;
 }
 

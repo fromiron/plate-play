@@ -4,8 +4,9 @@ import Link from "next/link";
 
 export default async function Dashboard() {
   const session = await auth();
-  const allPlate = await api.plate.getAllPages({
-    userId: session?.user?.id ?? "",
+  const userId = session?.user?.id ?? "";
+  const allPlate = await api.plate.getAllPlates({
+    userId,
   });
   console.log(allPlate);
   return (
@@ -24,6 +25,9 @@ export default async function Dashboard() {
             </li>
           );
         })}
+        <li>
+          <Link href={`/${userId}/edit`}>add plate</Link>
+        </li>
       </ul>
     </main>
   );

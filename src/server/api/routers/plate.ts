@@ -8,10 +8,11 @@ import type { Data } from "@measured/puck";
 
 type plateData = {
   data: Data;
+  title?: string;
 };
 
 export const plateRouter = createTRPCRouter({
-  getAllPages: protectedProcedure
+  getAllPlates: protectedProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       return ctx.db.plate.findMany({
@@ -19,7 +20,7 @@ export const plateRouter = createTRPCRouter({
         select: { path: true },
       });
     }),
-  getPage: publicProcedure
+  getPlate: publicProcedure
     .input(z.object({ path: z.string() }))
     .query(async ({ ctx, input }): Promise<plateData | null> => {
       const page = await ctx.db.plate.findUnique({
@@ -30,12 +31,13 @@ export const plateRouter = createTRPCRouter({
       return { ...page, data: page.data as Data };
     }),
 
-  editPage: protectedProcedure
+  editPlate: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
         path: z.string(),
         data: z.record(z.any()),
+        plateTitle: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -43,10 +45,12 @@ export const plateRouter = createTRPCRouter({
         where: { path: input.path },
         update: {
           data: input.data,
+          title: input.plateTitle,
           updatedAt: new Date(),
         },
         create: {
           userId: input.userId,
+          title: input.plateTitle,
           path: input.path,
           data: input.data,
         },

@@ -25,7 +25,7 @@ export default async function Page({
 
   const session = await auth();
   console.log("session", session);
-  const pageData = await api.plate.getPage({ path });
+  const pageData = await api.plate.getPlate({ path });
 
   if (!pageData?.data) {
     return notFound();
