@@ -1,6 +1,5 @@
 "use client";
 
-import { auth } from "@/server/auth";
 import { api } from "@/trpc/react";
 import type { Data } from "@measured/puck";
 import { Puck } from "@measured/puck";
@@ -28,6 +27,7 @@ export function Client({ userId, path, data }: ClientProps) {
 
   return (
     <Puck
+      headerTitle={"Plate Editor"}
       config={config}
       data={data}
       onPublish={async (data) => {

@@ -125,16 +125,7 @@ export const Container: ComponentConfig<ContainerProps> = {
         )}
         style={{ backgroundColor: bgColor }}
       >
-        <DropZone
-          zone={"container"}
-          style={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            flex: 1,
-          }}
-        />
+        <DropZone zone={"container"} />
       </div>
     );
   },

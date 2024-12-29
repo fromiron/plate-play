@@ -13,7 +13,6 @@ export type FlexProps = {
   minItemWidth: number;
   gap: string;
   padding: string;
-  innerPadding: string;
   contentAlign: ContentAlign;
 };
 
@@ -53,28 +52,15 @@ export const Flex: ComponentConfig<FlexProps> = {
       label: "Padding(外部間隔)",
       options: spacingOptions,
     },
-    innerPadding: {
-      type: "select",
-      label: "Inner Padding(内部間隔)",
-      options: spacingOptions,
-    },
   },
   defaultProps: {
     gap: "8px",
     padding: "8px",
-    innerPadding: "8px",
     items: [{}, {}],
     minItemWidth: 356,
     contentAlign: CONTENT_ALIGNS.CENTER,
   },
-  render: ({
-    items,
-    gap,
-    padding,
-    innerPadding,
-    minItemWidth,
-    contentAlign,
-  }) => {
+  render: ({ items, gap, padding, minItemWidth, contentAlign }) => {
     return (
       <div className="mx-auto w-full">
         <div
@@ -85,12 +71,11 @@ export const Flex: ComponentConfig<FlexProps> = {
             <div
               key={idx}
               className={"item"}
-              style={{ minWidth: item.minItemWidth ?? minItemWidth }}
+              style={{
+                minWidth: item.minItemWidth ?? minItemWidth,
+              }}
             >
-              <DropZone
-                zone={`item-${idx}`}
-                style={{ padding: innerPadding }}
-              />
+              <DropZone zone={`item-${idx}`} />
             </div>
           ))}
         </div>
