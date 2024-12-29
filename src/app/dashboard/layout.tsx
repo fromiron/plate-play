@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 
-// user edit page
+// dashboard page
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>

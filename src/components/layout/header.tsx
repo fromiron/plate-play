@@ -6,7 +6,7 @@ export const Header = async () => {
   console.log("session", session);
 
   return (
-    <div className="fixed left-0 right-0 top-0 flex h-[100px] items-center justify-between border border-b-stone-200 bg-stone-100 px-8 py-4">
+    <div className="sticky left-0 right-0 top-0 flex h-[100px] items-center justify-between border border-b-stone-200 bg-stone-100 px-8 py-4">
       <div className="text-2xl font-bold">Plate-Play</div>
 
       {!session?.user.email && (

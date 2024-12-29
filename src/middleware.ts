@@ -11,15 +11,15 @@ export default auth((req) => {
     if (req.nextUrl.pathname.endsWith("/edit")) {
       //login user check (next auth5 session)
       if (!req.auth) {
-        console.log("no auth---------------------");
-        console.log("no auth---------------------");
-        console.log("no auth---------------------");
-        console.log("no auth---------------------");
+        console.log("unauthenticated user");
       } else {
-        console.log("auth---------------------");
-        console.log("auth---------------------");
-        console.log("auth---------------------");
-        console.log("auth---------------------");
+        // url pathがdashboardの場合はblockする
+        // TODO dashboardという名前は登録できないことを知らせるページ作成してリダイレクト
+        if (req.nextUrl.pathname === "/dashboard/edit") {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+
+        console.log("authenticated user");
       }
 
       const pathWithoutEdit = req.nextUrl.pathname.slice(
