@@ -16,8 +16,7 @@ export default async function Page({
     return <div>Not authenticated</div>;
   }
   const userId = session.user.id ?? "";
-
-  const path = `/${session.user.id}/${platePath.join("/")}`;
+  const path = `/${platePath.join("/")}`;
   const pageData = await api.plate.getPage({ path });
   return <Client userId={userId} path={path} data={pageData?.data ?? {}} />;
 }

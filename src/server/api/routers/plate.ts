@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  protectedProcedure,
+} from "@/server/api/trpc";
 import type { Data } from "@measured/puck";
 
 type plateData = {
@@ -7,6 +11,14 @@ type plateData = {
 };
 
 export const plateRouter = createTRPCRouter({
+  getAllPages: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.plate.findMany({
+        where: { userId: input.userId },
+        select: { path: true },
+      });
+    }),
   getPage: publicProcedure
     .input(z.object({ path: z.string() }))
     .query(async ({ ctx, input }): Promise<plateData | null> => {
@@ -18,7 +30,7 @@ export const plateRouter = createTRPCRouter({
       return { ...page, data: page.data as Data };
     }),
 
-  editPage: publicProcedure
+  editPage: protectedProcedure
     .input(
       z.object({
         userId: z.string(),

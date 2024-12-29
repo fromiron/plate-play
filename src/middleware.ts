@@ -7,25 +7,28 @@ export default auth((req) => {
   if (req.method === "GET") {
     console.log("Middleware executing for path:", req.nextUrl.pathname);
 
+    const { pathname } = req.nextUrl;
+
     // Rewrite routes that match "/[...platePath]/edit" to "/plate/[...platePath]"
-    if (req.nextUrl.pathname.endsWith("/edit")) {
+    if (pathname.endsWith("/edit")) {
+      const userId = req.auth?.user?.id;
       //login user check (next auth5 session)
-      if (!req.auth) {
+      if (!userId) {
         console.log("unauthenticated user");
       } else {
         // url pathがdashboardの場合はblockする
         // TODO dashboardという名前は登録できないことを知らせるページ作成してリダイレクト
-        if (req.nextUrl.pathname === "/dashboard/edit") {
+        if (pathname === "/dashboard/edit") {
           return NextResponse.redirect(new URL("/", req.url));
         }
-
-        console.log("authenticated user");
+        // pathに/editを含む場合req.auth?.user?.idがpathに含まれていない場合はblock
+        // `/${userId}/${string}/edit`の形のみ許可
+        if (!pathname.includes(userId)) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
       }
 
-      const pathWithoutEdit = req.nextUrl.pathname.slice(
-        0,
-        req.nextUrl.pathname.length - 5,
-      );
+      const pathWithoutEdit = pathname.slice(0, pathname.length - 5);
       const pathWithEditPrefix = `/plate${pathWithoutEdit}`;
 
       return NextResponse.rewrite(new URL(pathWithEditPrefix, req.url));
