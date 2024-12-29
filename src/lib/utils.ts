@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /**
  * 文字列をラベル形式に変換します。
- * PUCKブロックの設定項目のラベルを生成する際に使用します。
+ * plateブロックの設定項目のラベルを生成する際に使用します。
  */
 export const labelize = (str: string, removeString = ""): string => {
   if (!str) return "";

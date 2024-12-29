@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>

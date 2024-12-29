@@ -14,21 +14,9 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
-    id                       String  @id @default(cuid())
+    id                       String  @id @default(cuid(2))
     userId                   String
     type                     String
     provider                 String
@@ -47,7 +35,7 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid())
+    id           String   @id @default(cuid(2))
     sessionToken String   @unique
     userId       String
     expires      DateTime
@@ -55,14 +43,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String    @id @default(cuid(2))
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    plates        Plate[]
 }
 
 model VerificationToken {
@@ -73,12 +61,15 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model PuckPage {
-  id        String   @id @default(cuid())
-  path      String   @unique
-  data      Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Plate {
+    id        String   @id @default(cuid(2))
+    path      String   @unique
+    data      Json
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  @@index([path])
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    @@index([path])
 }

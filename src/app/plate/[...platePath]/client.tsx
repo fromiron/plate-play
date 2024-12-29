@@ -1,12 +1,19 @@
 "use client";
 
+import { auth } from "@/server/auth";
 import { api } from "@/trpc/react";
 import type { Data } from "@measured/puck";
 import { Puck } from "@measured/puck";
 import config from "puck.config";
 
-export function Client({ path, data }: { path: string; data: Partial<Data> }) {
-  const createPage = api.puck.editPage.useMutation({
+type ClientProps = {
+  userId: string;
+  path: string;
+  data: Partial<Data>;
+};
+
+export function Client({ userId, path, data }: ClientProps) {
+  const createPage = api.plate.editPage.useMutation({
     onSuccess: () => {
       console.log("Success");
     },
@@ -16,7 +23,7 @@ export function Client({ path, data }: { path: string; data: Partial<Data> }) {
   });
 
   const onPublish = async (data: Data) => {
-    createPage.mutate({ path, data });
+    createPage.mutate({ userId, path, data });
   };
 
   return (
