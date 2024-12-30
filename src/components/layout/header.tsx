@@ -4,12 +4,15 @@ import { Button } from "../ui/button";
 import { CookingPot } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
-export const Header = async () => {
+export const Header = async ({ isWide = false }: { isWide?: boolean }) => {
   const session = await auth();
+  const containerClass = isWide ? "mx-4" : "container";
 
   return (
     <header className="fixed top-0 w-full border-b border-secondary bg-white/60 backdrop-blur-md">
-      <nav className="container mx-auto flex justify-between px-4 py-2 md:px-0">
+      <nav
+        className={`${containerClass} mx-auto flex justify-between px-4 py-2 md:px-0`}
+      >
         <div className="flex items-center space-x-2">
           <CookingPot className="h-6 w-6" />
           <span className="text-xl font-bold">PlatePlay</span>

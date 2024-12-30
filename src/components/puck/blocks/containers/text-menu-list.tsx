@@ -7,7 +7,7 @@ import { generateId } from "@/lib/generate-id";
 import { cn } from "@/lib/utils";
 import { type ComponentConfig } from "@measured/puck";
 
-export type TextMenuList = {
+export type TextMenu = {
   title: string;
   titleSize: string;
   description: string;
@@ -18,7 +18,7 @@ export type TextMenuList = {
 };
 
 export type TextMenuListProps = {
-  textMenuItems: TextMenuList[];
+  textMenuItems: TextMenu[];
 };
 
 // TODO スタイルは全体的に変更できるようにする

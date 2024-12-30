@@ -13,7 +13,7 @@ import {
   List,
   Notebook,
   Pen,
-  QrCode,
+  QrCode as QrCodeIcon,
   Trash,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
@@ -33,6 +33,7 @@ import {
   TooltipContent,
 } from "./ui/tooltip";
 import Link from "next/link";
+import { QRCode } from "./qr-code";
 
 export type PlateCardProps = Pick<Plate, "title" | "path" | "updatedAt">;
 export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
@@ -98,11 +99,13 @@ export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
           <Tooltip>
             <TooltipTrigger>
               <Button asChild variant={"link"} size={"icon"} className="">
-                <QrCode size={32} />
+                <QrCodeIcon size={32} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>ページURLをQRCodeで作成できます</p>
+              <QRCode
+                url={"https://zenn.dev/hayato94087/articles/fdb9fb357a22c3"}
+              />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

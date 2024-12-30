@@ -42,6 +42,7 @@
     "nanoid": "^5.0.9",
     "next": "15.1.2",
     "next-auth": "5.0.0-beta.25",
+    "qrcode.react": "^4.2.0",
     "react": "19.0.0",
     "react-color": "^2.19.3",
     "react-dom": "19.0.0",
