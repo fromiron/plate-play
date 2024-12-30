@@ -10,7 +10,7 @@ export default async function Dashboard() {
     userId,
   });
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto pb-8 pt-14">
       <Suspense fallback={<div>Loading...</div>}>
         <PlateList plates={allPlate} userId={userId} />
       </Suspense>

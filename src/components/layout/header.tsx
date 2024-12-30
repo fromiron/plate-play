@@ -6,14 +6,13 @@ import Link from "next/link";
 
 export const Header = async () => {
   const session = await auth();
-  console.log("session", session);
 
   return (
-    <header className="fixed top-0 w-full bg-white/20">
-      <nav className="container mx-auto flex justify-between px-4 py-2">
+    <header className="fixed top-0 w-full border-b border-secondary bg-white/60 backdrop-blur-md">
+      <nav className="container mx-auto flex justify-between px-4 py-2 md:px-0">
         <div className="flex items-center space-x-2">
           <CookingPot className="h-6 w-6" />
-          <span className="text-xl font-bold">Plate Play</span>
+          <span className="text-xl font-bold">PlatePlay</span>
         </div>
 
         {!session?.user.email && (
@@ -45,7 +44,7 @@ export const Header = async () => {
                 await signOut();
               }}
             >
-              <Button type="submit" size="sm">
+              <Button type="submit" variant="ghost">
                 Logout
               </Button>
             </form>

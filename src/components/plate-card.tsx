@@ -50,20 +50,22 @@ export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="group relative cursor-pointer overflow-hidden rounded-lg shadow-xl">
-          <div className="absolute inset-0 z-10 flex select-none flex-col items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100">
-            <div className="mt-8 text-lg text-white">View</div>
-            <EyeClosed size={32} className="text-white/80" />
-          </div>
+        <Link href={path} target="_blank">
+          <div className="group relative cursor-pointer overflow-hidden rounded-lg shadow-xl">
+            <div className="absolute inset-0 z-10 flex select-none flex-col items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100">
+              <div className="mt-8 text-lg text-white">View</div>
+              <EyeClosed size={32} className="text-white/80" />
+            </div>
 
-          <Image
-            src="https://picsum.photos/288/192"
-            alt="Plate Play Interface Demo"
-            height={192}
-            width={288}
-            className="h-48 w-full object-cover"
-          />
-        </div>
+            <Image
+              src="https://picsum.photos/288/192"
+              alt="Plate Play Interface Demo"
+              height={192}
+              width={288}
+              className="h-48 w-full object-cover"
+            />
+          </div>
+        </Link>
       </CardContent>
       <CardFooter className="flex justify-between text-xs text-gray-300">
         <DropdownMenu>

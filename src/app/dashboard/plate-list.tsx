@@ -27,6 +27,10 @@ export default function PlateList({
           onChange={(e) => setSearchTerm(e.target.value)}
           className="my-4 ml-auto max-w-52"
         />
+        <div className="w-fit select-none rounded-sm bg-primary px-4 py-2 text-white">
+          <span className="text-md font-medium">{plates.length ?? 0}</span>
+          <span className="text-[10px]">P</span>
+        </div>
         <AddPlateButton userId={userId} />
       </div>
       <ul className="mx-8 grid grid-cols-1 gap-8 md:mx-0 md:grid-cols-2 lg:grid-cols-3">

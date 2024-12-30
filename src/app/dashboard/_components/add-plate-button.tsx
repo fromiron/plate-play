@@ -14,11 +14,9 @@ export const AddPlateButton = ({ userId }: Props) => {
     router.push(`/${userId}/${plateId}/edit`);
   };
   return (
-    <>
-      <Button onClick={onClick} variant="ghost">
-        <Plus weight="bold" size={32} />
-        Plate
-      </Button>
-    </>
+    <Button onClick={onClick} variant="secondary">
+      <Plus weight="bold" size={32} />
+      Plate
+    </Button>
   );
 };
