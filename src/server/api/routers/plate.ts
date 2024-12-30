@@ -16,7 +16,7 @@ export const plateRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.plate.findMany({
         where: { userId: input.userId },
-        select: { path: true },
+        select: { path: true, title: true, updatedAt: true },
       });
     }),
   getPlate: publicProcedure

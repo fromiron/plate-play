@@ -11,23 +11,10 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <TRPCReactProvider>
-          <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col">
-            <Header />
-            {children}
-          </div>
+          <Header />
+          <main className="mt-24 flex min-h-screen flex-col">{children}</main>
         </TRPCReactProvider>
-        <Footer />
       </body>
     </html>
   );
 }
-
-const Footer = () => {
-  return (
-    <footer className="bg-muted py-6">
-      <div className="container mx-auto px-4 text-center">
-        <p>&copy; 2024 Plate Play. All rights reserved.</p>
-      </div>
-    </footer>
-  );
-};

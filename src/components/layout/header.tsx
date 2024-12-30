@@ -9,12 +9,13 @@ export const Header = async () => {
   console.log("session", session);
 
   return (
-    <header className="container mx-auto flex items-center justify-between px-4 py-6">
-      <div className="flex items-center space-x-2">
-        <CookingPot className="h-6 w-6" />
-        <span className="text-xl font-bold">Plate Play</span>
-      </div>
-      <nav>
+    <header className="fixed top-0 w-full bg-white/20">
+      <nav className="container mx-auto flex justify-between px-4 py-2">
+        <div className="flex items-center space-x-2">
+          <CookingPot className="h-6 w-6" />
+          <span className="text-xl font-bold">Plate Play</span>
+        </div>
+
         {!session?.user.email && (
           <form
             action={async () => {
@@ -22,7 +23,7 @@ export const Header = async () => {
               await signIn("google");
             }}
           >
-            <Button variant="ghost" type="submit">
+            <Button variant="ghost" type="submit" size="sm">
               Log in
             </Button>
           </form>
@@ -44,7 +45,9 @@ export const Header = async () => {
                 await signOut();
               }}
             >
-              <Button type="submit">Logout</Button>
+              <Button type="submit" size="sm">
+                Logout
+              </Button>
             </form>
           </div>
         )}
