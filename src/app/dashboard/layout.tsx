@@ -1,11 +1,8 @@
-import { Header } from "@/components/layout/header";
-
 // dashboard page
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Header />
-      <main>{children}</main>
-    </>
+    <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col">
+      {children}
+    </div>
   );
 }

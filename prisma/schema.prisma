@@ -16,7 +16,7 @@ datasource db {
 
 // Necessary for Next auth
 model Account {
-    id                       String  @id @default(cuid(2))
+    id                       String  @id @default(nanoid())
     userId                   String
     type                     String
     provider                 String
@@ -35,7 +35,7 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid(2))
+    id           String   @id @default(nanoid())
     sessionToken String   @unique
     userId       String
     expires      DateTime
@@ -43,7 +43,7 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid(2))
+    id            String    @id @default(nanoid(10))
     name          String?
     email         String?   @unique
     emailVerified DateTime?
@@ -62,7 +62,7 @@ model VerificationToken {
 }
 
 model Plate {
-    id        String   @id @default(cuid(2))
+    id        String   @id @default(nanoid(10))
     path      String   @unique
     title     String
     data      Json

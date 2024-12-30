@@ -20,9 +20,8 @@ export function Client({ userId, path, data }: ClientProps) {
       console.log("Error", error);
     },
   });
-  const plateTitle = data.root?.title ?? "New Page";
   const onPublish = async (data: Data) => {
-    createPlate.mutate({ userId, path, data, plateTitle });
+    createPlate.mutate({ userId, path, data });
   };
 
   return (

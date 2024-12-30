@@ -1,6 +1,7 @@
 import { auth } from "@/server/auth";
 import { api } from "@/trpc/server";
 import Link from "next/link";
+import { AddPlateButton } from "./_components/add-plate-button";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -10,7 +11,7 @@ export default async function Dashboard() {
   });
   console.log(allPlate);
   return (
-    <main>
+    <main className="w-full bg-red-500">
       <h1>Dashboard</h1>
       <ul>
         {allPlate.map((plate) => {
@@ -26,7 +27,7 @@ export default async function Dashboard() {
           );
         })}
         <li>
-          <Link href={`/${userId}/edit`}>add plate</Link>
+          <AddPlateButton userId={userId} />
         </li>
       </ul>
     </main>

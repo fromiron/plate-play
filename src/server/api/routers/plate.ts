@@ -8,7 +8,6 @@ import type { Data } from "@measured/puck";
 
 type plateData = {
   data: Data;
-  title?: string;
 };
 
 export const plateRouter = createTRPCRouter({
@@ -37,20 +36,21 @@ export const plateRouter = createTRPCRouter({
         userId: z.string(),
         path: z.string(),
         data: z.record(z.any()),
-        plateTitle: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const data = input.data as Data;
+
       const page = await ctx.db.plate.upsert({
         where: { path: input.path },
         update: {
-          data: input.data,
-          title: input.plateTitle,
+          data,
+          title: data?.root?.props?.title ?? "new plate",
           updatedAt: new Date(),
         },
         create: {
           userId: input.userId,
-          title: input.plateTitle,
+          title: data?.root?.props?.title ?? "new plate",
           path: input.path,
           data: input.data,
         },
