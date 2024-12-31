@@ -10,7 +10,7 @@ export const StateBadge = ({
 }) => {
   return (
     <Badge
-      variant={state ? "default" : "secondary"}
+      variant={state ? "default" : "destructive"}
       className={cn(className, "select-none")}
     >
       {state ? "公開" : "下書き"}

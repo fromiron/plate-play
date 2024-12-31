@@ -38,6 +38,8 @@ import { StateBadge } from "./state-badge";
 
 import { ToggleState } from "./toggle-state";
 import { useState } from "react";
+import { DeleteCard } from "./delete-card";
+import { cn } from "@/lib/utils";
 
 export type PlateCardProps = Pick<
   Plate,
@@ -57,7 +59,12 @@ export const PlateCard = ({
     setIsPublished(newState);
   };
   return (
-    <Card className="relative hover:shadow-xl">
+    <Card
+      className={cn(
+        isPublished ? "bg-white" : "bg-primary-foreground",
+        "relative hover:shadow-xl",
+      )}
+    >
       <StateBadge state={isPublished} className={"absolute -right-2 top-2"} />
       <CardHeader>
         <CardTitle>
@@ -116,10 +123,7 @@ export const PlateCard = ({
               />
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <div className="flex h-full w-full cursor-pointer items-center gap-2">
-                <Trash size={32} />
-                Delete
-              </div>
+              <DeleteCard path={path} userId={userId} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
