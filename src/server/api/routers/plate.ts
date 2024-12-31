@@ -23,7 +23,7 @@ export const plateRouter = createTRPCRouter({
     .input(z.object({ path: z.string() }))
     .query(async ({ ctx, input }): Promise<plateData | null> => {
       const page = await ctx.db.plate.findUnique({
-        where: { path: input.path },
+        where: { path: input.path, state: true },
         select: { data: true },
       });
       if (!page) return null;
@@ -67,6 +67,15 @@ export const plateRouter = createTRPCRouter({
       const page = await ctx.db.plate.update({
         where: { userId: input.userId, path: input.path },
         data: { state: input.state },
+      });
+      return page;
+    }),
+
+  deletePlate: protectedProcedure
+    .input(z.object({ userId: z.string(), path: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const page = await ctx.db.plate.delete({
+        where: { userId: input.userId, path: input.path },
       });
       return page;
     }),
