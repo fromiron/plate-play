@@ -13,10 +13,10 @@ export const Header = async ({ isWide = false }: { isWide?: boolean }) => {
       <nav
         className={`${containerClass} mx-auto flex justify-between px-4 py-2 md:px-0`}
       >
-        <div className="flex items-center space-x-2">
+        <Link href={"/"} className="flex select-none items-center space-x-2">
           <CookingPot className="h-6 w-6" />
           <span className="text-xl font-bold">PlatePlay</span>
-        </div>
+        </Link>
 
         {!session?.user.email && (
           <form
