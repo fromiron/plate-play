@@ -3,12 +3,10 @@ import { Client } from "./client";
 import { api } from "@/trpc/server";
 import { auth } from "@/server/auth";
 
-export default async function Page({
-  params,
-}: {
-  params: { platePath?: string[] };
-}) {
-  const { platePath = [] } = await Promise.resolve(params);
+type paramsType = Promise<{ platePath: string[] }>;
+
+export default async function Page(props: { params: paramsType }) {
+  const { platePath = [] } = await props.params;
   const session = await auth();
 
   // todo - add auth check

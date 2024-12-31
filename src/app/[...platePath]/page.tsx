@@ -15,12 +15,11 @@ import { auth } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { notFound } from "next/navigation";
 
-export default async function Page({
-  params,
-}: {
-  params: { platePath?: string[] };
-}) {
-  const { platePath = [] } = await Promise.resolve(params);
+type paramsType = Promise<{ platePath: string[] }>;
+
+export default async function Page(props: { params: paramsType }) {
+  const { platePath = [] } = await props.params;
+
   const path = `/${platePath.join("/")}`;
 
   const session = await auth();

@@ -95,7 +95,7 @@ export const TextBlock: ComponentConfig<TextBlockProps> = {
     text: "text",
     textAlign: TEXT_ALIGNS.TEXT_ALIGN_LEFT,
     textSize: TEXT_SIZES.TEXT_SIZE_7XL,
-    padding: PADDINGS[16],
+    padding: PADDINGS["16PX"],
     colors: {
       textColor: DEFAULT_COLORS.BLACK,
       bgColor: DEFAULT_COLORS.WHITE,

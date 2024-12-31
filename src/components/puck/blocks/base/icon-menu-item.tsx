@@ -2,7 +2,7 @@ import {
   ICON_LIST,
   ICON_STYLES,
   ICONS,
-  IconStyle,
+  type IconStyle,
   type Icon,
 } from "@/constants/icons";
 import {

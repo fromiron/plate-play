@@ -1,6 +1,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { auth, signIn } from "@/server/auth";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function Hero() {
@@ -44,7 +45,9 @@ export default async function Hero() {
             </div>
           </div>
           <div className="md:w-1/2 lg:w-2/3">
-            <img
+            <Image
+              width={600}
+              height={400}
               src="https://picsum.photos/600/400"
               alt="Plate Play Interface Demo"
               className="w-full rounded-lg object-cover shadow-2xl"

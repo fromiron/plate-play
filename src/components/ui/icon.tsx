@@ -1,4 +1,4 @@
-import { ICONS, type IconType } from "@/constants/icons";
+import { ICONS, type Icon as IconType } from "@/constants/icons";
 import type { IconProps as PhosphorIconProps } from "@phosphor-icons/react/dist/lib/types";
 import { BowlFood } from "@phosphor-icons/react/dist/ssr";
 
