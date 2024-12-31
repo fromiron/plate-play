@@ -66,6 +66,7 @@ model Plate {
     path      String   @unique
     title     String
     data      Json
+    state     Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 

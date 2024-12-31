@@ -4,19 +4,18 @@ import { PlateCard, type PlateCardProps } from "@/components/plate-card";
 import { Input } from "@/components/ui/input";
 import { AddPlateButton } from "./_components/add-plate-button";
 
-export default function PlateList({
-  plates,
-  userId,
-}: {
-  plates: PlateCardProps[];
+type PlateListProps = {
+  plates: Omit<PlateCardProps, "userId">[];
   userId: string;
-}) {
+};
+
+export default function PlateList({ plates, userId }: PlateListProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPlates = plates.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-
+  console.log("PlateList", plates, userId);
   return (
     <div>
       <div className="mb-4 flex items-center gap-2 border-b border-gray-200">
@@ -38,6 +37,8 @@ export default function PlateList({
           <PlateCard
             key={plate.path}
             title={plate.title}
+            state={plate.state}
+            userId={userId}
             path={plate.path}
             updatedAt={plate.updatedAt}
           />

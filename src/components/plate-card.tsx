@@ -34,11 +34,31 @@ import {
 } from "./ui/tooltip";
 import Link from "next/link";
 import { QRCode } from "./qr-code";
+import { StateBadge } from "./state-badge";
 
-export type PlateCardProps = Pick<Plate, "title" | "path" | "updatedAt">;
-export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
+import { ToggleState } from "./toggle-state";
+import { useState } from "react";
+
+export type PlateCardProps = Pick<
+  Plate,
+  "title" | "state" | "path" | "updatedAt"
+> & { userId: string };
+
+export const PlateCard = ({
+  title,
+  state,
+  path,
+  userId,
+  updatedAt,
+}: PlateCardProps) => {
+  const [isPublished, setIsPublished] = useState(state);
+
+  const handlePublishState = (newState: boolean) => {
+    setIsPublished(newState);
+  };
   return (
-    <Card className="hover:shadow-xl">
+    <Card className="relative hover:shadow-xl">
+      <StateBadge state={isPublished} className={"absolute -right-2 top-2"} />
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-2">
@@ -86,6 +106,14 @@ export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
                 <Pen size={32} />
                 <p>Edit</p>
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <ToggleState
+                path={path}
+                state={isPublished}
+                userId={userId}
+                handlePublishState={handlePublishState}
+              />
             </DropdownMenuItem>
             <DropdownMenuItem>
               <div className="flex h-full w-full cursor-pointer items-center gap-2">

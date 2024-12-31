@@ -16,7 +16,7 @@ export const plateRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return ctx.db.plate.findMany({
         where: { userId: input.userId },
-        select: { path: true, title: true, updatedAt: true },
+        select: { path: true, title: true, state: true, updatedAt: true },
       });
     }),
   getPlate: publicProcedure
@@ -51,9 +51,22 @@ export const plateRouter = createTRPCRouter({
         create: {
           userId: input.userId,
           title: data?.root?.props?.title ?? "new plate",
+          state: true,
           path: input.path,
           data: input.data,
         },
+      });
+      return page;
+    }),
+
+  changeState: protectedProcedure
+    .input(
+      z.object({ userId: z.string(), path: z.string(), state: z.boolean() }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const page = await ctx.db.plate.update({
+        where: { userId: input.userId, path: input.path },
+        data: { state: input.state },
       });
       return page;
     }),
