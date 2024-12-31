@@ -11,10 +11,10 @@ export default function LandingPage() {
     <>
       <Header />
       <Hero />
-      <Features />
+      {/* <Features />
       <Samples />
       <Testimonials />
-      <Performance />
+      <Performance /> */}
       <Footer />
     </>
   );
