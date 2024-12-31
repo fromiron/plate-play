@@ -103,9 +103,7 @@ export const PlateCard = ({ title, path, updatedAt }: PlateCardProps) => {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <QRCode
-                url={"https://zenn.dev/hayato94087/articles/fdb9fb357a22c3"}
-              />
+              <QRCode path={path} />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

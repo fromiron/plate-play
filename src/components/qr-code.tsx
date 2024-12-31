@@ -5,10 +5,11 @@ import { useRef, type FC } from "react";
 import { Button } from "./ui/button";
 
 interface QRCodeProps {
-  url: string;
+  path: string;
 }
 
-export const QRCode: FC<QRCodeProps> = ({ url }) => {
+export const QRCode: FC<QRCodeProps> = ({ path }) => {
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}${path}`;
   const qrRef = useRef<HTMLDivElement>(null);
   const handleDownload = () => {
     console.log("download", qrRef.current);
