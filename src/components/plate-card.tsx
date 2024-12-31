@@ -40,6 +40,7 @@ import { ToggleState } from "./toggle-state";
 import { useState } from "react";
 import { DeleteCard } from "./delete-card";
 import { cn } from "@/lib/utils";
+import { ConditionalLink } from "./conditional-link";
 
 export type PlateCardProps = Pick<
   Plate,
@@ -78,13 +79,14 @@ export const PlateCard = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Link href={path} target="_blank">
-          <div className="group relative cursor-pointer overflow-hidden rounded-lg shadow-xl">
-            <div className="absolute inset-0 z-10 flex select-none flex-col items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100">
-              <div className="mt-8 text-lg text-white">View</div>
-              <EyeClosed size={32} className="text-white/80" />
-            </div>
-
+        <ConditionalLink href={path} target="_blank" disabled={!isPublished}>
+          <div className="group relative overflow-hidden rounded-lg shadow-xl">
+            {isPublished ? (
+              <div className="absolute inset-0 z-10 flex cursor-pointer select-none flex-col items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100">
+                <div className="mt-8 text-lg text-white">View</div>
+                <EyeClosed size={32} className="text-white/80" />
+              </div>
+            ) : null}
             <Image
               src="https://picsum.photos/288/192"
               alt="Plate Play Interface Demo"
@@ -93,7 +95,7 @@ export const PlateCard = ({
               className="h-48 w-full object-cover"
             />
           </div>
-        </Link>
+        </ConditionalLink>
       </CardContent>
       <CardFooter className="flex justify-between text-xs text-gray-300">
         <DropdownMenu>
