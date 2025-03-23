@@ -99,7 +99,7 @@ export const PlateCard = ({
       </CardContent>
       <CardFooter className="flex justify-between text-xs text-gray-300">
         <DropdownMenu>
-          <DropdownMenuTrigger className="outline-none">
+          <DropdownMenuTrigger className="outline-hidden">
             <Button asChild variant={"link"} size={"icon"} className="">
               <List size={32} />
             </Button>
