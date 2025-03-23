@@ -1,11 +1,15 @@
 import { safeList } from "./src/constants/styles";
 import { type Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
-  darkMode: "class",
+  darkMode: ["class"],
   content: ["./src/**/*.tsx", "./puck.config.tsx"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
