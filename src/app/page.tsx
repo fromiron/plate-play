@@ -68,14 +68,14 @@ export default async function Home() {
 
         <section className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-2 md:gap-12 md:py-24">
           <div className="space-y-6">
-            <h1 className="text-3xl font-bold leading-tight tracking-tight md:text-5xl">
+            <h1 className="font-bold text-3xl leading-tight tracking-tight md:text-5xl">
               드래그 앤 드롭으로 만드는 스마트 메뉴판
             </h1>
             <p className="text-base text-muted-foreground md:text-lg">
               Plate Play는 메뉴판 제작부터 QR 웹 메뉴판, 인쇄까지 한 번에
               해결하는 올인원 솔루션입니다.
             </p>
-            <ul className="grid gap-3 text-sm text-muted-foreground">
+            <ul className="grid gap-3 text-muted-foreground text-sm">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5 text-emerald-600" />
                 자유로운 섹션/메뉴 구성과 순서 변경
@@ -125,10 +125,10 @@ export default async function Home() {
             <Card>
               <CardContent className="p-6">
                 <PanelsTopLeft className="mb-4 h-8 w-8 text-foreground" />
-                <h3 className="mb-2 text-lg font-semibold">
+                <h3 className="mb-2 font-semibold text-lg">
                   드래그 앤 드롭 에디터
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   섹션과 메뉴를 원하는 대로 만들고 순서를 바꿔보세요. 이미지,
                   가격, 설명도 손쉽게 편집할 수 있습니다.
                 </p>
@@ -137,10 +137,10 @@ export default async function Home() {
             <Card>
               <CardContent className="p-6">
                 <QrCode className="mb-4 h-8 w-8 text-foreground" />
-                <h3 className="mb-2 text-lg font-semibold">
+                <h3 className="mb-2 font-semibold text-lg">
                   자동 QR 웹 메뉴판
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   버튼 한 번으로 QR 코드 생성. 매장 테이블마다 손님이 휴대폰으로
                   메뉴를 확인할 수 있어요.
                 </p>
@@ -149,8 +149,8 @@ export default async function Home() {
             <Card>
               <CardContent className="p-6">
                 <Printer className="mb-4 h-8 w-8 text-foreground" />
-                <h3 className="mb-2 text-lg font-semibold">깔끔한 인쇄</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="mb-2 font-semibold text-lg">깔끔한 인쇄</h3>
+                <p className="text-muted-foreground text-sm">
                   프린트 전용 레이아웃과 고해상도 출력. 필요한 경우 인쇄
                   서비스로 주문까지 연결할 수 있습니다.
                 </p>
@@ -164,10 +164,10 @@ export default async function Home() {
           className="mx-auto w-full max-w-6xl px-4 pb-20"
         >
           <div className="rounded-xl border bg-card p-6 md:p-10">
-            <h2 className="mb-6 text-2xl font-bold">
+            <h2 className="mb-6 font-bold text-2xl">
               3단계로 끝내는 메뉴판 제작
             </h2>
-            <ol className="grid gap-4 text-sm text-muted-foreground md:grid-cols-3">
+            <ol className="grid gap-4 text-muted-foreground text-sm md:grid-cols-3">
               <li className="rounded-lg border bg-muted/30 p-4">
                 1. 대시보드에서 새 메뉴판 생성
               </li>
@@ -190,8 +190,8 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 py-10">
             <div className="grid gap-6 md:grid-cols-2">
               <div>
-                <h3 className="text-lg font-semibold">인쇄 서비스</h3>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <h3 className="font-semibold text-lg">인쇄 서비스</h3>
+                <p className="mt-2 text-muted-foreground text-sm">
                   다양한 용지와 사이즈, 코팅 옵션을 제공합니다. 에디터에서 바로
                   출력하거나, 인쇄 서비스 문의로 손쉽게 주문하세요.
                 </p>
@@ -210,7 +210,7 @@ export default async function Home() {
                 </Button>
               </div>
             </div>
-            <p className="mt-6 text-xs text-muted-foreground" suppressHydrationWarning>
+            <p className="mt-6 text-muted-foreground text-xs" suppressHydrationWarning>
               © {new Date().getFullYear()} Plate Play
             </p>
           </div>

@@ -172,7 +172,7 @@ export default function PublicMenuPage() {
   if (!board) {
     return (
       <main className="mx-auto w-full max-w-3xl p-4">
-        <div className="rounded-lg border bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+        <div className="rounded-lg border bg-muted/20 p-6 text-center text-muted-foreground text-sm">
           메뉴 데이터를 불러올 수 없습니다. 링크가 잘못되었거나, 장치에 데이터가 없습니다.
         </div>
       </main>
@@ -195,14 +195,14 @@ export default function PublicMenuPage() {
         } as React.CSSProperties
       }
     >
-      <header className="sticky top-0 z-20 mb-4 flex flex-col gap-2 border-b bg-background/80 px-1 py-2 backdrop-blur print:hidden md:flex-row md:items-center md:justify-between">
-        <h1 className="text-lg font-semibold" style={{ color: "var(--pp-primary)" }}>
+      <header className="sticky top-0 z-20 mb-4 flex flex-col gap-2 border-b bg-background/80 px-1 py-2 backdrop-blur md:flex-row md:items-center md:justify-between print:hidden">
+        <h1 className="font-semibold text-lg" style={{ color: "var(--pp-primary)" }}>
           {title}
         </h1>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4 text-muted-foreground" />
-            <Label className="text-xs text-muted-foreground">언어</Label>
+            <Label className="text-muted-foreground text-xs">언어</Label>
             <Select
               value={lang}
               onValueChange={(v: Lang) => {
@@ -221,7 +221,7 @@ export default function PublicMenuPage() {
             </Select>
 
             <Filter className="ml-2 h-4 w-4 text-muted-foreground" />
-            <Label className="text-xs text-muted-foreground">카테고리</Label>
+            <Label className="text-muted-foreground text-xs">카테고리</Label>
             <Select value={category} onValueChange={(v: any) => setCategory(v)}>
               <SelectTrigger className="h-8 w-[140px]">
                 <SelectValue placeholder="전체" />
@@ -236,7 +236,7 @@ export default function PublicMenuPage() {
               </SelectContent>
             </Select>
 
-            <Label className="ml-2 text-xs text-muted-foreground">용지</Label>
+            <Label className="ml-2 text-muted-foreground text-xs">용지</Label>
             <Select value={paper} onValueChange={(v: PaperSizeKey) => setPaper(v)}>
               <SelectTrigger className="h-8 w-[105px]">
                 <SelectValue placeholder="A4" />
@@ -257,7 +257,7 @@ export default function PublicMenuPage() {
                 <SelectItem value="landscape">가로</SelectItem>
               </SelectContent>
             </Select>
-            <Label className="ml-1 text-xs text-muted-foreground" htmlFor="pub-margin-mm">
+            <Label className="ml-1 text-muted-foreground text-xs" htmlFor="pub-margin-mm">
               여백(mm)
             </Label>
             <Input
@@ -308,7 +308,7 @@ export default function PublicMenuPage() {
           if (items.length === 0) return null
           return (
             <section key={section.id} className="scroll-mt-16">
-              <h2 className="mb-3 border-b pb-2 text-xl font-bold" style={{ color: "var(--pp-primary)" }}>
+              <h2 className="mb-3 border-b pb-2 font-bold text-xl" style={{ color: "var(--pp-primary)" }}>
                 {getText(section.name, lang, board.defaultLang)}
               </h2>
               <ul className="grid gap-3">
@@ -335,7 +335,7 @@ export default function PublicMenuPage() {
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <h3 className="text-base font-semibold" style={{ color: sold ? "#6b7280" : "inherit" }}>
+                            <h3 className="font-semibold text-base" style={{ color: sold ? "#6b7280" : "inherit" }}>
                               {sold ? <span className="line-through">{name}</span> : name}
                               {item.category ? (
                                 <span className="ml-2 rounded bg-[var(--pp-primary)]/10 px-2 py-0.5 text-[11px] text-[var(--pp-primary)]">
@@ -345,13 +345,13 @@ export default function PublicMenuPage() {
                             </h3>
                             <div className="mt-1 flex items-center gap-2">
                               <Stars value={avg} readOnly />
-                              <span className="text-xs text-muted-foreground">({revs.length})</span>
+                              <span className="text-muted-foreground text-xs">({revs.length})</span>
                             </div>
                           </div>
-                          <div className="whitespace-nowrap text-sm font-medium">
+                          <div className="whitespace-nowrap font-medium text-sm">
                             {promo && showPrice !== basePrice ? (
                               <div className="flex flex-col items-end">
-                                <span className="text-xs text-muted-foreground line-through">
+                                <span className="text-muted-foreground text-xs line-through">
                                   {formatCurrency(basePrice, board.currency)}
                                 </span>
                                 <span style={{ color: "var(--pp-accent)" }}>
@@ -364,7 +364,7 @@ export default function PublicMenuPage() {
                           </div>
                         </div>
                         {item.description && getText(item.description, lang, board.defaultLang) ? (
-                          <p className="mt-1 text-sm text-muted-foreground">
+                          <p className="mt-1 text-muted-foreground text-sm">
                             {getText(item.description, lang, board.defaultLang)}
                           </p>
                         ) : null}

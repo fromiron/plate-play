@@ -25,7 +25,7 @@ export default function AnalyticsPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">분석</h1>
+          <h1 className="font-bold text-2xl">분석</h1>
         </div>
       </div>
 
@@ -43,7 +43,7 @@ export default function AnalyticsPage() {
               </CardHeader>
               <CardContent className="grid gap-6">
                 <div className="grid gap-2">
-                  <div className="text-sm text-muted-foreground">시간대별 접속 패턴</div>
+                  <div className="text-muted-foreground text-sm">시간대별 접속 패턴</div>
                   <div className="flex items-end gap-1 rounded-md border p-3">
                     {a.hours.map((v, i) => (
                       <div key={i} className="flex flex-col items-center gap-1">
@@ -58,7 +58,7 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
                 <div className="grid gap-2">
-                  <div className="text-sm text-muted-foreground">인기 메뉴 Top 5</div>
+                  <div className="text-muted-foreground text-sm">인기 메뉴 Top 5</div>
                   <ul className="grid gap-1 text-sm">
                     {topItems.length === 0 ? (
                       <li className="text-muted-foreground">데이터 없음</li>

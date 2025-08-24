@@ -6,7 +6,7 @@ import type { ReactNode } from "react"
 
 type SortableRowProps = {
   id: string
-  children?: ReactNode
+  children?: ReactNode | ((props: { dragHandleProps: any }) => ReactNode)
 }
 
 export function SortableRow({ id, children }: SortableRowProps) {
@@ -16,9 +16,11 @@ export function SortableRow({ id, children }: SortableRowProps) {
     transition,
   }
 
+  const dragHandleProps = { ...attributes, ...listeners }
+
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="w-full">
-      {children}
+    <div ref={setNodeRef} style={style} className="w-full">
+      {typeof children === 'function' ? children({ dragHandleProps }) : children}
     </div>
   )
 }

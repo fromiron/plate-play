@@ -17,7 +17,7 @@ export default function BoardCard({ board }: { board: MenuBoard }) {
       <div className="rounded-md bg-white p-2">
         <QRCode value={url} size={72} />
       </div>
-      <div className="min-w-0 text-sm text-muted-foreground">
+      <div className="min-w-0 text-muted-foreground text-sm">
         <div className="line-clamp-2">{board.description?.default || "설정된 설명이 없습니다."}</div>
         <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
           <span className="rounded bg-muted px-2 py-0.5">EN {cov.en.percent}%</span>

@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { DndContext, type DragEndEvent, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  type DragEndEvent,
+  type DragStartEvent,
+  closestCenter,
+} from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
@@ -61,6 +66,9 @@ export function MenuEditor({
   onSave = () => {},
 }: EditorProps) {
   const [local, setLocal] = useState<MenuBoard>(value);
+  const [draggingSectionId, setDraggingSectionId] = useState<string | null>(
+    null
+  );
 
   useMemo(() => {
     if (value.id === local.id) setLocal(value);
@@ -164,8 +172,20 @@ export function MenuEditor({
     }));
   };
 
+  const onDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    const sectionIds = local.sections.map((s) => s.id);
+
+    // Check if dragging a section
+    if (sectionIds.includes(String(active.id))) {
+      setDraggingSectionId(String(active.id));
+    }
+  };
+
   const onDragEnd = (event: DragEndEvent) => {
     console.log("onDragEnd", event);
+    setDraggingSectionId(null); // Reset dragging state
+
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
@@ -182,6 +202,28 @@ export function MenuEditor({
         ...prev,
         sections: arrayMove(prev.sections, oldIndex, newIndex),
       }));
+      return;
+    }
+
+    // Handle item reordering within sections
+    for (const section of local.sections) {
+      const itemIds = section.items.map((i) => i.id);
+      if (
+        itemIds.includes(String(active.id)) &&
+        itemIds.includes(String(over.id))
+      ) {
+        const oldIndex = itemIds.indexOf(String(active.id));
+        const newIndex = itemIds.indexOf(String(over.id));
+        update((prev) => ({
+          ...prev,
+          sections: prev.sections.map((s) =>
+            s.id === section.id
+              ? { ...s, items: arrayMove(s.items, oldIndex, newIndex) }
+              : s
+          ),
+        }));
+        break;
+      }
     }
   };
 
@@ -225,7 +267,7 @@ export function MenuEditor({
       <Card>
         <CardHeader className="flex flex-col gap-2">
           <CardTitle>메뉴판 정보</CardTitle>
-          <div className="text-xs text-muted-foreground">
+          <div className="text-muted-foreground text-xs">
             브랜드 테마와 다국어(일본어어/EN/中文), 통화를 설정하세요. 팔레트
             추천으로 빠르게 테마를 정할 수 있습니다.
           </div>
@@ -233,7 +275,7 @@ export function MenuEditor({
         <CardContent className="grid gap-6">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="grid gap-2">
-              <Label className="text-sm font-medium" htmlFor="menu-title-ko">
+              <Label className="font-medium text-sm" htmlFor="menu-title-ko">
                 제목 (기본)
               </Label>
               <Input
@@ -250,7 +292,7 @@ export function MenuEditor({
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Label
-                    className="text-xs text-muted-foreground"
+                    className="text-muted-foreground text-xs"
                     htmlFor="menu-title-en"
                   >
                     제목 (EN)
@@ -268,7 +310,7 @@ export function MenuEditor({
                 </div>
                 <div>
                   <Label
-                    className="text-xs text-muted-foreground"
+                    className="text-muted-foreground text-xs"
                     htmlFor="menu-title-zh"
                   >
                     제목 (中文)
@@ -287,7 +329,7 @@ export function MenuEditor({
               </div>
             </div>
             <div className="grid gap-2">
-              <Label className="text-sm font-medium">기본 언어</Label>
+              <Label className="font-medium text-sm">기본 언어</Label>
               <Select
                 value={local.defaultLang}
                 onValueChange={(v: any) =>
@@ -303,7 +345,7 @@ export function MenuEditor({
                   <SelectItem value="zh">{LANG_LABEL.zh}</SelectItem>
                 </SelectContent>
               </Select>
-              <Label className="text-sm font-medium" htmlFor="menu-curr">
+              <Label className="font-medium text-sm" htmlFor="menu-curr">
                 통화
               </Label>
               <Input
@@ -315,9 +357,9 @@ export function MenuEditor({
                 }
               />
             </div>
-            <div className="md:col-span-2 grid gap-2">
+            <div className="grid gap-2 md:col-span-2">
               <Label
-                className="text-sm font-medium"
+                className="font-medium text-sm"
                 htmlFor="menu-desc-default"
               >
                 설명 (기본)
@@ -340,7 +382,7 @@ export function MenuEditor({
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <Label
-                    className="text-xs text-muted-foreground"
+                    className="text-muted-foreground text-xs"
                     htmlFor="menu-desc-en"
                   >
                     설명 (EN)
@@ -362,7 +404,7 @@ export function MenuEditor({
                 </div>
                 <div>
                   <Label
-                    className="text-xs text-muted-foreground"
+                    className="text-muted-foreground text-xs"
                     htmlFor="menu-desc-zh"
                   >
                     설명 (中文)
@@ -390,10 +432,10 @@ export function MenuEditor({
 
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label className="text-sm font-medium">브랜드 색상</Label>
+              <Label className="font-medium text-sm">브랜드 색상</Label>
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Primary
                   </Label>
                   <Input
@@ -408,7 +450,7 @@ export function MenuEditor({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Secondary
                   </Label>
                   <Input
@@ -426,7 +468,7 @@ export function MenuEditor({
                   />
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">
+                  <Label className="text-muted-foreground text-xs">
                     Accent
                   </Label>
                   <Input
@@ -452,7 +494,7 @@ export function MenuEditor({
               </Button>
             </div>
             <div className="space-y-2">
-              <Label className="text-sm font-medium">폰트 조합</Label>
+              <Label className="font-medium text-sm">폰트 조합</Label>
               <Select
                 value={local.theme?.fontPair ?? "inter-playfair"}
                 onValueChange={(v) =>
@@ -473,12 +515,12 @@ export function MenuEditor({
                   ))}
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 고급: 실제 웹폰트 로드는 향후 설정에서 추가.
               </p>
             </div>
             <div className="space-y-2">
-              <Label className="text-sm font-medium">이미지 AI 생성</Label>
+              <Label className="font-medium text-sm">이미지 AI 생성</Label>
               <Button
                 variant="outline"
                 size="sm"
@@ -490,7 +532,7 @@ export function MenuEditor({
               >
                 AI 이미지 생성 연결
               </Button>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-muted-foreground text-xs">
                 키를 연결하면 메뉴 이미지 자동 생성 가능.
               </p>
             </div>
@@ -499,14 +541,18 @@ export function MenuEditor({
       </Card>
 
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">섹션 & 메뉴</h3>
+        <h3 className="font-semibold text-lg">섹션 & 메뉴</h3>
         <Button onClick={addSection} className="inline-flex items-center gap-2">
           <Plus className="h-4 w-4" />
           섹션 추가
         </Button>
       </div>
 
-      <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
         <SortableContext
           items={[
             ...local.sections.map((s) => s.id),
@@ -516,324 +562,345 @@ export function MenuEditor({
         >
           <div className="grid gap-4 ">
             {local.sections.map((section) => (
-              <Card key={section.id}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                  <div className="flex w-full flex-col gap-2">
-                    <div className="flex items-center gap-2">
-                      <GripVertical
-                        className="h-4 w-4 text-muted-foreground"
-                        aria-hidden
-                      />
-                      <SortableRow id={section.id}>
-                        <Input
-                          value={section.name?.default ?? ""}
-                          onChange={(e) =>
-                            updateSection(section.id, {
-                              name: {
-                                ...(section.name ?? { default: "" }),
-                                default: e.target.value,
-                              },
-                            })
-                          }
-                          aria-label="섹션 이름(기본)"
-                          className="h-9"
-                          placeholder="섹션 이름 (기본)"
-                        />
-                      </SortableRow>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => autoClassifySection(section.id)}
-                        className="ml-2 inline-flex items-center gap-2"
-                      >
-                        <Wand2 className="h-4 w-4" /> 자동 분류
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 pl-6">
-                      <Input
-                        placeholder="섹션 이름 (EN)"
-                        value={section.name?.en ?? ""}
-                        onChange={(e) =>
-                          updateSection(section.id, {
-                            name: {
-                              ...(section.name ?? { default: "" }),
-                              en: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                      <Input
-                        placeholder="섹션 이름 (中文)"
-                        value={section.name?.zh ?? ""}
-                        onChange={(e) =>
-                          updateSection(section.id, {
-                            name: {
-                              ...(section.name ?? { default: "" }),
-                              zh: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => removeSection(section.id)}
-                    aria-label="섹션 삭제"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </CardHeader>
-                <CardContent className="grid gap-3">
-                  <div className="grid gap-3">
-                    {section.items.map((item) => (
-                      <div key={item.id} className="rounded-md border p-3">
-                        <div className="flex items-start gap-3">
+              <SortableRow key={section.id} id={section.id}>
+                {({ dragHandleProps }) => (
+                  <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                      <div className="flex w-full flex-col gap-2">
+                        <div className="flex items-center gap-2">
                           <GripVertical
-                            className="mt-2 h-4 w-4 text-muted-foreground"
+                            className="h-4 w-4 cursor-grab text-muted-foreground active:cursor-grabbing"
                             aria-hidden
+                            {...dragHandleProps}
                           />
-                          <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-12">
-                            <div className="md:col-span-4">
-                              <Label className="text-xs text-muted-foreground">
-                                이름 (기본)
-                              </Label>
-                              <Input
-                                value={item.name?.default ?? ""}
-                                onChange={(e) =>
-                                  updateItem(section.id, item.id, {
-                                    name: {
-                                      ...(item.name ?? { default: "" }),
-                                      default: e.target.value,
-                                    },
-                                  })
-                                }
-                              />
-                              <div className="mt-2 grid grid-cols-2 gap-2">
-                                <Input
-                                  placeholder="이름 (EN)"
-                                  value={item.name?.en ?? ""}
-                                  onChange={(e) =>
-                                    updateItem(section.id, item.id, {
-                                      name: {
-                                        ...(item.name ?? { default: "" }),
-                                        en: e.target.value,
-                                      },
-                                    })
-                                  }
-                                />
-                                <Input
-                                  placeholder="이름 (中文)"
-                                  value={item.name?.zh ?? ""}
-                                  onChange={(e) =>
-                                    updateItem(section.id, item.id, {
-                                      name: {
-                                        ...(item.name ?? { default: "" }),
-                                        zh: e.target.value,
-                                      },
-                                    })
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="md:col-span-2">
-                              <Label className="text-xs text-muted-foreground">
-                                가격
-                              </Label>
-                              <Input
-                                type="number"
-                                inputMode="decimal"
-                                value={String(item.price)}
-                                onChange={(e) =>
-                                  updateItem(section.id, item.id, {
-                                    price: Number(e.target.value || 0),
-                                  })
-                                }
-                              />
-                              <p className="mt-1 text-[11px] text-muted-foreground">
-                                미리보기:{" "}
-                                {formatCurrency(item.price, local.currency)}
-                              </p>
-                            </div>
-                            <div className="md:col-span-3">
-                              <Label className="text-xs text-muted-foreground">
-                                카테고리
-                              </Label>
-                              <Select
-                                value={
-                                  (item.category as CategoryKey) || "other"
-                                }
-                                onValueChange={(v) =>
-                                  updateItem(section.id, item.id, {
-                                    category: v,
-                                  })
-                                }
-                              >
-                                <SelectTrigger className="h-9">
-                                  <SelectValue placeholder="카테고리" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {Object.entries(CATEGORY_LABEL).map(
-                                    ([k, v]) => (
-                                      <SelectItem key={k} value={k}>
-                                        {v}
-                                      </SelectItem>
-                                    )
-                                  )}
-                                </SelectContent>
-                              </Select>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="mt-2 bg-transparent"
-                                onClick={() => {
-                                  const text = `${item.name?.default ?? ""} ${
-                                    item.name?.en ?? ""
-                                  } ${item.name?.zh ?? ""} ${
-                                    item.description?.default ?? ""
-                                  } ${item.description?.en ?? ""} ${
-                                    item.description?.zh ?? ""
-                                  }`;
-                                  const cat = classifyCategory(text);
-                                  updateItem(section.id, item.id, {
-                                    category: cat,
-                                  });
-                                }}
-                              >
-                                <Wand2 className="mr-2 h-4 w-4" />
-                                자동 분류
-                              </Button>
-                            </div>
-                            <div className="md:col-span-3">
-                              <Label className="text-xs text-muted-foreground">
-                                상태
-                              </Label>
-                              <div className="flex items-center gap-2">
-                                <Button
-                                  size="sm"
-                                  variant={
-                                    item.status !== "soldout"
-                                      ? "default"
-                                      : "outline"
-                                  }
-                                  onClick={() =>
-                                    updateItem(section.id, item.id, {
-                                      status: "available",
-                                    })
-                                  }
-                                  className="inline-flex items-center gap-1"
-                                >
-                                  <Eye className="h-4 w-4" />
-                                  판매중
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant={
-                                    item.status === "soldout"
-                                      ? "destructive"
-                                      : "outline"
-                                  }
-                                  onClick={() =>
-                                    updateItem(section.id, item.id, {
-                                      status: "soldout",
-                                    })
-                                  }
-                                  className="inline-flex items-center gap-1"
-                                >
-                                  <EyeOff className="h-4 w-4" />
-                                  품절
-                                </Button>
-                              </div>
-                            </div>
-                            <div className="md:col-span-12">
-                              <Label className="text-xs text-muted-foreground">
-                                이미지 URL
-                              </Label>
-                              <Input
-                                placeholder="https://..."
-                                value={item.image ?? ""}
-                                onChange={(e) =>
-                                  updateItem(section.id, item.id, {
-                                    image: e.target.value,
-                                  })
-                                }
-                              />
-                            </div>
-                            <div className="md:col-span-12">
-                              <Label className="text-xs text-muted-foreground">
-                                설명 (기본)
-                              </Label>
-                              <Textarea
-                                rows={2}
-                                value={item.description?.default ?? ""}
-                                onChange={(e) =>
-                                  updateItem(section.id, item.id, {
-                                    description: {
-                                      ...(item.description ?? { default: "" }),
-                                      default: e.target.value,
-                                    },
-                                  })
-                                }
-                              />
-                              <div className="mt-2 grid grid-cols-2 gap-2">
-                                <Textarea
-                                  rows={2}
-                                  placeholder="설명 (EN)"
-                                  value={item.description?.en ?? ""}
-                                  onChange={(e) =>
-                                    updateItem(section.id, item.id, {
-                                      description: {
-                                        ...(item.description ?? {
-                                          default: "",
-                                        }),
-                                        en: e.target.value,
-                                      },
-                                    })
-                                  }
-                                />
-                                <Textarea
-                                  rows={2}
-                                  placeholder="설명 (中文)"
-                                  value={item.description?.zh ?? ""}
-                                  onChange={(e) =>
-                                    updateItem(section.id, item.id, {
-                                      description: {
-                                        ...(item.description ?? {
-                                          default: "",
-                                        }),
-                                        zh: e.target.value,
-                                      },
-                                    })
-                                  }
-                                />
-                              </div>
-                            </div>
-                          </div>
+                          <Input
+                            value={section.name?.default ?? ""}
+                            onChange={(e) =>
+                              updateSection(section.id, {
+                                name: {
+                                  ...(section.name ?? { default: "" }),
+                                  default: e.target.value,
+                                },
+                              })
+                            }
+                            aria-label="섹션 이름(기본)"
+                            className="h-9"
+                            placeholder="섹션 이름 (기본)"
+                          />
                           <Button
-                            variant="destructive"
-                            size="icon"
-                            onClick={() => removeItem(section.id, item.id)}
-                            aria-label="메뉴 삭제"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => autoClassifySection(section.id)}
+                            className="ml-2 inline-flex items-center gap-2"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Wand2 className="h-4 w-4" /> 자동 분류
                           </Button>
                         </div>
+                        <div className="grid grid-cols-2 gap-2 pl-6">
+                          <Input
+                            placeholder="섹션 이름 (EN)"
+                            value={section.name?.en ?? ""}
+                            onChange={(e) =>
+                              updateSection(section.id, {
+                                name: {
+                                  ...(section.name ?? { default: "" }),
+                                  en: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                          <Input
+                            placeholder="섹션 이름 (中文)"
+                            value={section.name?.zh ?? ""}
+                            onChange={(e) =>
+                              updateSection(section.id, {
+                                name: {
+                                  ...(section.name ?? { default: "" }),
+                                  zh: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="flex justify-end">
-                    <Button
-                      variant="outline"
-                      onClick={() => addItem(section.id)}
-                      className="inline-flex items-center gap-2"
-                    >
-                      <Plus className="h-4 w-4" />
-                      메뉴 추가
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => removeSection(section.id)}
+                        aria-label="섹션 삭제"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </CardHeader>
+                    {!draggingSectionId && (
+                      <CardContent className="grid gap-3">
+                        <div className="grid gap-3">
+                          {section.items.map((item) => (
+                            <SortableRow key={item.id} id={item.id}>
+                              <div className="rounded-md border p-3">
+                                <div className="flex items-start gap-3">
+                                  <GripVertical
+                                    className="mt-2 h-4 w-4 cursor-grab text-muted-foreground active:cursor-grabbing"
+                                    aria-hidden
+                                  />
+                                  <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-12">
+                                    <div className="md:col-span-4">
+                                      <Label className="text-muted-foreground text-xs">
+                                        이름 (기본)
+                                      </Label>
+                                      <Input
+                                        value={item.name?.default ?? ""}
+                                        onChange={(e) =>
+                                          updateItem(section.id, item.id, {
+                                            name: {
+                                              ...(item.name ?? { default: "" }),
+                                              default: e.target.value,
+                                            },
+                                          })
+                                        }
+                                      />
+                                      <div className="mt-2 grid grid-cols-2 gap-2">
+                                        <Input
+                                          placeholder="이름 (EN)"
+                                          value={item.name?.en ?? ""}
+                                          onChange={(e) =>
+                                            updateItem(section.id, item.id, {
+                                              name: {
+                                                ...(item.name ?? {
+                                                  default: "",
+                                                }),
+                                                en: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                        <Input
+                                          placeholder="이름 (中文)"
+                                          value={item.name?.zh ?? ""}
+                                          onChange={(e) =>
+                                            updateItem(section.id, item.id, {
+                                              name: {
+                                                ...(item.name ?? {
+                                                  default: "",
+                                                }),
+                                                zh: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="md:col-span-2">
+                                      <Label className="text-muted-foreground text-xs">
+                                        가격
+                                      </Label>
+                                      <Input
+                                        type="number"
+                                        inputMode="decimal"
+                                        value={String(item.price)}
+                                        onChange={(e) =>
+                                          updateItem(section.id, item.id, {
+                                            price: Number(e.target.value || 0),
+                                          })
+                                        }
+                                      />
+                                      <p className="mt-1 text-[11px] text-muted-foreground">
+                                        미리보기:{" "}
+                                        {formatCurrency(
+                                          item.price,
+                                          local.currency
+                                        )}
+                                      </p>
+                                    </div>
+                                    <div className="md:col-span-3">
+                                      <Label className="text-muted-foreground text-xs">
+                                        카테고리
+                                      </Label>
+                                      <Select
+                                        value={
+                                          (item.category as CategoryKey) ||
+                                          "other"
+                                        }
+                                        onValueChange={(v) =>
+                                          updateItem(section.id, item.id, {
+                                            category: v,
+                                          })
+                                        }
+                                      >
+                                        <SelectTrigger className="h-9">
+                                          <SelectValue placeholder="카테고리" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {Object.entries(CATEGORY_LABEL).map(
+                                            ([k, v]) => (
+                                              <SelectItem key={k} value={k}>
+                                                {v}
+                                              </SelectItem>
+                                            )
+                                          )}
+                                        </SelectContent>
+                                      </Select>
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="mt-2 bg-transparent"
+                                        onClick={() => {
+                                          const text = `${
+                                            item.name?.default ?? ""
+                                          } ${item.name?.en ?? ""} ${
+                                            item.name?.zh ?? ""
+                                          } ${
+                                            item.description?.default ?? ""
+                                          } ${item.description?.en ?? ""} ${
+                                            item.description?.zh ?? ""
+                                          }`;
+                                          const cat = classifyCategory(text);
+                                          updateItem(section.id, item.id, {
+                                            category: cat,
+                                          });
+                                        }}
+                                      >
+                                        <Wand2 className="mr-2 h-4 w-4" />
+                                        자동 분류
+                                      </Button>
+                                    </div>
+                                    <div className="md:col-span-3">
+                                      <Label className="text-muted-foreground text-xs">
+                                        상태
+                                      </Label>
+                                      <div className="flex items-center gap-2">
+                                        <Button
+                                          size="sm"
+                                          variant={
+                                            item.status !== "soldout"
+                                              ? "default"
+                                              : "outline"
+                                          }
+                                          onClick={() =>
+                                            updateItem(section.id, item.id, {
+                                              status: "available",
+                                            })
+                                          }
+                                          className="inline-flex items-center gap-1"
+                                        >
+                                          <Eye className="h-4 w-4" />
+                                          판매중
+                                        </Button>
+                                        <Button
+                                          size="sm"
+                                          variant={
+                                            item.status === "soldout"
+                                              ? "destructive"
+                                              : "outline"
+                                          }
+                                          onClick={() =>
+                                            updateItem(section.id, item.id, {
+                                              status: "soldout",
+                                            })
+                                          }
+                                          className="inline-flex items-center gap-1"
+                                        >
+                                          <EyeOff className="h-4 w-4" />
+                                          품절
+                                        </Button>
+                                      </div>
+                                    </div>
+                                    <div className="md:col-span-12">
+                                      <Label className="text-muted-foreground text-xs">
+                                        이미지 URL
+                                      </Label>
+                                      <Input
+                                        placeholder="https://..."
+                                        value={item.image ?? ""}
+                                        onChange={(e) =>
+                                          updateItem(section.id, item.id, {
+                                            image: e.target.value,
+                                          })
+                                        }
+                                      />
+                                    </div>
+                                    <div className="md:col-span-12">
+                                      <Label className="text-muted-foreground text-xs">
+                                        설명 (기본)
+                                      </Label>
+                                      <Textarea
+                                        rows={2}
+                                        value={item.description?.default ?? ""}
+                                        onChange={(e) =>
+                                          updateItem(section.id, item.id, {
+                                            description: {
+                                              ...(item.description ?? {
+                                                default: "",
+                                              }),
+                                              default: e.target.value,
+                                            },
+                                          })
+                                        }
+                                      />
+                                      <div className="mt-2 grid grid-cols-2 gap-2">
+                                        <Textarea
+                                          rows={2}
+                                          placeholder="설명 (EN)"
+                                          value={item.description?.en ?? ""}
+                                          onChange={(e) =>
+                                            updateItem(section.id, item.id, {
+                                              description: {
+                                                ...(item.description ?? {
+                                                  default: "",
+                                                }),
+                                                en: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                        <Textarea
+                                          rows={2}
+                                          placeholder="설명 (中文)"
+                                          value={item.description?.zh ?? ""}
+                                          onChange={(e) =>
+                                            updateItem(section.id, item.id, {
+                                              description: {
+                                                ...(item.description ?? {
+                                                  default: "",
+                                                }),
+                                                zh: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <Button
+                                    variant="destructive"
+                                    size="icon"
+                                    onClick={() =>
+                                      removeItem(section.id, item.id)
+                                    }
+                                    aria-label="메뉴 삭제"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </SortableRow>
+                          ))}
+                        </div>
+                        <div className="flex justify-end">
+                          <Button
+                            variant="outline"
+                            onClick={() => addItem(section.id)}
+                            className="inline-flex items-center gap-2"
+                          >
+                            <Plus className="h-4 w-4" />
+                            메뉴 추가
+                          </Button>
+                        </div>
+                      </CardContent>
+                    )}
+                  </Card>
+                )}
+              </SortableRow>
             ))}
           </div>
         </SortableContext>

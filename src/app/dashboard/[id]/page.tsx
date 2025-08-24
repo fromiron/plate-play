@@ -98,7 +98,7 @@ export default function BoardEditorPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2">
-            <Label className="text-xs text-muted-foreground">용지</Label>
+            <Label className="text-muted-foreground text-xs">용지</Label>
             <Select value={paper} onValueChange={(v: PaperSizeKey) => setPaper(v)}>
               <SelectTrigger className="h-9 w-[120px]">
                 <SelectValue placeholder="A4" />
@@ -110,7 +110,7 @@ export default function BoardEditorPage() {
                 <SelectItem value="tabloid">Tabloid</SelectItem>
               </SelectContent>
             </Select>
-            <Label className="ml-2 text-xs text-muted-foreground">방향</Label>
+            <Label className="ml-2 text-muted-foreground text-xs">방향</Label>
             <Select value={orientation} onValueChange={(v: Orientation) => setOrientation(v)}>
               <SelectTrigger className="h-9 w-[120px]">
                 <SelectValue placeholder="세로" />
@@ -120,7 +120,7 @@ export default function BoardEditorPage() {
                 <SelectItem value="landscape">가로</SelectItem>
               </SelectContent>
             </Select>
-            <Label className="ml-2 text-xs text-muted-foreground" htmlFor="margin-mm">
+            <Label className="ml-2 text-muted-foreground text-xs" htmlFor="margin-mm">
               여백(mm)
             </Label>
             <Input
@@ -130,7 +130,7 @@ export default function BoardEditorPage() {
               value={marginMm}
               onChange={(e) => setMarginMm(e.target.value)}
             />
-            <Label className="ml-2 text-xs text-muted-foreground">출력 언어</Label>
+            <Label className="ml-2 text-muted-foreground text-xs">출력 언어</Label>
             <Select value={pdfLang} onValueChange={(v: Lang) => setPdfLang(v)}>
               <SelectTrigger className="h-9 w-[120px]">
                 <SelectValue placeholder="언어" />
@@ -220,14 +220,14 @@ export default function BoardEditorPage() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="local" className="space-y-3">
-                <Label className="text-xs text-muted-foreground">이 장치(LocalStorage)에서만 데이터가 보입니다.</Label>
+                <Label className="text-muted-foreground text-xs">이 장치(LocalStorage)에서만 데이터가 보입니다.</Label>
                 <div ref={qrRef} className="mx-auto w-full max-w-[220px] rounded-md bg-white p-3">
                   <QRCode value={localUrl} size={200} />
                 </div>
                 <Input readOnly value={localUrl} onFocus={(e) => e.currentTarget.select()} />
               </TabsContent>
               <TabsContent value="share" className="space-y-3">
-                <Label className="text-xs text-muted-foreground">데이터가 URL에 포함됩니다.</Label>
+                <Label className="text-muted-foreground text-xs">데이터가 URL에 포함됩니다.</Label>
                 <div className="mx-auto w-full max-w-[220px] rounded-md bg-white p-3">
                   <QRCode value={shareUrl || "https://example.com"} size={200} />
                 </div>
@@ -240,7 +240,7 @@ export default function BoardEditorPage() {
               </TabsContent>
             </Tabs>
             <Separator />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               팁: 출력물에 QR을 배치해 손님이 휴대폰으로 메뉴를 볼 수 있게 하세요.
             </p>
           </CardContent>
