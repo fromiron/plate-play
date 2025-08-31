@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import {
   ArrowRight,
   PanelsTopLeft,
@@ -9,7 +10,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { LatestPost } from "@/app/_components/post";
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { auth } from "@/server/auth";
 import { HydrateClient, api } from "@/trpc/server";
 
@@ -21,6 +22,8 @@ export default async function Home() {
   // 	void api.post.getLatest.prefetch();
   // }
 
+  const t = await getTranslations();
+
   return (
     <HydrateClient>
       <main className="min-h-screen bg-background">
@@ -31,7 +34,7 @@ export default async function Home() {
                 src="/plate-play-logo.png"
                 width={32}
                 height={32}
-                alt="Plate Play 로고"
+                alt="Plate Play Logo"
               />
               <span>Plate Play</span>
             </Link>
@@ -40,27 +43,28 @@ export default async function Home() {
                 href="#features"
                 className="text-muted-foreground hover:text-foreground"
               >
-                기능
+                {t("homepage.nav.features")}
               </Link>
               <Link
                 href="#how-it-works"
                 className="text-muted-foreground hover:text-foreground"
               >
-                사용방법
+                {t("homepage.nav.howItWorks")}
               </Link>
               <Link
                 href="#print"
                 className="text-muted-foreground hover:text-foreground"
               >
-                인쇄 서비스
+                {t("homepage.nav.printService")}
               </Link>
             </nav>
             <div className="flex items-center gap-2">
+              <LanguageSwitcher />
               <Button asChild variant="outline">
-                <Link href="/dashboard">대시보드</Link>
+                <Link href="/dashboard">{t("homepage.nav.dashboard")}</Link>
               </Button>
               <Button asChild>
-                <Link href="/dashboard">시작하기</Link>
+                <Link href="/dashboard">{t("homepage.nav.getStarted")}</Link>
               </Button>
             </div>
           </div>
@@ -69,25 +73,20 @@ export default async function Home() {
         <section className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-2 md:gap-12 md:py-24">
           <div className="space-y-6">
             <h1 className="font-bold text-3xl leading-tight tracking-tight md:text-5xl">
-              드래그 앤 드롭으로 만드는 스마트 메뉴판
+              {t("homepage.hero.title")}
             </h1>
             <p className="text-base text-muted-foreground md:text-lg">
-              Plate Play는 메뉴판 제작부터 QR 웹 메뉴판, 인쇄까지 한 번에
-              해결하는 올인원 솔루션입니다.
+              {t("homepage.hero.subtitle")}
             </p>
             <ul className="grid gap-3 text-muted-foreground text-sm">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                자유로운 섹션/메뉴 구성과 순서 변경
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                자동 생성되는 QR로 웹 메뉴판 제공
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                프린트 전용 레이아웃으로 깔끔한 출력
-              </li>
+              {(t.raw("homepage.hero.features") as string[]).map(
+                (feature: string, index: number) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                    {feature}
+                  </li>
+                )
+              )}
             </ul>
             <div className="flex flex-wrap gap-3 pt-2">
               <Button asChild size="lg">
@@ -95,12 +94,14 @@ export default async function Home() {
                   href="/dashboard"
                   className="inline-flex items-center gap-2"
                 >
-                  내 메뉴판 만들기
+                  {t("homepage.hero.createMenu")}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link href="#features">기능 살펴보기</Link>
+                <Link href="#features">
+                  {t("homepage.hero.exploreFunctions")}
+                </Link>
               </Button>
             </div>
           </div>
@@ -126,11 +127,10 @@ export default async function Home() {
               <CardContent className="p-6">
                 <PanelsTopLeft className="mb-4 h-8 w-8 text-foreground" />
                 <h3 className="mb-2 font-semibold text-lg">
-                  드래그 앤 드롭 에디터
+                  {t("homepage.features.dragAndDrop.title")}
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  섹션과 메뉴를 원하는 대로 만들고 순서를 바꿔보세요. 이미지,
-                  가격, 설명도 손쉽게 편집할 수 있습니다.
+                  {t("homepage.features.dragAndDrop.description")}
                 </p>
               </CardContent>
             </Card>
@@ -138,21 +138,21 @@ export default async function Home() {
               <CardContent className="p-6">
                 <QrCode className="mb-4 h-8 w-8 text-foreground" />
                 <h3 className="mb-2 font-semibold text-lg">
-                  자동 QR 웹 메뉴판
+                  {t("homepage.features.qrMenu.title")}
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  버튼 한 번으로 QR 코드 생성. 매장 테이블마다 손님이 휴대폰으로
-                  메뉴를 확인할 수 있어요.
+                  {t("homepage.features.qrMenu.description")}
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="p-6">
                 <Printer className="mb-4 h-8 w-8 text-foreground" />
-                <h3 className="mb-2 font-semibold text-lg">깔끔한 인쇄</h3>
+                <h3 className="mb-2 font-semibold text-lg">
+                  {t("homepage.features.printing.title")}
+                </h3>
                 <p className="text-muted-foreground text-sm">
-                  프린트 전용 레이아웃과 고해상도 출력. 필요한 경우 인쇄
-                  서비스로 주문까지 연결할 수 있습니다.
+                  {t("homepage.features.printing.description")}
                 </p>
               </CardContent>
             </Card>
@@ -165,22 +165,22 @@ export default async function Home() {
         >
           <div className="rounded-xl border bg-card p-6 md:p-10">
             <h2 className="mb-6 font-bold text-2xl">
-              3단계로 끝내는 메뉴판 제작
+              {t("homepage.howItWorks.title")}
             </h2>
             <ol className="grid gap-4 text-muted-foreground text-sm md:grid-cols-3">
-              <li className="rounded-lg border bg-muted/30 p-4">
-                1. 대시보드에서 새 메뉴판 생성
-              </li>
-              <li className="rounded-lg border bg-muted/30 p-4">
-                2. 드래그 앤 드롭으로 구성 편집
-              </li>
-              <li className="rounded-lg border bg-muted/30 p-4">
-                3. QR 배포 또는 인쇄로 완성
-              </li>
+              {(t.raw("homepage.howItWorks.steps") as string[]).map(
+                (step: string, index: number) => (
+                  <li key={index} className="rounded-lg border bg-muted/30 p-4">
+                    {index + 1}. {step}
+                  </li>
+                )
+              )}
             </ol>
             <div className="pt-6">
               <Button asChild>
-                <Link href="/dashboard">대시보드로 이동</Link>
+                <Link href="/dashboard">
+                  {t("homepage.howItWorks.goToDashboard")}
+                </Link>
               </Button>
             </div>
           </div>
@@ -190,27 +190,33 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-6xl px-4 py-10">
             <div className="grid gap-6 md:grid-cols-2">
               <div>
-                <h3 className="font-semibold text-lg">인쇄 서비스</h3>
+                <h3 className="font-semibold text-lg">
+                  {t("homepage.printService.title")}
+                </h3>
                 <p className="mt-2 text-muted-foreground text-sm">
-                  다양한 용지와 사이즈, 코팅 옵션을 제공합니다. 에디터에서 바로
-                  출력하거나, 인쇄 서비스 문의로 손쉽게 주문하세요.
+                  {t("homepage.printService.description")}
                 </p>
               </div>
               <div className="flex items-center gap-3 md:justify-end">
                 <Button variant="outline" asChild>
-                  <Link href="/dashboard">지금 편집하기</Link>
+                  <Link href="/dashboard">
+                    {t("homepage.printService.editNow")}
+                  </Link>
                 </Button>
                 <Button asChild>
                   <Link
                     href="mailto:print@plateplay.example"
-                    aria-label="인쇄 서비스 이메일 문의"
+                    aria-label={t("homepage.printService.contact")}
                   >
-                    인쇄 서비스 문의
+                    {t("homepage.printService.contact")}
                   </Link>
                 </Button>
               </div>
             </div>
-            <p className="mt-6 text-muted-foreground text-xs" suppressHydrationWarning>
+            <p
+              className="mt-6 text-muted-foreground text-xs"
+              suppressHydrationWarning
+            >
               © {new Date().getFullYear()} Plate Play
             </p>
           </div>

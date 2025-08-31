@@ -1,0 +1,191 @@
+{
+  "common": {
+    "title": "Plate Play",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "search": "Search",
+    "clear": "Clear",
+    "close": "Close",
+    "language": "Language"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "menu": "Menu",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "menu": {
+    "title": "Digital Menu",
+    "description": "Multi-language digital menu creation and management platform for restaurants, cafes, and guesthouses",
+    "createMenu": "Create Menu",
+    "editMenu": "Edit Menu",
+    "menuName": "Menu Name",
+    "category": "Category",
+    "price": "Price",
+    "description": "Description",
+    "image": "Image",
+    "soldOut": "Sold Out",
+    "promotion": "Promotion",
+    "addSection": "Add Section",
+    "addItem": "Add Item"
+  },
+  "categories": {
+    "signature": "Signature",
+    "pasta": "Pasta",
+    "steak": "Steak",
+    "salad": "Salad",
+    "coffee": "Coffee",
+    "drink": "Beverages",
+    "dessert": "Dessert",
+    "beer": "Beer",
+    "wine": "Wine",
+    "cocktail": "Cocktail",
+    "other": "Other"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalMenus": "Total Menus",
+    "totalViews": "Total Views",
+    "recentActivity": "Recent Activity",
+    "popularMenus": "Popular Menus",
+    "myMenus": "My Menus",
+    "subtitle": "Take advantage of advanced features like multi-language, categories, sold out status, and analytics.",
+    "viewAnalytics": "View Analytics",
+    "import": "Import",
+    "export": "Export",
+    "newMenu": "New Menu",
+    "createNew": "Create New Menu",
+    "template": "Template",
+    "templateBlank": "Blank Template",
+    "templateCafe": "Cafe",
+    "templateRestaurant": "Restaurant",
+    "templatePub": "Pub",
+    "titleLabel": "Title (Default)",
+    "titlePlaceholder": "e.g. Lunch Menu",
+    "descLabel": "Description (Default, Optional)",
+    "descPlaceholder": "e.g. Weekdays 11:00 - 14:00",
+    "cancel": "Cancel",
+    "create": "Create",
+    "searchPlaceholder": "Search menus",
+    "noMenus": "No menus available. Start by clicking \"New Menu\" button.",
+    "sections": "Sections",
+    "items": "Items",
+    "categories": "Categories",
+    "soldOut": "Sold Out",
+    "views": "Views",
+    "updated": "Updated",
+    "edit": "Edit",
+    "openWebMenu": "Open Web Menu",
+    "viewQr": "View QR",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this menu?",
+    "importComplete": "Import Complete"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "views": "Views",
+    "rating": "Rating",
+    "reviews": "Reviews",
+    "period": "Period",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signInWithGoogle": "Sign in with Google"
+  },
+  "theme": {
+    "cafe": "Cafe",
+    "restaurant": "Restaurant",
+    "pub": "Pub",
+    "primary": "Primary Color",
+    "secondary": "Secondary Color",
+    "accent": "Accent Color"
+  },
+  "homepage": {
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "printService": "Print Service",
+      "dashboard": "Dashboard",
+      "getStarted": "Get Started"
+    },
+    "hero": {
+      "title": "Smart Menu Creation with Drag & Drop",
+      "subtitle": "Plate Play is an all-in-one solution that handles everything from menu creation to QR web menus and printing.",
+      "features": [
+        "Flexible section/menu composition and reordering",
+        "Automatically generated QR for web menus",
+        "Clean output with print-optimized layout"
+      ],
+      "createMenu": "Create My Menu",
+      "exploreFunctions": "Explore Features"
+    },
+    "features": {
+      "dragAndDrop": {
+        "title": "Drag & Drop Editor",
+        "description": "Create sections and menus as you like and rearrange them. Easily edit images, prices, and descriptions."
+      },
+      "qrMenu": {
+        "title": "Automatic QR Web Menu",
+        "description": "Generate QR codes with one click. Customers can view the menu on their phones at each table."
+      },
+      "printing": {
+        "title": "Clean Printing",
+        "description": "Print-optimized layout and high-resolution output. Connect to printing service for orders when needed."
+      }
+    },
+    "howItWorks": {
+      "title": "3-Step Menu Creation",
+      "steps": [
+        "Create new menu from dashboard",
+        "Edit composition with drag & drop",
+        "Complete with QR deployment or printing"
+      ],
+      "goToDashboard": "Go to Dashboard"
+    },
+    "printService": {
+      "title": "Print Service",
+      "description": "We offer various paper types, sizes, and coating options. Print directly from the editor or easily order through our print service inquiry.",
+      "editNow": "Edit Now",
+      "contact": "Print Service Inquiry"
+    }
+  },
+  "boardCard": {
+    "noDescription": "No description set."
+  },
+  "menuEditor": {
+    "preview": "Preview",
+    "category": "Category",
+    "autoCategory": "Auto Categorize",
+    "price": "Price",
+    "status": "Status",
+    "available": "Available",
+    "soldout": "Sold Out",
+    "hidden": "Hidden",
+    "addSection": "Add Section",
+    "addItem": "Add Item",
+    "deleteSection": "Delete Section",
+    "deleteItem": "Delete Item",
+    "sectionName": "Section Name",
+    "itemName": "Item Name",
+    "description": "Description",
+    "image": "Image",
+    "theme": "Theme",
+    "save": "Save",
+    "language": "Language",
+    "editInLanguage": "Edit in Language"
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "common": {
+    "title": "Plate Play",
+    "loading": "載入中...",
+    "save": "儲存",
+    "cancel": "取消",
+    "edit": "編輯",
+    "delete": "刪除",
+    "add": "新增",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "confirm": "確認",
+    "search": "搜尋",
+    "clear": "清除",
+    "close": "關閉",
+    "language": "語言"
+  },
+  "navigation": {
+    "home": "首頁",
+    "dashboard": "儀表板",
+    "menu": "菜單",
+    "analytics": "分析",
+    "settings": "設定",
+    "logout": "登出"
+  },
+  "menu": {
+    "title": "數位菜單",
+    "description": "為餐廳、咖啡廳、民宿打造的多語言數位菜單製作與管理平台",
+    "createMenu": "建立菜單",
+    "editMenu": "編輯菜單",
+    "menuName": "菜單名稱",
+    "category": "分類",
+    "price": "價格",
+    "description": "描述",
+    "image": "圖片",
+    "soldOut": "售完",
+    "promotion": "促銷",
+    "addSection": "新增區塊",
+    "addItem": "新增項目"
+  },
+  "categories": {
+    "signature": "招牌",
+    "pasta": "義大利麵",
+    "steak": "牛排",
+    "salad": "沙拉",
+    "coffee": "咖啡",
+    "drink": "飲品",
+    "dessert": "甜點",
+    "beer": "啤酒",
+    "wine": "紅酒",
+    "cocktail": "調酒",
+    "other": "其他"
+  },
+  "dashboard": {
+    "title": "儀表板",
+    "totalMenus": "菜單總數",
+    "totalViews": "總瀏覽量",
+    "recentActivity": "最近活動",
+    "popularMenus": "熱門菜單",
+    "myMenus": "我的菜單",
+    "subtitle": "運用多語言/分類/售完/分析等進階功能。",
+    "viewAnalytics": "檢視分析",
+    "import": "匯入",
+    "export": "匯出",
+    "newMenu": "新建菜單",
+    "createNew": "建立新菜單",
+    "template": "範本",
+    "templateBlank": "空白範本",
+    "templateCafe": "咖啡廳",
+    "templateRestaurant": "餐廳",
+    "templatePub": "酒吧",
+    "titleLabel": "標題（預設）",
+    "titlePlaceholder": "例：午餐菜單",
+    "descLabel": "描述（預設，選填）",
+    "descPlaceholder": "例：平日 11:00 - 14:00",
+    "cancel": "取消",
+    "create": "建立",
+    "searchPlaceholder": "搜尋菜單",
+    "noMenus": "目前沒有菜單。點擊「新建菜單」按鈕開始製作。",
+    "sections": "區塊",
+    "items": "項目",
+    "categories": "分類",
+    "soldOut": "售完",
+    "views": "瀏覽量",
+    "updated": "更新時間",
+    "edit": "編輯",
+    "openWebMenu": "開啟網頁菜單",
+    "viewQr": "檢視QR碼",
+    "delete": "刪除",
+    "deleteConfirm": "確定要刪除此菜單嗎？",
+    "importComplete": "匯入完成"
+  },
+  "analytics": {
+    "title": "分析",
+    "views": "瀏覽量",
+    "rating": "評分",
+    "reviews": "評價",
+    "period": "時間段",
+    "daily": "按日",
+    "weekly": "按週",
+    "monthly": "按月"
+  },
+  "auth": {
+    "signIn": "登入",
+    "signOut": "登出",
+    "signInWithGoogle": "使用Google登入"
+  },
+  "theme": {
+    "cafe": "咖啡廳",
+    "restaurant": "餐廳",
+    "pub": "酒吧",
+    "primary": "主色調",
+    "secondary": "輔助色",
+    "accent": "強調色"
+  },
+  "homepage": {
+    "nav": {
+      "features": "功能",
+      "howItWorks": "使用方法",
+      "printService": "列印服務",
+      "dashboard": "儀表板",
+      "getStarted": "開始使用"
+    },
+    "hero": {
+      "title": "拖拉製作智慧菜單",
+      "subtitle": "Plate Play是從菜單製作到QR碼網頁菜單、列印一站式解決的全方位方案。",
+      "features": [
+        "自由的區塊/菜單組合和順序調整",
+        "自動產生QR碼提供網頁菜單",
+        "列印專用版面，輸出效果清晰"
+      ],
+      "createMenu": "製作我的菜單",
+      "exploreFunctions": "了解功能"
+    },
+    "features": {
+      "dragAndDrop": {
+        "title": "拖拉編輯器",
+        "description": "隨心建立區塊和菜單，自由調整順序。輕鬆編輯圖片、價格和描述。"
+      },
+      "qrMenu": {
+        "title": "自動QR碼網頁菜單",
+        "description": "一鍵產生QR碼。顧客可在每張桌子用手機查看菜單。"
+      },
+      "printing": {
+        "title": "清晰列印",
+        "description": "列印專用版面和高解析度輸出。需要時可連接列印服務進行訂購。"
+      }
+    },
+    "howItWorks": {
+      "title": "3步完成菜單製作",
+      "steps": [
+        "在儀表板建立新菜單",
+        "拖拉編輯組合結構",
+        "透過QR碼發布或列印完成"
+      ],
+      "goToDashboard": "前往儀表板"
+    },
+    "printService": {
+      "title": "列印服務",
+      "description": "提供多種紙張、尺寸和覆膜選擇。可直接從編輯器輸出，或透過列印服務諮詢輕鬆下單。",
+      "editNow": "立即編輯",
+      "contact": "列印服務諮詢"
+    }
+  },
+  "boardCard": {
+    "noDescription": "未設定描述。"
+  },
+  "menuEditor": {
+    "preview": "預覽",
+    "category": "分類",
+    "autoCategory": "自動分類",
+    "price": "價格",
+    "status": "狀態",
+    "available": "供應中",
+    "soldout": "售完",
+    "hidden": "隱藏",
+    "addSection": "新增區塊",
+    "addItem": "新增項目",
+    "deleteSection": "刪除區塊",
+    "deleteItem": "刪除項目",
+    "sectionName": "區塊名稱",
+    "itemName": "項目名稱",
+    "description": "描述",
+    "image": "圖片",
+    "theme": "主題",
+    "save": "儲存",
+    "language": "語言",
+    "editInLanguage": "使用語言編輯"
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,9 +55,10 @@ import {
 import { templateBoard } from "@/lib/templates";
 
 export default function DashboardPage() {
+  const t = useTranslations();
   const [boards, setBoards] = useState<MenuBoard[]>([]);
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("새 메뉴판");
+  const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [tpl, setTpl] = useState<"blank" | "cafe" | "restaurant" | "pub">(
     "blank"
@@ -82,18 +84,18 @@ export default function DashboardPage() {
     const base = templateBoard(tpl);
     const board = createBoard({
       ...base,
-      title: base.title ?? { default: title.trim() || "새 메뉴판" },
+      title: base.title ?? { default: title.trim() || t('dashboard.newMenu') },
       description: base.description ?? { default: desc.trim() },
     });
     setBoards(listBoards());
     setOpen(false);
-    setTitle("새 메뉴판");
+    setTitle("");
     setDesc("");
     location.href = `/dashboard/${board.id}`;
   };
 
   const handleDelete = (id: string) => {
-    if (!confirm("이 메뉴판을 삭제하시겠습니까?")) return;
+    if (!confirm(t('dashboard.deleteConfirm'))) return;
     deleteBoard(id);
     setBoards(listBoards());
   };
@@ -120,7 +122,7 @@ export default function DashboardPage() {
       const text = await file.text();
       importBoards(text);
       setBoards(listBoards());
-      alert("가져오기 완료");
+      alert(t('dashboard.importComplete'));
     };
     input.click();
   };
@@ -129,9 +131,9 @@ export default function DashboardPage() {
     <main className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
       <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="font-bold text-2xl md:text-3xl">내 메뉴판</h1>
+          <h1 className="font-bold text-2xl md:text-3xl">{t('dashboard.myMenus')}</h1>
           <p className="text-muted-foreground text-sm">
-            다국어/카테고리/품절/분석 등 고급 기능을 활용해보세요.
+            {t('dashboard.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -142,7 +144,7 @@ export default function DashboardPage() {
           >
             <Link href="/dashboard/analytics">
               <BarChart3 className="h-4 w-4" />
-              분석 보기
+              {t('dashboard.viewAnalytics')}
             </Link>
           </Button>
           <Button
@@ -151,7 +153,7 @@ export default function DashboardPage() {
             className="inline-flex items-center gap-2 bg-transparent"
           >
             <Upload className="h-4 w-4" />
-            가져오기
+            {t('dashboard.import')}
           </Button>
           <Button
             variant="outline"
@@ -159,55 +161,55 @@ export default function DashboardPage() {
             className="inline-flex items-center gap-2 bg-transparent"
           >
             <DL className="h-4 w-4" />
-            내보내기
+            {t('dashboard.export')}
           </Button>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button className="inline-flex items-center gap-2">
-                <Plus className="h-4 w-4" />새 메뉴판
+                <Plus className="h-4 w-4" />{t('dashboard.newMenu')}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>새 메뉴판 만들기</DialogTitle>
+                <DialogTitle>{t('dashboard.createNew')}</DialogTitle>
               </DialogHeader>
               <div className="grid gap-3 py-2">
-                <label className="font-medium text-sm">템플릿</label>
+                <label className="font-medium text-sm">{t('dashboard.template')}</label>
                 <Select value={tpl} onValueChange={(v: any) => setTpl(v)}>
                   <SelectTrigger className="h-9">
-                    <SelectValue placeholder="선택" />
+                    <SelectValue placeholder={t('common.search')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="blank">빈 템플릿</SelectItem>
-                    <SelectItem value="cafe">카페</SelectItem>
-                    <SelectItem value="restaurant">레스토랑</SelectItem>
-                    <SelectItem value="pub">주점</SelectItem>
+                    <SelectItem value="blank">{t('dashboard.templateBlank')}</SelectItem>
+                    <SelectItem value="cafe">{t('dashboard.templateCafe')}</SelectItem>
+                    <SelectItem value="restaurant">{t('dashboard.templateRestaurant')}</SelectItem>
+                    <SelectItem value="pub">{t('dashboard.templatePub')}</SelectItem>
                   </SelectContent>
                 </Select>
                 <label className="font-medium text-sm" htmlFor="board-title">
-                  제목 (기본)
+                  {t('dashboard.titleLabel')}
                 </label>
                 <Input
                   id="board-title"
-                  placeholder="예: 점심 메뉴"
+                  placeholder={t('dashboard.titlePlaceholder')}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <label className="font-medium text-sm" htmlFor="board-desc">
-                  설명 (기본, 선택)
+                  {t('dashboard.descLabel')}
                 </label>
                 <Input
                   id="board-desc"
-                  placeholder="예: 평일 11:00 - 14:00"
+                  placeholder={t('dashboard.descPlaceholder')}
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
                 />
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setOpen(false)}>
-                  취소
+                  {t('dashboard.cancel')}
                 </Button>
-                <Button onClick={handleCreate}>만들기</Button>
+                <Button onClick={handleCreate}>{t('dashboard.create')}</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -218,7 +220,7 @@ export default function DashboardPage() {
         <div className="relative w-full md:w-80">
           <Search className="pointer-events-none absolute top-2.5 left-2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="메뉴판 검색"
+            placeholder={t('dashboard.searchPlaceholder')}
             className="pl-8"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -230,7 +232,7 @@ export default function DashboardPage() {
 
       {filtered.length === 0 ? (
         <div className="rounded-lg border bg-muted/20 p-10 text-center text-muted-foreground text-sm">
-          메뉴판이 없습니다. {"'새 메뉴판'"} 버튼으로 시작해보세요.
+          {t('dashboard.noMenus')}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -261,10 +263,10 @@ export default function DashboardPage() {
                 <CardContent className="flex flex-1 flex-col gap-3">
                   <BoardCard board={board} />
                   <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-xs">
-                    <span>섹션 {formatCount(board.sections.length)}</span>
-                    <span>메뉴 {formatCount(itemCount)}</span>
-                    <span>카테고리 {formatCount(categories)}</span>
-                    <span>품절 {formatCount(soldOut)}</span>
+                    <span>{t('dashboard.sections')} {formatCount(board.sections.length)}</span>
+                    <span>{t('dashboard.items')} {formatCount(itemCount)}</span>
+                    <span>{t('dashboard.categories')} {formatCount(categories)}</span>
+                    <span>{t('dashboard.soldOut')} {formatCount(soldOut)}</span>
                     <span className="inline-flex items-center gap-1">
                       <Eye className="h-3.5 w-3.5" />
                       {formatCount(views)}
@@ -275,7 +277,7 @@ export default function DashboardPage() {
                     {cov.zh.total}
                   </div>
                   <div className="text-[11px] text-muted-foreground">
-                    업데이트: {formatDate(board.updatedAt)}
+                    {t('dashboard.updated')}: {formatDate(board.updatedAt)}
                   </div>
                 </CardContent>
                 <CardFooter className="flex items-center justify-between gap-2">
@@ -287,7 +289,7 @@ export default function DashboardPage() {
                   >
                     <Link href={`/dashboard/${board.id}`}>
                       <Pencil className="h-4 w-4" />
-                      편집
+                      {t('dashboard.edit')}
                     </Link>
                   </Button>
                   <div className="flex items-center gap-2">
@@ -295,7 +297,7 @@ export default function DashboardPage() {
                       asChild
                       variant="outline"
                       size="icon"
-                      aria-label="웹 메뉴 열기"
+                      aria-label={t('dashboard.openWebMenu')}
                     >
                       <Link href={`/m/${board.id}`} target="_blank">
                         <ExternalLink className="h-4 w-4" />
@@ -305,7 +307,7 @@ export default function DashboardPage() {
                       asChild
                       variant="outline"
                       size="icon"
-                      aria-label="QR 보기"
+                      aria-label={t('dashboard.viewQr')}
                     >
                       <Link href={`/dashboard/${board.id}#qr`}>
                         <QrCode className="h-4 w-4" />
@@ -315,7 +317,7 @@ export default function DashboardPage() {
                       variant="destructive"
                       size="icon"
                       onClick={() => handleDelete(board.id)}
-                      aria-label="삭제"
+                      aria-label={t('dashboard.delete')}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
