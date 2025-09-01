@@ -87,9 +87,27 @@ export default function BoardEditorPage() {
   if (!currentBoard) return null
 
   const handleSave = (data: MenuBoard) => {
-    updateMutation.mutate(data as any)
+    // Ensure description has a valid default field if it exists
+    const cleanedData = {
+      ...data,
+      description: data.description ? {
+        ...data.description,
+        default: data.description.default || ""
+      } : undefined,
+      sections: data.sections.map(section => ({
+        ...section,
+        items: section.items.map(item => ({
+          ...item,
+          description: item.description ? {
+            ...item.description,
+            default: item.description.default || ""
+          } : undefined
+        }))
+      }))
+    }
+    updateMutation.mutate(cleanedData as any)
     // broadcast saved state
-    broadcastBoardUpdate(data)
+    broadcastBoardUpdate(cleanedData)
   }
 
   const handleTitleChange = (newTitle: string) => {

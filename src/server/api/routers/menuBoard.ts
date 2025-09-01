@@ -10,14 +10,17 @@ import type { LocalizedString, Theme, Promotion } from "@/lib/types";
 
 // 입력 스키마 정의
 const LocalizedStringSchema = z.object({
-  default: z.string(),
+  default: z.string().min(0).default(""),
   en: z.string().optional(),
   zh: z.string().optional(),
   ja: z.string().optional(),
   ko: z.string().optional(),
   "zh-CN": z.string().optional(),
   "zh-TW": z.string().optional(),
-});
+}).transform(data => ({
+  ...data,
+  default: data.default || ""
+}));
 
 const ThemeSchema = z.object({
   primary: z.string().optional(),
