@@ -6,13 +6,11 @@ import { useTranslations } from "next-intl"
 import type { MenuBoard } from "@/lib/types"
 import { buildLocalMenuUrl } from "@/lib/share"
 import { computeCoverage } from "@/lib/lang-stats"
-import { getBoardViews } from "@/lib/views"
 
 export default function BoardCard({ board }: { board: MenuBoard }) {
   const t = useTranslations()
   const url = useMemo(() => buildLocalMenuUrl(board.id), [board.id])
   const cov = useMemo(() => computeCoverage(board), [board])
-  const views = useMemo(() => getBoardViews(board.id), [board.id])
 
   return (
     <div className="flex items-start gap-3">
@@ -24,7 +22,7 @@ export default function BoardCard({ board }: { board: MenuBoard }) {
         <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
           <span className="rounded bg-muted px-2 py-0.5">EN {cov.en.percent}%</span>
           <span className="rounded bg-muted px-2 py-0.5">中文 {cov.zh.percent}%</span>
-          <span className="rounded bg-muted px-2 py-0.5">{t('dashboard.views')} {new Intl.NumberFormat().format(views)}</span>
+          <span className="rounded bg-muted px-2 py-0.5">{t('dashboard.views')} {new Intl.NumberFormat().format(board.viewsCount || 0)}</span>
         </div>
         <div className="mt-1 text-[11px]">{url}</div>
       </div>

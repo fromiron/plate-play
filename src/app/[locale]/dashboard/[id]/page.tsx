@@ -13,8 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MenuEditor } from "@/components/menu-editor"
-import { getBoard, saveBoard } from "@/lib/storage"
 import type { MenuBoard, Lang } from "@/lib/types"
+import { api } from "@/trpc/react"
 import { buildLocalMenuUrl, buildShareUrl, encodeBoardToQuery } from "@/lib/share"
 import { LANG_LABEL } from "@/lib/i18n"
 import { broadcastBoardUpdate } from "@/lib/realtime"
@@ -25,7 +25,6 @@ type Orientation = "portrait" | "landscape"
 export default function BoardEditorPage() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
-  const [board, setBoard] = useState<MenuBoard | null>(null)
   const [shareUrl, setShareUrl] = useState<string>("")
   const qrRef = useRef<HTMLDivElement>(null)
 
@@ -35,16 +34,25 @@ export default function BoardEditorPage() {
   const [marginMm, setMarginMm] = useState<string>("12.7")
   const [pdfLang, setPdfLang] = useState<Lang>("default")
 
-  useEffect(() => {
-    const b = getBoard(params.id)
-    if (!b) {
-      alert("해당 메뉴판을 찾을 수 없습니다.")
-      router.push("/dashboard")
-      return
+  // Fetch board data from database
+  const { data: board, refetch } = api.menuBoard.getById.useQuery(
+    { id: params.id },
+    {
+      onError: () => {
+        alert("해당 메뉴판을 찾을 수 없습니다.")
+        router.push("/dashboard")
+      },
+      onSuccess: (data) => {
+        setPdfLang(data.defaultLang ?? "default")
+      }
     }
-    setBoard(b)
-    setPdfLang(b.defaultLang ?? "default")
-  }, [params.id, router])
+  )
+
+  const updateMutation = api.menuBoard.update.useMutation({
+    onSuccess: () => {
+      refetch()
+    }
+  })
 
   const localUrl = useMemo(() => buildLocalMenuUrl(params.id), [params.id])
 
@@ -68,14 +76,8 @@ export default function BoardEditorPage() {
 
   if (!board) return null
 
-  const handleTitleChange = (title: string) => {
-    const updated = { ...board, title: { ...(board.title ?? { default: "" }), default: title }, updatedAt: Date.now() }
-    setBoard(updated)
-  }
-
   const handleSave = (data: MenuBoard) => {
-    saveBoard(data)
-    setBoard({ ...data })
+    updateMutation.mutate(data)
     // broadcast saved state
     broadcastBoardUpdate(data)
   }

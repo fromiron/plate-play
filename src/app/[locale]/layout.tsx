@@ -7,6 +7,8 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { AuthProvider } from "@/components/auth/auth-provider";
+import { auth } from "@/server/auth";
 import { locales } from "i18n/routing";
 
 export const metadata: Metadata = {
@@ -37,12 +39,17 @@ export default async function LocaleLayout({
 
   // 메시지 로드
   const messages = await getMessages();
+  
+  // 세션 로드
+  const session = await auth();
 
   return (
     <html lang={locale} className={geist.variable} suppressHydrationWarning>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <AuthProvider session={session}>
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

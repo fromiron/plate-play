@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { LoginButton } from "@/components/auth/login-button";
 import { auth } from "@/server/auth";
 import { HydrateClient, api } from "@/trpc/server";
 
@@ -60,12 +61,7 @@ export default async function Home() {
             </nav>
             <div className="flex items-center gap-2">
               <LanguageSwitcher />
-              <Button asChild variant="outline">
-                <Link href="/dashboard">{t("homepage.nav.dashboard")}</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/dashboard">{t("homepage.nav.getStarted")}</Link>
-              </Button>
+              <LoginButton />
             </div>
           </div>
         </header>

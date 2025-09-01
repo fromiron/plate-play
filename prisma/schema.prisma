@@ -14,16 +14,156 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
+// =====================================================
+// PLATE PLAY - 디지털 메뉴판 플랫폼 데이터 모델
+// =====================================================
+
+// 메뉴판 (MenuBoard)
+// 사용 위치: 
+// - src/app/[locale]/dashboard/page.tsx (메뉴판 목록)
+// - src/components/board-card.tsx (메뉴판 카드 미리보기)
+// - src/components/menu-editor.tsx (메뉴 편집)
+// - src/app/[locale]/menu/[id]/page.tsx (공개 메뉴 뷰어)
+model MenuBoard {
+    id String @id @default(cuid())
+
+    // 기본 정보
+    title       String // JSON 문자열로 다국어 저장 {"default": "메뉴판", "en": "Menu", "zh": "菜单"}
+    description String? // JSON 문자열로 다국어 저장 (선택사항)
+    currency    String  @default("KRW") // 통화 코드 (KRW, USD, JPY, etc.)
+    defaultLang String  @default("default") // 기본 언어 설정
+
+    // 테마 및 디자인 (JSON 저장)
+    theme String? // JSON 문자열: {"primary": "#16a34a", "secondary": "#0ea5e9", "fontPair": "inter-playfair", "template": "cafe"}
+
+    // 프로모션 설정 (JSON 배열)
+    promotions String? // JSON 배열: [{"id": "...", "name": "해피아워", "percent": 20, "startHour": 17, "endHour": 19, "days": [1,2,3,4,5]}]
+
+    // 시간 정보
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
+    // 관계
+    createdBy   User        @relation(fields: [createdById], references: [id], onDelete: Cascade)
     createdById String
+    sections    Section[] // 메뉴 섹션들
+    views       BoardView[] // 조회 기록
 
-    @@index([name])
+    @@index([createdById])
+    @@index([updatedAt])
+}
+
+// 메뉴 섹션 (Section)
+// 사용 위치:
+// - src/components/menu-editor.tsx (드래그앤드롭 섹션 편집)
+// - src/app/[locale]/menu/[id]/page.tsx (메뉴 섹션 표시)
+// - src/lib/storage.ts (섹션 데이터 관리)
+model Section {
+    id    String @id @default(cuid())
+    name  String // JSON 문자열로 다국어 저장 {"default": "메인 요리", "en": "Main Dishes"}
+    order Int // 섹션 순서
+
+    // 관계
+    menuBoard   MenuBoard  @relation(fields: [menuBoardId], references: [id], onDelete: Cascade)
+    menuBoardId String
+    items       MenuItem[] // 메뉴 아이템들
+
+    @@index([menuBoardId, order])
+}
+
+// 메뉴 아이템 (MenuItem)
+// 사용 위치:
+// - src/components/menu-editor.tsx (개별 메뉴 아이템 편집)
+// - src/app/[locale]/menu/[id]/page.tsx (메뉴 아이템 표시)
+// - src/lib/analytics.ts (아이템별 조회/리뷰 추적)
+// - src/lib/storage.ts (아이템 데이터 관리)
+model MenuItem {
+    id          String  @id @default(cuid())
+    name        String // JSON 문자열로 다국어 저장
+    description String? // JSON 문자열로 다국어 저장 (선택사항)
+    price       Int // 가격 (정수로 저장, 소수점 2자리는 /100으로 계산)
+    image       String? // 이미지 URL
+    tags        String? // JSON 배열로 태그 저장 ["spicy", "vegetarian"]
+    category    String? // 카테고리 ("pasta", "steak", "coffee", etc.)
+    status      String  @default("available") // "available" | "soldout" | "hidden"
+    order       Int // 섹션 내 순서
+
+    // 관계
+    section   Section    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+    sectionId String
+    itemViews ItemView[] // 아이템 조회 기록
+    reviews   Review[] // 리뷰들
+
+    @@index([sectionId, order])
+    @@index([category])
+    @@index([status])
+}
+
+// 메뉴판 조회 기록 (BoardView)
+// 사용 위치:
+// - src/lib/analytics.ts (조회수 추적)
+// - src/lib/views.ts (조회 기록 관리)
+// - src/app/[locale]/dashboard/analytics/page.tsx (분석 대시보드)
+model BoardView {
+    id String @id @default(cuid())
+
+    // 조회 정보
+    viewedAt  DateTime @default(now())
+    hour      Int // 0-23, 시간대별 분석용
+    userAgent String? // 브라우저 정보
+    ipAddress String? // IP 주소 (해시화된 값)
+    referer   String? // 유입 경로
+
+    // 관계
+    menuBoard   MenuBoard @relation(fields: [menuBoardId], references: [id], onDelete: Cascade)
+    menuBoardId String
+
+    @@index([menuBoardId])
+    @@index([viewedAt])
+    @@index([hour])
+}
+
+// 메뉴 아이템 조회 기록 (ItemView)
+// 사용 위치:
+// - src/lib/analytics.ts (인기 메뉴 분석)
+// - src/app/[locale]/dashboard/analytics/page.tsx (아이템별 통계)
+model ItemView {
+    id String @id @default(cuid())
+
+    // 조회 정보
+    viewedAt DateTime @default(now())
+
+    // 관계
+    menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+    menuItemId String
+
+    @@index([menuItemId])
+    @@index([viewedAt])
+}
+
+// 고객 리뷰 (Review)
+// 사용 위치:
+// - src/lib/analytics.ts (리뷰 관리)
+// - src/app/[locale]/menu/[id]/page.tsx (리뷰 표시)
+// - src/components/rating.tsx (별점 시스템)
+model Review {
+    id String @id @default(cuid())
+
+    // 리뷰 내용
+    rating    Int // 1-5 별점
+    text      String? // 리뷰 텍스트 (선택사항)
+    createdAt DateTime @default(now())
+
+    // 고객 정보 (익명)
+    customerName String? // 고객 이름 (선택사항)
+
+    // 관계
+    menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+    menuItemId String
+
+    @@index([menuItemId])
+    @@index([rating])
+    @@index([createdAt])
 }
 
 // Necessary for Next auth
@@ -54,15 +194,26 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// 사용자 (User)
+// 사용 위치:
+// - src/server/auth/* (NextAuth.js 인증)
+// - 모든 페이지에서 세션 관리
+// - 메뉴판 소유권 관리
 model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+
+    // NextAuth.js 관계
+    accounts Account[]
+    sessions Session[]
+
+    // Plate Play 관계
+    menuBoards MenuBoard[] // 사용자가 생성한 메뉴판들
+
+    @@index([email])
 }
 
 model VerificationToken {

@@ -104,7 +104,9 @@
   "auth": {
     "signIn": "Sign In",
     "signOut": "Sign Out",
-    "signInWithGoogle": "Sign in with Google"
+    "signInWithGoogle": "Sign in with Google",
+    "loading": "Loading...",
+    "signInRequired": "Sign in required"
   },
   "theme": {
     "cafe": "Cafe",

@@ -53,4 +53,5 @@ export type MenuBoard = {
   sections: Section[];
   createdAt: number;
   updatedAt: number;
+  viewsCount?: number;
 };
