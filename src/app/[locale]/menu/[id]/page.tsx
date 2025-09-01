@@ -24,6 +24,7 @@ import { api } from "@/trpc/react";
 import { CATEGORY_LABEL, type CategoryKey } from "@/lib/categories";
 import { Stars } from "@/components/rating";
 import { formatCurrency } from "@/lib/utils-local";
+import { getOrCreateAnonymousSession, cleanupExpiredSession } from "@/lib/anonymous-session";
 
 type PaperSizeKey = "a5" | "a4" | "letter" | "tabloid";
 type Orientation = "portrait" | "landscape";
@@ -89,6 +90,9 @@ export default function PublicMenuPage() {
     } else if (dbBoard) {
       setBoard(dbBoard);
     }
+
+    // 만료된 세션 정리
+    cleanupExpiredSession();
   }, [params.id, search, dbBoard]);
 
   useEffect(() => {
@@ -338,9 +342,6 @@ export default function PublicMenuPage() {
                   const showPrice = promo
                     ? discounted(basePrice, promo.percent)
                     : basePrice;
-                  // Reviews will be handled by database in the future
-                  const revs: any[] = [];
-                  const avg = 0;
                   return (
                     <li
                       key={item.id}
@@ -379,10 +380,7 @@ export default function PublicMenuPage() {
                               ) : null}
                             </h3>
                             <div className="mt-1 flex items-center gap-2">
-                              <Stars value={avg} readOnly />
-                              <span className="text-muted-foreground text-xs">
-                                ({revs.length})
-                              </span>
+                              <ReviewStats itemId={item.id} />
                             </div>
                           </div>
                           <div className="whitespace-nowrap font-medium text-sm">
@@ -434,7 +432,138 @@ export default function PublicMenuPage() {
   );
 }
 
+function ReviewStats({ itemId }: { itemId: string }) {
+  const { data: stats } = api.review.stats.useQuery({ menuItemId: itemId });
+  
+  if (!stats || stats.totalReviews === 0) {
+    return (
+      <>
+        <Stars value={0} readOnly />
+        <span className="text-muted-foreground text-xs">(0)</span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Stars value={stats.averageRating} readOnly />
+      <span className="text-muted-foreground text-xs">
+        ({stats.totalReviews})
+      </span>
+    </>
+  );
+}
+
 function ReviewForm({ boardId, item }: { boardId: string; item: MenuItem }) {
-  // Review functionality will be implemented with database integration
-  return null;
+  const [showForm, setShowForm] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [text, setText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [session, setSession] = useState<ReturnType<typeof getOrCreateAnonymousSession> | null>(null);
+
+  const createReview = api.review.create.useMutation();
+  const { data: existingReviews } = api.review.checkExisting.useQuery(
+    { 
+      menuItemIds: [item.id], 
+      sessionToken: session?.token || ""
+    },
+    { enabled: !!session?.token }
+  );
+
+  useEffect(() => {
+    if (boardId) {
+      const newSession = getOrCreateAnonymousSession(boardId);
+      setSession(newSession);
+    }
+  }, [boardId]);
+
+  const canReview = !existingReviews?.some(review => review.menuItemId === item.id);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!session || !rating || isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      await createReview.mutateAsync({
+        menuItemId: item.id,
+        rating,
+        text: text.trim() || undefined,
+        sessionToken: session.token,
+      });
+
+      // 성공 시 폼 초기화
+      setRating(0);
+      setText("");
+      setShowForm(false);
+      
+      // 통계 리프레시를 위해 쿼리 무효화
+      // This will be handled by React Query's refetch
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!session || !canReview) {
+    return null;
+  }
+
+  return (
+    <div className="mt-2 print:hidden">
+      {!showForm ? (
+        <button
+          onClick={() => setShowForm(true)}
+          className="text-blue-600 hover:text-blue-800 text-sm underline"
+        >
+          리뷰 작성
+        </button>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-2 space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-sm">별점:</span>
+            <Stars 
+              value={rating}
+              onChange={setRating}
+              readOnly={false}
+            />
+          </div>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="리뷰를 작성해주세요 (선택사항)"
+            className="w-full px-2 py-1 text-sm border rounded resize-none"
+            rows={2}
+            maxLength={200}
+          />
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={!rating || isSubmitting}
+              className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "제출 중..." : "제출"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowForm(false);
+                setRating(0);
+                setText("");
+              }}
+              className="px-3 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600"
+            >
+              취소
+            </button>
+          </div>
+          {createReview.error && (
+            <p className="text-red-500 text-xs">
+              {createReview.error.message}
+            </p>
+          )}
+        </form>
+      )}
+    </div>
+  );
 }

@@ -1,4 +1,5 @@
 import { menuBoardRouter } from "@/server/api/routers/menuBoard";
+import { reviewRouter } from "@/server/api/routers/review";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
 	menuBoard: menuBoardRouter,
+	review: reviewRouter,
 });
 
 // export type definition of API
