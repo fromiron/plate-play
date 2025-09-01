@@ -26,6 +26,7 @@ export default function BoardEditorPage() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
   const [shareUrl, setShareUrl] = useState<string>("")
+  const [localBoard, setLocalBoard] = useState<MenuBoard | null>(null)
   const qrRef = useRef<HTMLDivElement>(null)
 
   // PDF options
@@ -35,18 +36,27 @@ export default function BoardEditorPage() {
   const [pdfLang, setPdfLang] = useState<Lang>("default")
 
   // Fetch board data from database
-  const { data: board, refetch } = api.menuBoard.getById.useQuery(
-    { id: params.id },
-    {
-      onError: () => {
-        alert("해당 메뉴판을 찾을 수 없습니다.")
-        router.push("/dashboard")
-      },
-      onSuccess: (data) => {
-        setPdfLang(data.defaultLang ?? "default")
-      }
-    }
+  const { data: board, refetch, error } = api.menuBoard.getById.useQuery(
+    { id: params.id }
   )
+
+  // Handle success/error effects
+  useEffect(() => {
+    if (board) {
+      setLocalBoard(board)
+      setPdfLang(board.defaultLang as Lang ?? "default")
+    }
+  }, [board])
+
+  useEffect(() => {
+    if (error) {
+      alert("해당 메뉴판을 찾을 수 없습니다.")
+      router.push("/dashboard")
+    }
+  }, [error, router])
+
+  // Use local board state if available, otherwise use fetched board
+  const currentBoard = localBoard || board
 
   const updateMutation = api.menuBoard.update.useMutation({
     onSuccess: () => {
@@ -57,9 +67,9 @@ export default function BoardEditorPage() {
   const localUrl = useMemo(() => buildLocalMenuUrl(params.id), [params.id])
 
   const printUrl = useMemo(() => {
-    if (!board) return "#"
+    if (!currentBoard) return "#"
     try {
-      const encoded = encodeBoardToQuery(board)
+      const encoded = encodeBoardToQuery(currentBoard)
       const m = `${marginMm || "12.7"}mm`
       const qs = new URLSearchParams({
         data: encoded,
@@ -68,18 +78,29 @@ export default function BoardEditorPage() {
         margin: m,
         lang: pdfLang,
       }).toString()
-      return `/api/print/${board.id}?${qs}`
+      return `/api/print/${currentBoard.id}?${qs}`
     } catch {
       return "#"
     }
-  }, [board, paper, orientation, marginMm, pdfLang])
+  }, [currentBoard, paper, orientation, marginMm, pdfLang])
 
-  if (!board) return null
+  if (!currentBoard) return null
 
   const handleSave = (data: MenuBoard) => {
-    updateMutation.mutate(data)
+    updateMutation.mutate(data as any)
     // broadcast saved state
     broadcastBoardUpdate(data)
+  }
+
+  const handleTitleChange = (newTitle: string) => {
+    if (currentBoard) {
+      const updatedBoard = {
+        ...currentBoard,
+        title: { ...currentBoard.title, default: newTitle },
+        updatedAt: Date.now()
+      }
+      setLocalBoard(updatedBoard)
+    }
   }
 
   return (
@@ -93,7 +114,7 @@ export default function BoardEditorPage() {
           </Button>
           <Input
             className="h-10 w-[260px] md:w-[360px]"
-            value={board.title.default}
+            value={currentBoard.title.default}
             onChange={(e) => handleTitleChange(e.target.value)}
             aria-label="메뉴판 제목"
           />
@@ -145,7 +166,7 @@ export default function BoardEditorPage() {
             </Select>
           </div>
 
-          <Button variant="outline" onClick={() => handleSave(board)} className="inline-flex items-center gap-2">
+          <Button variant="outline" onClick={() => handleSave(currentBoard)} className="inline-flex items-center gap-2">
             <Save className="h-4 w-4" />
             저장
           </Button>
@@ -160,7 +181,7 @@ export default function BoardEditorPage() {
               PDF
             </Link>
           </Button>
-          <Button onClick={() => setShareUrl(buildShareUrl(board))} className="inline-flex items-center gap-2">
+          <Button onClick={() => setShareUrl(buildShareUrl(currentBoard))} className="inline-flex items-center gap-2">
             <Share2 className="h-4 w-4" />
             공유 링크
           </Button>
@@ -180,10 +201,10 @@ export default function BoardEditorPage() {
           </CardHeader>
           <CardContent className="p-0">
             <MenuEditor
-              value={board}
+              value={currentBoard}
               onChange={(updated) => {
                 const next = { ...updated, updatedAt: Date.now() }
-                setBoard(next)
+                setLocalBoard(next)
                 // Realtime broadcast for live updates (e.g., 품절)
                 broadcastBoardUpdate(next)
               }}
@@ -191,7 +212,7 @@ export default function BoardEditorPage() {
             />
           </CardContent>
           <CardFooter className="flex flex-wrap items-center justify-end gap-2">
-            <Button variant="outline" onClick={() => handleSave(board)}>
+            <Button variant="outline" onClick={() => handleSave(currentBoard)}>
               저장
             </Button>
             <Button asChild variant="outline">

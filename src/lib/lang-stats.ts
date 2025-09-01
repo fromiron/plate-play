@@ -14,7 +14,7 @@ function hasTranslation(ls: LocalizedString | undefined, lang: Exclude<Lang, "de
 }
 
 export function computeCoverage(board: MenuBoard): BoardCoverage {
-  const langs: Exclude<Lang, "default">[] = ["en", "zh"]
+  const langs: Exclude<Lang, "default">[] = ["en", "zh", "ja", "ko", "zh-CN", "zh-TW"]
   const parts: LocalizedString[] = []
   // board title/description
   parts.push(board.title)
@@ -33,6 +33,10 @@ export function computeCoverage(board: MenuBoard): BoardCoverage {
   const result: BoardCoverage = {
     en: { filled: 0, total, percent: 0 },
     zh: { filled: 0, total, percent: 0 },
+    ja: { filled: 0, total, percent: 0 },
+    ko: { filled: 0, total, percent: 0 },
+    "zh-CN": { filled: 0, total, percent: 0 },
+    "zh-TW": { filled: 0, total, percent: 0 },
   }
   for (const lang of langs) {
     let filled = 0

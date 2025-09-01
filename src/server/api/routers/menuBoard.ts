@@ -111,7 +111,7 @@ export const menuBoardRouter = createTRPCRouter({
       title: parseJSON<LocalizedString>(board.title)!,
       description: parseJSON<LocalizedString>(board.description || '{}'),
       currency: board.currency,
-      defaultLang: board.defaultLang,
+      defaultLang: board.defaultLang as "default" | "en" | "zh" | "ja" | "ko" | "zh-CN" | "zh-TW",
       theme: parseJSON<Theme>(board.theme),
       promotions: parseJSON<Promotion[]>(board.promotions) || [],
       sections: board.sections.map(section => ({
@@ -169,7 +169,7 @@ export const menuBoardRouter = createTRPCRouter({
         title: parseJSON<LocalizedString>(board.title)!,
         description: parseJSON<LocalizedString>(board.description || '{}'),
         currency: board.currency,
-        defaultLang: board.defaultLang,
+        defaultLang: board.defaultLang as "default" | "en" | "zh" | "ja" | "ko" | "zh-CN" | "zh-TW",
         theme: parseJSON<Theme>(board.theme),
         promotions: parseJSON<Promotion[]>(board.promotions) || [],
         sections: board.sections.map(section => ({
@@ -233,7 +233,7 @@ export const menuBoardRouter = createTRPCRouter({
         title: parseJSON<LocalizedString>(board.title)!,
         description: parseJSON<LocalizedString>(board.description || '{}'),
         currency: board.currency,
-        defaultLang: board.defaultLang,
+        defaultLang: board.defaultLang as "default" | "en" | "zh" | "ja" | "ko" | "zh-CN" | "zh-TW",
         theme: parseJSON<Theme>(board.theme),
         promotions: parseJSON<Promotion[]>(board.promotions) || [],
         sections: board.sections.map(section => ({
@@ -279,6 +279,8 @@ export const menuBoardRouter = createTRPCRouter({
         if (input.sections.length > 0) {
           for (let sIdx = 0; sIdx < input.sections.length; sIdx++) {
             const sectionData = input.sections[sIdx];
+            if (!sectionData) continue;
+            
             const section = await tx.section.create({
               data: {
                 id: sectionData.id,
@@ -289,19 +291,21 @@ export const menuBoardRouter = createTRPCRouter({
             });
 
             // 아이템들 생성
-            if (sectionData.items.length > 0) {
+            if (sectionData.items?.length > 0) {
               for (let iIdx = 0; iIdx < sectionData.items.length; iIdx++) {
                 const itemData = sectionData.items[iIdx];
+                if (!itemData) continue;
+                
                 await tx.menuItem.create({
                   data: {
                     id: itemData.id,
                     name: serializeJSON(itemData.name),
                     description: itemData.description ? serializeJSON(itemData.description) : undefined,
-                    price: Math.round(itemData.price * 100), // 소수점을 정수로
+                    price: Math.round((itemData.price ?? 0) * 100), // 소수점을 정수로
                     image: itemData.image,
                     tags: itemData.tags?.length ? serializeJSON(itemData.tags) : undefined,
                     category: itemData.category,
-                    status: itemData.status,
+                    status: itemData.status ?? "available",
                     order: iIdx,
                     sectionId: section.id,
                   }
@@ -362,6 +366,8 @@ export const menuBoardRouter = createTRPCRouter({
         if (input.sections.length > 0) {
           for (let sIdx = 0; sIdx < input.sections.length; sIdx++) {
             const sectionData = input.sections[sIdx];
+            if (!sectionData) continue;
+            
             const section = await tx.section.create({
               data: {
                 id: sectionData.id,
@@ -372,19 +378,21 @@ export const menuBoardRouter = createTRPCRouter({
             });
 
             // 아이템들 생성
-            if (sectionData.items.length > 0) {
+            if (sectionData.items?.length > 0) {
               for (let iIdx = 0; iIdx < sectionData.items.length; iIdx++) {
                 const itemData = sectionData.items[iIdx];
+                if (!itemData) continue;
+                
                 await tx.menuItem.create({
                   data: {
                     id: itemData.id,
                     name: serializeJSON(itemData.name),
                     description: itemData.description ? serializeJSON(itemData.description) : undefined,
-                    price: Math.round(itemData.price * 100),
+                    price: Math.round((itemData.price ?? 0) * 100),
                     image: itemData.image,
                     tags: itemData.tags?.length ? serializeJSON(itemData.tags) : undefined,
                     category: itemData.category,
-                    status: itemData.status,
+                    status: itemData.status ?? "available",
                     order: iIdx,
                     sectionId: section.id,
                   }

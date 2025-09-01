@@ -1,21 +1,25 @@
-export type Lang = "default" | "en" | "zh";
+export type Lang = "default" | "en" | "zh" | "ja" | "ko" | "zh-CN" | "zh-TW";
 
 export type LocalizedString = {
   default: string;
   en?: string;
   zh?: string;
+  ja?: string;
+  ko?: string;
+  "zh-CN"?: string;
+  "zh-TW"?: string;
 };
 
-export type ItemStatus = "available" | "soldout";
+export type ItemStatus = "available" | "soldout" | "hidden";
 
 export type MenuItem = {
   id: string;
   name: LocalizedString;
   description?: LocalizedString;
   price: number;
-  image?: string;
+  image?: string | null;
   tags?: string[];
-  category?: string;
+  category?: string | null;
   status?: ItemStatus;
 };
 
