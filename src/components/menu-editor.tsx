@@ -86,7 +86,12 @@ export function MenuEditor({
     text: string
   ): LocalizedString => {
     const base = ls ?? emptyLS();
-    return { ...base, [lang]: text };
+    const result = { ...base, [lang]: text };
+    // Ensure default field is always present and not undefined
+    if (result.default === undefined || result.default === null) {
+      result.default = "";
+    }
+    return result;
   };
 
   const addSection = () => {
