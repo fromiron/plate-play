@@ -1,26 +1,35 @@
-"use client"
+"use client";
 
-import { useSortable } from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
-import type { ReactNode } from "react"
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import type { ReactNode } from "react";
 
 type SortableRowProps = {
-  id: string
-  children?: ReactNode | ((props: { dragHandleProps: any }) => ReactNode)
-}
+	id: string;
+	children?:
+		| ReactNode
+		| ((props: {
+				dragHandleProps: DraggableAttributes & SyntheticListenerMap;
+		  }) => ReactNode);
+};
 
 export function SortableRow({ id, children }: SortableRowProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
+	const { attributes, listeners, setNodeRef, transform, transition } =
+		useSortable({ id });
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+	};
 
-  const dragHandleProps = { ...attributes, ...listeners }
+	const dragHandleProps = { ...attributes, ...listeners };
 
-  return (
-    <div ref={setNodeRef} style={style} className="w-full">
-      {typeof children === 'function' ? children({ dragHandleProps }) : children}
-    </div>
-  )
+	return (
+		<div ref={setNodeRef} style={style} className="w-full">
+			{typeof children === "function"
+				? children({ dragHandleProps })
+				: children}
+		</div>
+	);
 }
