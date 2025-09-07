@@ -9,12 +9,12 @@ export const CURRENCIES = [
 
 export type CurrencyCode = typeof CURRENCIES[number]["value"];
 
+const CURRENCY_MAP = new Map(CURRENCIES.map(c => [c.value, c]));
+
 export function getCurrencyLabel(code: string): string {
-	const currency = CURRENCIES.find(c => c.value === code);
-	return currency ? currency.label : code;
+	return CURRENCY_MAP.get(code)?.label ?? code;
 }
 
 export function getCurrencySymbol(code: string): string {
-	const currency = CURRENCIES.find(c => c.value === code);
-	return currency ? currency.symbol : code;
+	return CURRENCY_MAP.get(code)?.symbol ?? code;
 }
