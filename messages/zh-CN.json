@@ -1,191 +1,191 @@
 {
-  "common": {
-    "title": "Plate Play",
-    "loading": "加载中...",
-    "save": "保存",
-    "cancel": "取消",
-    "edit": "编辑",
-    "delete": "删除",
-    "add": "添加",
-    "back": "返回",
-    "next": "下一步",
-    "previous": "上一步",
-    "confirm": "确认",
-    "search": "搜索",
-    "clear": "清除",
-    "close": "关闭",
-    "language": "语言"
-  },
-  "navigation": {
-    "home": "首页",
-    "dashboard": "仪表板",
-    "menu": "菜单",
-    "analytics": "分析",
-    "settings": "设置",
-    "logout": "退出登录"
-  },
-  "menu": {
-    "title": "数字菜单",
-    "description": "为餐厅、咖啡厅、民宿打造的多语言数字菜单制作与管理平台",
-    "createMenu": "创建菜单",
-    "editMenu": "编辑菜单",
-    "menuName": "菜单名称",
-    "category": "分类",
-    "price": "价格",
-    "description": "描述",
-    "image": "图片",
-    "soldOut": "售罄",
-    "promotion": "促销",
-    "addSection": "添加分区",
-    "addItem": "添加项目"
-  },
-  "categories": {
-    "signature": "招牌",
-    "pasta": "意面",
-    "steak": "牛排",
-    "salad": "沙拉",
-    "coffee": "咖啡",
-    "drink": "饮料",
-    "dessert": "甜点",
-    "beer": "啤酒",
-    "wine": "红酒",
-    "cocktail": "鸡尾酒",
-    "other": "其他"
-  },
-  "dashboard": {
-    "title": "仪表板",
-    "totalMenus": "菜单总数",
-    "totalViews": "总浏览量",
-    "recentActivity": "最近活动",
-    "popularMenus": "热门菜单",
-    "myMenus": "我的菜单",
-    "subtitle": "利用多语言/分类/售罄/分析等高级功能。",
-    "viewAnalytics": "查看分析",
-    "import": "导入",
-    "export": "导出",
-    "newMenu": "新建菜单",
-    "createNew": "创建新菜单",
-    "template": "模板",
-    "templateBlank": "空白模板",
-    "templateCafe": "咖啡厅",
-    "templateRestaurant": "餐厅",
-    "templatePub": "酒吧",
-    "titleLabel": "标题（默认）",
-    "titlePlaceholder": "例：午餐菜单",
-    "descLabel": "描述（默认，可选）",
-    "descPlaceholder": "例：工作日 11:00 - 14:00",
-    "cancel": "取消",
-    "create": "创建",
-    "searchPlaceholder": "搜索菜单",
-    "noMenus": "暂无菜单。点击\"新建菜单\"按钮开始制作。",
-    "sections": "分区",
-    "items": "项目",
-    "categories": "分类",
-    "soldOut": "售罄",
-    "views": "浏览量",
-    "updated": "更新时间",
-    "edit": "编辑",
-    "openWebMenu": "打开网页菜单",
-    "viewQr": "查看二维码",
-    "delete": "删除",
-    "deleteConfirm": "确定要删除此菜单吗？",
-    "importComplete": "导入完成"
-  },
-  "analytics": {
-    "title": "分析",
-    "views": "浏览量",
-    "rating": "评分",
-    "reviews": "评价",
-    "period": "时间段",
-    "daily": "按日",
-    "weekly": "按周",
-    "monthly": "按月"
-  },
-  "auth": {
-    "signIn": "登录",
-    "signOut": "退出登录",
-    "signInWithGoogle": "使用Google登录"
-  },
-  "theme": {
-    "cafe": "咖啡厅",
-    "restaurant": "餐厅",
-    "pub": "酒吧",
-    "primary": "主色调",
-    "secondary": "辅助色",
-    "accent": "强调色"
-  },
-  "homepage": {
-    "nav": {
-      "features": "功能",
-      "howItWorks": "使用方法",
-      "printService": "打印服务",
-      "dashboard": "仪表板",
-      "getStarted": "开始使用"
-    },
-    "hero": {
-      "title": "拖拽制作智能菜单",
-      "subtitle": "Plate Play是从菜单制作到二维码网页菜单、打印一站式解决的全方位方案。",
-      "features": [
-        "自由的分区/菜单组合和顺序调整",
-        "自动生成二维码提供网页菜单",
-        "打印专用布局，输出效果清晰"
-      ],
-      "createMenu": "制作我的菜单",
-      "exploreFunctions": "了解功能"
-    },
-    "features": {
-      "dragAndDrop": {
-        "title": "拖拽编辑器",
-        "description": "随心创建分区和菜单，自由调整顺序。轻松编辑图片、价格和描述。"
-      },
-      "qrMenu": {
-        "title": "自动二维码网页菜单",
-        "description": "一键生成二维码。顾客可在每张桌子用手机查看菜单。"
-      },
-      "printing": {
-        "title": "清晰打印",
-        "description": "打印专用布局和高分辨率输出。需要时可连接打印服务进行订购。"
-      }
-    },
-    "howItWorks": {
-      "title": "3步完成菜单制作",
-      "steps": [
-        "在仪表板创建新菜单",
-        "拖拽编辑组合结构",
-        "通过二维码发布或打印完成"
-      ],
-      "goToDashboard": "前往仪表板"
-    },
-    "printService": {
-      "title": "打印服务",
-      "description": "提供多种纸张、尺寸和覆膜选择。可直接从编辑器输出，或通过打印服务咨询轻松下单。",
-      "editNow": "立即编辑",
-      "contact": "打印服务咨询"
-    }
-  },
-  "boardCard": {
-    "noDescription": "未设置描述。"
-  },
-  "menuEditor": {
-    "preview": "预览",
-    "category": "分类",
-    "autoCategory": "自动分类",
-    "price": "价格",
-    "status": "状态",
-    "available": "供应中",
-    "soldout": "售罄",
-    "hidden": "隐藏",
-    "addSection": "添加分区",
-    "addItem": "添加项目",
-    "deleteSection": "删除分区",
-    "deleteItem": "删除项目",
-    "sectionName": "分区名称",
-    "itemName": "项目名称",
-    "description": "描述",
-    "image": "图片",
-    "theme": "主题",
-    "save": "保存",
-    "language": "语言",
-    "editInLanguage": "使用语言编辑"
-  }
+	"common": {
+		"title": "Plate Play",
+		"loading": "加载中...",
+		"save": "保存",
+		"cancel": "取消",
+		"edit": "编辑",
+		"delete": "删除",
+		"add": "添加",
+		"back": "返回",
+		"next": "下一步",
+		"previous": "上一步",
+		"confirm": "确认",
+		"search": "搜索",
+		"clear": "清除",
+		"close": "关闭",
+		"language": "语言"
+	},
+	"navigation": {
+		"home": "首页",
+		"dashboard": "仪表板",
+		"menu": "菜单",
+		"analytics": "分析",
+		"settings": "设置",
+		"logout": "退出登录"
+	},
+	"menu": {
+		"title": "数字菜单",
+		"description": "为餐厅、咖啡厅、民宿打造的多语言数字菜单制作与管理平台",
+		"createMenu": "创建菜单",
+		"editMenu": "编辑菜单",
+		"menuName": "菜单名称",
+		"category": "分类",
+		"price": "价格",
+		"description": "描述",
+		"image": "图片",
+		"soldOut": "售罄",
+		"promotion": "促销",
+		"addSection": "添加分区",
+		"addItem": "添加项目"
+	},
+	"categories": {
+		"signature": "招牌",
+		"pasta": "意面",
+		"steak": "牛排",
+		"salad": "沙拉",
+		"coffee": "咖啡",
+		"drink": "饮料",
+		"dessert": "甜点",
+		"beer": "啤酒",
+		"wine": "红酒",
+		"cocktail": "鸡尾酒",
+		"other": "其他"
+	},
+	"dashboard": {
+		"title": "仪表板",
+		"totalMenus": "菜单总数",
+		"totalViews": "总浏览量",
+		"recentActivity": "最近活动",
+		"popularMenus": "热门菜单",
+		"myMenus": "我的菜单",
+		"subtitle": "利用多语言/分类/售罄/分析等高级功能。",
+		"viewAnalytics": "查看分析",
+		"import": "导入",
+		"export": "导出",
+		"newMenu": "新建菜单",
+		"createNew": "创建新菜单",
+		"template": "模板",
+		"templateBlank": "空白模板",
+		"templateCafe": "咖啡厅",
+		"templateRestaurant": "餐厅",
+		"templatePub": "酒吧",
+		"titleLabel": "标题（默认）",
+		"titlePlaceholder": "例：午餐菜单",
+		"descLabel": "描述（默认，可选）",
+		"descPlaceholder": "例：工作日 11:00 - 14:00",
+		"cancel": "取消",
+		"create": "创建",
+		"searchPlaceholder": "搜索菜单",
+		"noMenus": "暂无菜单。点击\"新建菜单\"按钮开始制作。",
+		"sections": "分区",
+		"items": "项目",
+		"categories": "分类",
+		"soldOut": "售罄",
+		"views": "浏览量",
+		"updated": "更新时间",
+		"edit": "编辑",
+		"openWebMenu": "打开网页菜单",
+		"viewQr": "查看二维码",
+		"delete": "删除",
+		"deleteConfirm": "确定要删除此菜单吗？",
+		"importComplete": "导入完成"
+	},
+	"analytics": {
+		"title": "分析",
+		"views": "浏览量",
+		"rating": "评分",
+		"reviews": "评价",
+		"period": "时间段",
+		"daily": "按日",
+		"weekly": "按周",
+		"monthly": "按月"
+	},
+	"auth": {
+		"signIn": "登录",
+		"signOut": "退出登录",
+		"signInWithGoogle": "使用Google登录"
+	},
+	"theme": {
+		"cafe": "咖啡厅",
+		"restaurant": "餐厅",
+		"pub": "酒吧",
+		"primary": "主色调",
+		"secondary": "辅助色",
+		"accent": "强调色"
+	},
+	"homepage": {
+		"nav": {
+			"features": "功能",
+			"howItWorks": "使用方法",
+			"printService": "打印服务",
+			"dashboard": "仪表板",
+			"getStarted": "开始使用"
+		},
+		"hero": {
+			"title": "拖拽制作智能菜单",
+			"subtitle": "Plate Play是从菜单制作到二维码网页菜单、打印一站式解决的全方位方案。",
+			"features": [
+				"自由的分区/菜单组合和顺序调整",
+				"自动生成二维码提供网页菜单",
+				"打印专用布局，输出效果清晰"
+			],
+			"createMenu": "制作我的菜单",
+			"exploreFunctions": "了解功能"
+		},
+		"features": {
+			"dragAndDrop": {
+				"title": "拖拽编辑器",
+				"description": "随心创建分区和菜单，自由调整顺序。轻松编辑图片、价格和描述。"
+			},
+			"qrMenu": {
+				"title": "自动二维码网页菜单",
+				"description": "一键生成二维码。顾客可在每张桌子用手机查看菜单。"
+			},
+			"printing": {
+				"title": "清晰打印",
+				"description": "打印专用布局和高分辨率输出。需要时可连接打印服务进行订购。"
+			}
+		},
+		"howItWorks": {
+			"title": "3步完成菜单制作",
+			"steps": [
+				"在仪表板创建新菜单",
+				"拖拽编辑组合结构",
+				"通过二维码发布或打印完成"
+			],
+			"goToDashboard": "前往仪表板"
+		},
+		"printService": {
+			"title": "打印服务",
+			"description": "提供多种纸张、尺寸和覆膜选择。可直接从编辑器输出，或通过打印服务咨询轻松下单。",
+			"editNow": "立即编辑",
+			"contact": "打印服务咨询"
+		}
+	},
+	"boardCard": {
+		"noDescription": "未设置描述。"
+	},
+	"menuEditor": {
+		"preview": "预览",
+		"category": "分类",
+		"autoCategory": "自动分类",
+		"price": "价格",
+		"status": "状态",
+		"available": "供应中",
+		"soldout": "售罄",
+		"hidden": "隐藏",
+		"addSection": "添加分区",
+		"addItem": "添加项目",
+		"deleteSection": "删除分区",
+		"deleteItem": "删除项目",
+		"sectionName": "分区名称",
+		"itemName": "项目名称",
+		"description": "描述",
+		"image": "图片",
+		"theme": "主题",
+		"save": "保存",
+		"language": "语言",
+		"editInLanguage": "使用语言编辑"
+	}
 }

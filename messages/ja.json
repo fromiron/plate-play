@@ -1,191 +1,191 @@
 {
-  "common": {
-    "title": "Plate Play",
-    "loading": "読み込み中...",
-    "save": "保存",
-    "cancel": "キャンセル",
-    "edit": "編集",
-    "delete": "削除",
-    "add": "追加",
-    "back": "戻る",
-    "next": "次へ",
-    "previous": "前へ",
-    "confirm": "確認",
-    "search": "検索",
-    "clear": "クリア",
-    "close": "閉じる",
-    "language": "言語"
-  },
-  "navigation": {
-    "home": "ホーム",
-    "dashboard": "ダッシュボード",
-    "menu": "メニュー",
-    "analytics": "分析",
-    "settings": "設定",
-    "logout": "ログアウト"
-  },
-  "menu": {
-    "title": "デジタルメニュー",
-    "description": "レストラン、カフェ、ペンションのための多言語デジタルメニュー作成・管理プラットフォーム",
-    "createMenu": "メニュー作成",
-    "editMenu": "メニュー編集",
-    "menuName": "メニュー名",
-    "category": "カテゴリー",
-    "price": "価格",
-    "description": "説明",
-    "image": "画像",
-    "soldOut": "売り切れ",
-    "promotion": "プロモーション",
-    "addSection": "セクション追加",
-    "addItem": "アイテム追加"
-  },
-  "categories": {
-    "signature": "シグネチャー",
-    "pasta": "パスタ",
-    "steak": "ステーキ",
-    "salad": "サラダ",
-    "coffee": "コーヒー",
-    "drink": "ドリンク",
-    "dessert": "デザート",
-    "beer": "ビール",
-    "wine": "ワイン",
-    "cocktail": "カクテル",
-    "other": "その他"
-  },
-  "dashboard": {
-    "title": "ダッシュボード",
-    "totalMenus": "総メニュー数",
-    "totalViews": "総閲覧数",
-    "recentActivity": "最近のアクティビティ",
-    "popularMenus": "人気メニュー",
-    "myMenus": "マイメニュー",
-    "subtitle": "多言語/カテゴリー/売り切れ/分析などの高度な機能をご活用ください。",
-    "viewAnalytics": "分析を見る",
-    "import": "インポート",
-    "export": "エクスポート",
-    "newMenu": "新しいメニュー",
-    "createNew": "新しいメニューを作成",
-    "template": "テンプレート",
-    "templateBlank": "空のテンプレート",
-    "templateCafe": "カフェ",
-    "templateRestaurant": "レストラン",
-    "templatePub": "パブ",
-    "titleLabel": "タイトル（デフォルト）",
-    "titlePlaceholder": "例：ランチメニュー",
-    "descLabel": "説明（デフォルト、任意）",
-    "descPlaceholder": "例：平日 11:00 - 14:00",
-    "cancel": "キャンセル",
-    "create": "作成",
-    "searchPlaceholder": "メニューを検索",
-    "noMenus": "メニューがありません。「新しいメニュー」ボタンで始めましょう。",
-    "sections": "セクション",
-    "items": "アイテム",
-    "categories": "カテゴリー",
-    "soldOut": "売り切れ",
-    "views": "閲覧数",
-    "updated": "更新日",
-    "edit": "編集",
-    "openWebMenu": "ウェブメニューを開く",
-    "viewQr": "QRを見る",
-    "delete": "削除",
-    "deleteConfirm": "このメニューを削除しますか？",
-    "importComplete": "インポート完了"
-  },
-  "analytics": {
-    "title": "分析",
-    "views": "閲覧数",
-    "rating": "評価",
-    "reviews": "レビュー",
-    "period": "期間",
-    "daily": "日別",
-    "weekly": "週別",
-    "monthly": "月別"
-  },
-  "auth": {
-    "signIn": "ログイン",
-    "signOut": "ログアウト",
-    "signInWithGoogle": "Googleでログイン"
-  },
-  "theme": {
-    "cafe": "カフェ",
-    "restaurant": "レストラン",
-    "pub": "パブ",
-    "primary": "メインカラー",
-    "secondary": "サブカラー",
-    "accent": "アクセントカラー"
-  },
-  "homepage": {
-    "nav": {
-      "features": "機能",
-      "howItWorks": "使い方",
-      "printService": "印刷サービス",
-      "dashboard": "ダッシュボード",
-      "getStarted": "始める"
-    },
-    "hero": {
-      "title": "ドラッグ＆ドロップで作るスマートメニュー",
-      "subtitle": "Plate Playは、メニュー作成からQRウェブメニュー、印刷まで一度に解決するオールインワンソリューションです。",
-      "features": [
-        "自由なセクション/メニュー構成と順序変更",
-        "自動生成されるQRでウェブメニューを提供",
-        "印刷専用レイアウトできれいな出力"
-      ],
-      "createMenu": "マイメニューを作成",
-      "exploreFunctions": "機能を見る"
-    },
-    "features": {
-      "dragAndDrop": {
-        "title": "ドラッグ＆ドロップエディター",
-        "description": "セクションとメニューを思い通りに作成し、順序を変更できます。画像、価格、説明も簡単に編集できます。"
-      },
-      "qrMenu": {
-        "title": "自動QRウェブメニュー",
-        "description": "ワンクリックでQRコード生成。店舗の各テーブルでお客様がスマートフォンでメニューを確認できます。"
-      },
-      "printing": {
-        "title": "きれいな印刷",
-        "description": "印刷専用レイアウトと高解像度出力。必要に応じて印刷サービスで注文まで連携できます。"
-      }
-    },
-    "howItWorks": {
-      "title": "3ステップで完成するメニュー作成",
-      "steps": [
-        "ダッシュボードで新しいメニューを作成",
-        "ドラッグ＆ドロップで構成を編集",
-        "QR配布または印刷で完成"
-      ],
-      "goToDashboard": "ダッシュボードへ"
-    },
-    "printService": {
-      "title": "印刷サービス",
-      "description": "様々な用紙とサイズ、コーティングオプションを提供しています。エディターから直接出力するか、印刷サービスのお問い合わせで簡単に注文できます。",
-      "editNow": "今すぐ編集",
-      "contact": "印刷サービスお問い合わせ"
-    }
-  },
-  "boardCard": {
-    "noDescription": "設定された説明がありません。"
-  },
-  "menuEditor": {
-    "preview": "プレビュー",
-    "category": "カテゴリー",
-    "autoCategory": "自動分類",
-    "price": "価格",
-    "status": "ステータス",
-    "available": "提供中",
-    "soldout": "売り切れ",
-    "hidden": "非表示",
-    "addSection": "セクション追加",
-    "addItem": "アイテム追加",
-    "deleteSection": "セクション削除",
-    "deleteItem": "アイテム削除",
-    "sectionName": "セクション名",
-    "itemName": "アイテム名",
-    "description": "説明",
-    "image": "画像",
-    "theme": "テーマ",
-    "save": "保存",
-    "language": "言語",
-    "editInLanguage": "言語で編集"
-  }
+	"common": {
+		"title": "Plate Play",
+		"loading": "読み込み中...",
+		"save": "保存",
+		"cancel": "キャンセル",
+		"edit": "編集",
+		"delete": "削除",
+		"add": "追加",
+		"back": "戻る",
+		"next": "次へ",
+		"previous": "前へ",
+		"confirm": "確認",
+		"search": "検索",
+		"clear": "クリア",
+		"close": "閉じる",
+		"language": "言語"
+	},
+	"navigation": {
+		"home": "ホーム",
+		"dashboard": "ダッシュボード",
+		"menu": "メニュー",
+		"analytics": "分析",
+		"settings": "設定",
+		"logout": "ログアウト"
+	},
+	"menu": {
+		"title": "デジタルメニュー",
+		"description": "レストラン、カフェ、ペンションのための多言語デジタルメニュー作成・管理プラットフォーム",
+		"createMenu": "メニュー作成",
+		"editMenu": "メニュー編集",
+		"menuName": "メニュー名",
+		"category": "カテゴリー",
+		"price": "価格",
+		"description": "説明",
+		"image": "画像",
+		"soldOut": "売り切れ",
+		"promotion": "プロモーション",
+		"addSection": "セクション追加",
+		"addItem": "アイテム追加"
+	},
+	"categories": {
+		"signature": "シグネチャー",
+		"pasta": "パスタ",
+		"steak": "ステーキ",
+		"salad": "サラダ",
+		"coffee": "コーヒー",
+		"drink": "ドリンク",
+		"dessert": "デザート",
+		"beer": "ビール",
+		"wine": "ワイン",
+		"cocktail": "カクテル",
+		"other": "その他"
+	},
+	"dashboard": {
+		"title": "ダッシュボード",
+		"totalMenus": "総メニュー数",
+		"totalViews": "総閲覧数",
+		"recentActivity": "最近のアクティビティ",
+		"popularMenus": "人気メニュー",
+		"myMenus": "マイメニュー",
+		"subtitle": "多言語/カテゴリー/売り切れ/分析などの高度な機能をご活用ください。",
+		"viewAnalytics": "分析を見る",
+		"import": "インポート",
+		"export": "エクスポート",
+		"newMenu": "新しいメニュー",
+		"createNew": "新しいメニューを作成",
+		"template": "テンプレート",
+		"templateBlank": "空のテンプレート",
+		"templateCafe": "カフェ",
+		"templateRestaurant": "レストラン",
+		"templatePub": "パブ",
+		"titleLabel": "タイトル（デフォルト）",
+		"titlePlaceholder": "例：ランチメニュー",
+		"descLabel": "説明（デフォルト、任意）",
+		"descPlaceholder": "例：平日 11:00 - 14:00",
+		"cancel": "キャンセル",
+		"create": "作成",
+		"searchPlaceholder": "メニューを検索",
+		"noMenus": "メニューがありません。「新しいメニュー」ボタンで始めましょう。",
+		"sections": "セクション",
+		"items": "アイテム",
+		"categories": "カテゴリー",
+		"soldOut": "売り切れ",
+		"views": "閲覧数",
+		"updated": "更新日",
+		"edit": "編集",
+		"openWebMenu": "ウェブメニューを開く",
+		"viewQr": "QRを見る",
+		"delete": "削除",
+		"deleteConfirm": "このメニューを削除しますか？",
+		"importComplete": "インポート完了"
+	},
+	"analytics": {
+		"title": "分析",
+		"views": "閲覧数",
+		"rating": "評価",
+		"reviews": "レビュー",
+		"period": "期間",
+		"daily": "日別",
+		"weekly": "週別",
+		"monthly": "月別"
+	},
+	"auth": {
+		"signIn": "ログイン",
+		"signOut": "ログアウト",
+		"signInWithGoogle": "Googleでログイン"
+	},
+	"theme": {
+		"cafe": "カフェ",
+		"restaurant": "レストラン",
+		"pub": "パブ",
+		"primary": "メインカラー",
+		"secondary": "サブカラー",
+		"accent": "アクセントカラー"
+	},
+	"homepage": {
+		"nav": {
+			"features": "機能",
+			"howItWorks": "使い方",
+			"printService": "印刷サービス",
+			"dashboard": "ダッシュボード",
+			"getStarted": "始める"
+		},
+		"hero": {
+			"title": "ドラッグ＆ドロップで作るスマートメニュー",
+			"subtitle": "Plate Playは、メニュー作成からQRウェブメニュー、印刷まで一度に解決するオールインワンソリューションです。",
+			"features": [
+				"自由なセクション/メニュー構成と順序変更",
+				"自動生成されるQRでウェブメニューを提供",
+				"印刷専用レイアウトできれいな出力"
+			],
+			"createMenu": "マイメニューを作成",
+			"exploreFunctions": "機能を見る"
+		},
+		"features": {
+			"dragAndDrop": {
+				"title": "ドラッグ＆ドロップエディター",
+				"description": "セクションとメニューを思い通りに作成し、順序を変更できます。画像、価格、説明も簡単に編集できます。"
+			},
+			"qrMenu": {
+				"title": "自動QRウェブメニュー",
+				"description": "ワンクリックでQRコード生成。店舗の各テーブルでお客様がスマートフォンでメニューを確認できます。"
+			},
+			"printing": {
+				"title": "きれいな印刷",
+				"description": "印刷専用レイアウトと高解像度出力。必要に応じて印刷サービスで注文まで連携できます。"
+			}
+		},
+		"howItWorks": {
+			"title": "3ステップで完成するメニュー作成",
+			"steps": [
+				"ダッシュボードで新しいメニューを作成",
+				"ドラッグ＆ドロップで構成を編集",
+				"QR配布または印刷で完成"
+			],
+			"goToDashboard": "ダッシュボードへ"
+		},
+		"printService": {
+			"title": "印刷サービス",
+			"description": "様々な用紙とサイズ、コーティングオプションを提供しています。エディターから直接出力するか、印刷サービスのお問い合わせで簡単に注文できます。",
+			"editNow": "今すぐ編集",
+			"contact": "印刷サービスお問い合わせ"
+		}
+	},
+	"boardCard": {
+		"noDescription": "設定された説明がありません。"
+	},
+	"menuEditor": {
+		"preview": "プレビュー",
+		"category": "カテゴリー",
+		"autoCategory": "自動分類",
+		"price": "価格",
+		"status": "ステータス",
+		"available": "提供中",
+		"soldout": "売り切れ",
+		"hidden": "非表示",
+		"addSection": "セクション追加",
+		"addItem": "アイテム追加",
+		"deleteSection": "セクション削除",
+		"deleteItem": "アイテム削除",
+		"sectionName": "セクション名",
+		"itemName": "アイテム名",
+		"description": "説明",
+		"image": "画像",
+		"theme": "テーマ",
+		"save": "保存",
+		"language": "言語",
+		"editInLanguage": "言語で編集"
+	}
 }
