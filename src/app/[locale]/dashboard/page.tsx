@@ -26,6 +26,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { CURRENCIES } from "@/lib/currencies";
 import { computeCoverage } from "@/lib/lang-stats";
 import type { MenuBoard } from "@/lib/types";
 import { formatCount, formatDate } from "@/lib/utils-local";
@@ -52,6 +53,7 @@ export default function DashboardPage() {
 	const [tpl, setTpl] = useState<"blank" | "cafe" | "restaurant" | "pub">(
 		"blank",
 	);
+	const [currency, setCurrency] = useState("KRW");
 	const [query, setQuery] = useState("");
 
 	const { data: boards = [], refetch } = api.menuBoard.list.useQuery();
@@ -61,6 +63,7 @@ export default function DashboardPage() {
 			setOpen(false);
 			setTitle("");
 			setDesc("");
+			setCurrency("KRW");
 			location.href = `/dashboard/${result.id}`;
 		},
 	});
@@ -83,7 +86,7 @@ export default function DashboardPage() {
 		createMutation.mutate({
 			title: { default: title.trim() || t("dashboard.newMenu") },
 			description: desc.trim() ? { default: desc.trim() } : undefined,
-			currency: "KRW",
+			currency: currency,
 			defaultLang: "default",
 			theme: tpl !== "blank" ? { template: tpl } : undefined,
 			sections: [],
@@ -154,6 +157,24 @@ export default function DashboardPage() {
 										<SelectItem value="pub">
 											{t("dashboard.templatePub")}
 										</SelectItem>
+									</SelectContent>
+								</Select>
+								<label className="font-medium text-sm">
+									{t("dashboard.currency")}
+								</label>
+								<Select
+									value={currency}
+									onValueChange={setCurrency}
+								>
+									<SelectTrigger className="h-9">
+										<SelectValue />
+									</SelectTrigger>
+									<SelectContent>
+										{CURRENCIES.map((cur) => (
+											<SelectItem key={cur.value} value={cur.value}>
+												{cur.label}
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 								<label className="font-medium text-sm" htmlFor="board-title">

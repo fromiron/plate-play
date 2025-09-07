@@ -70,6 +70,7 @@
 		"templateCafe": "Cafe",
 		"templateRestaurant": "Restaurant",
 		"templatePub": "Pub",
+		"currency": "Currency",
 		"titleLabel": "Title (Default)",
 		"titlePlaceholder": "e.g. Lunch Menu",
 		"descLabel": "Description (Default, Optional)",

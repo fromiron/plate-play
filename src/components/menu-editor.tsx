@@ -19,6 +19,7 @@ import {
 	type CategoryKey,
 	classifyCategory,
 } from "@/lib/categories";
+import { CURRENCIES } from "@/lib/currencies";
 import { LANG_LABEL } from "@/lib/i18n";
 import { FONT_PAIRS, suggestPalette } from "@/lib/theme";
 import type {
@@ -354,17 +355,26 @@ export function MenuEditor({
 									<SelectItem value="zh">{LANG_LABEL.zh}</SelectItem>
 								</SelectContent>
 							</Select>
-							<Label className="font-medium text-sm" htmlFor="menu-curr">
+							<Label className="font-medium text-sm">
 								통화
 							</Label>
-							<Input
-								id="menu-curr"
-								placeholder="예: KRW"
+							<Select
 								value={local.currency ?? "KRW"}
-								onChange={(e) =>
-									update((p) => ({ ...p, currency: e.target.value }))
+								onValueChange={(value) =>
+									update((p) => ({ ...p, currency: value }))
 								}
-							/>
+							>
+								<SelectTrigger className="h-9">
+									<SelectValue />
+								</SelectTrigger>
+								<SelectContent>
+									{CURRENCIES.map((cur) => (
+										<SelectItem key={cur.value} value={cur.value}>
+											{cur.label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</div>
 						<div className="grid gap-2 md:col-span-2">
 							<Label

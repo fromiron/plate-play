@@ -70,6 +70,7 @@
 		"templateCafe": "카페",
 		"templateRestaurant": "레스토랑",
 		"templatePub": "주점",
+		"currency": "통화",
 		"titleLabel": "제목 (기본)",
 		"titlePlaceholder": "예: 점심 메뉴",
 		"descLabel": "설명 (기본, 선택)",
