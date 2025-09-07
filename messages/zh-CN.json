@@ -70,6 +70,7 @@
 		"templateCafe": "咖啡厅",
 		"templateRestaurant": "餐厅",
 		"templatePub": "酒吧",
+		"currency": "货币",
 		"titleLabel": "标题（默认）",
 		"titlePlaceholder": "例：午餐菜单",
 		"descLabel": "描述（默认，可选）",
