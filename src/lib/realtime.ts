@@ -22,9 +22,9 @@ export function broadcastBoardUpdate(board: MenuBoard) {
 export function listenBoardUpdates(onBoard: (b: MenuBoard) => void) {
 	const ch = getChannel();
 	if (!ch) return () => {};
-	const handler = (e: MessageEvent<Event>) => {
+	const handler = (e: MessageEvent) => {
 		if (e.data?.type === "BOARD_UPDATE") onBoard(e.data.payload);
 	};
-	ch.addEventListener("message", handler as any);
-	return () => ch.removeEventListener("message", handler as any);
+	ch.addEventListener("message", handler);
+	return () => ch.removeEventListener("message", handler);
 }

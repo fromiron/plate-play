@@ -70,7 +70,9 @@ export function MenuEditor({
 	const [draggingSectionId, setDraggingSectionId] = useState<string | null>(
 		null,
 	);
-	const [activeColorPicker, setActiveColorPicker] = useState<'primary' | 'secondary' | 'accent' | null>(null);
+	const [activeColorPicker, setActiveColorPicker] = useState<
+		"primary" | "secondary" | "accent" | null
+	>(null);
 
 	useMemo(() => {
 		if (value.id === local.id) setLocal(value);
@@ -450,8 +452,10 @@ export function MenuEditor({
 										}))
 									}
 									label="Primary"
-									open={activeColorPicker === 'primary'}
-									onOpenChange={(open) => setActiveColorPicker(open ? 'primary' : null)}
+									open={activeColorPicker === "primary"}
+									onOpenChange={(open) =>
+										setActiveColorPicker(open ? "primary" : null)
+									}
 								/>
 								<ColorPicker
 									value={local.theme?.secondary ?? "#0ea5e9"}
@@ -462,8 +466,10 @@ export function MenuEditor({
 										}))
 									}
 									label="Secondary"
-									open={activeColorPicker === 'secondary'}
-									onOpenChange={(open) => setActiveColorPicker(open ? 'secondary' : null)}
+									open={activeColorPicker === "secondary"}
+									onOpenChange={(open) =>
+										setActiveColorPicker(open ? "secondary" : null)
+									}
 								/>
 								<ColorPicker
 									value={local.theme?.accent ?? "#f59e0b"}
@@ -474,8 +480,10 @@ export function MenuEditor({
 										}))
 									}
 									label="Accent"
-									open={activeColorPicker === 'accent'}
-									onOpenChange={(open) => setActiveColorPicker(open ? 'accent' : null)}
+									open={activeColorPicker === "accent"}
+									onOpenChange={(open) =>
+										setActiveColorPicker(open ? "accent" : null)
+									}
 								/>
 							</div>
 							<Button

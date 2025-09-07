@@ -76,8 +76,8 @@ export default async function Home() {
 						</p>
 						<ul className="grid gap-3 text-muted-foreground text-sm">
 							{(t.raw("homepage.hero.features") as string[]).map(
-								(feature: string, index: number) => (
-									<li key={index} className="flex items-center gap-2">
+								(feature: string) => (
+									<li key={feature} className="flex items-center gap-2">
 										<CheckCircle2 className="h-5 w-5 text-emerald-600" />
 										{feature}
 									</li>
@@ -166,7 +166,10 @@ export default async function Home() {
 						<ol className="grid gap-4 text-muted-foreground text-sm md:grid-cols-3">
 							{(t.raw("homepage.howItWorks.steps") as string[]).map(
 								(step: string, index: number) => (
-									<li key={index} className="rounded-lg border bg-muted/30 p-4">
+									<li
+										key={`step-${index}-${step.slice(0, 10)}`}
+										className="rounded-lg border bg-muted/30 p-4"
+									>
 										{index + 1}. {step}
 									</li>
 								),

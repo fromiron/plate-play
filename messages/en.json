@@ -26,7 +26,7 @@
 	},
 	"menu": {
 		"title": "Digital Menu",
-		"description": "Multi-language digital menu creation and management platform for restaurants, cafes, and guesthouses",
+		"platformDescription": "Multi-language digital menu creation and management platform for restaurants, cafes, and guesthouses",
 		"createMenu": "Create Menu",
 		"editMenu": "Edit Menu",
 		"menuName": "Menu Name",

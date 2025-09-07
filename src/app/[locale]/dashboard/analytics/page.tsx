@@ -83,7 +83,10 @@ function AnalyticsCard({ board }: { board: MenuBoard }) {
 					</div>
 					<div className="flex items-end gap-1 rounded-md border p-3">
 						{stats.hourlyViews.map((v, i) => (
-							<div key={i} className="flex flex-col items-center gap-1">
+							<div
+								key={`hour-${i}-${v}`}
+								className="flex flex-col items-center gap-1"
+							>
 								<div
 									className="w-3 rounded-t bg-emerald-500"
 									style={{ height: `${Math.round((v / maxHour) * 120)}px` }}

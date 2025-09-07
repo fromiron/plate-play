@@ -26,7 +26,7 @@
 	},
 	"menu": {
 		"title": "디지털 메뉴판",
-		"description": "레스토랑, 카페, 펜션을 위한 다국어 디지털 메뉴판 제작 및 관리 플랫폼",
+		"platformDescription": "레스토랑, 카페, 펜션을 위한 다국어 디지털 메뉴판 제작 및 관리 플랫폼",
 		"createMenu": "메뉴 생성",
 		"editMenu": "메뉴 편집",
 		"menuName": "메뉴명",

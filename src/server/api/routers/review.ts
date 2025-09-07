@@ -142,9 +142,9 @@ export const reviewRouter = createTRPCRouter({
 
 			// 별점 분포
 			const ratingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-			reviews.forEach((review) => {
+			for (const review of reviews) {
 				ratingDistribution[review.rating as keyof typeof ratingDistribution]++;
-			});
+			}
 
 			return {
 				averageRating,

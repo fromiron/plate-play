@@ -132,7 +132,12 @@ export default function DashboardPage() {
 								<label className="font-medium text-sm">
 									{t("dashboard.template")}
 								</label>
-								<Select value={tpl} onValueChange={(v: any) => setTpl(v)}>
+								<Select
+									value={tpl}
+									onValueChange={(v: "blank" | "cafe" | "restaurant" | "pub") =>
+										setTpl(v)
+									}
+								>
 									<SelectTrigger className="h-9">
 										<SelectValue placeholder={t("common.search")} />
 									</SelectTrigger>

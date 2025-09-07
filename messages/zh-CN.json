@@ -26,7 +26,7 @@
 	},
 	"menu": {
 		"title": "数字菜单",
-		"description": "为餐厅、咖啡厅、民宿打造的多语言数字菜单制作与管理平台",
+		"platformDescription": "为餐厅、咖啡厅、民宿打造的多语言数字菜单制作与管理平台",
 		"createMenu": "创建菜单",
 		"editMenu": "编辑菜单",
 		"menuName": "菜单名称",

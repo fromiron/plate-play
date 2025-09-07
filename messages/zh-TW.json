@@ -26,7 +26,7 @@
 	},
 	"menu": {
 		"title": "數位菜單",
-		"description": "為餐廳、咖啡廳、民宿打造的多語言數位菜單製作與管理平台",
+		"platformDescription": "為餐廳、咖啡廳、民宿打造的多語言數位菜單製作與管理平台",
 		"createMenu": "建立菜單",
 		"editMenu": "編輯菜單",
 		"menuName": "菜單名稱",

@@ -12,11 +12,11 @@ export function hexToHsl(hex: string) {
 	const r = Number.parseInt(sHex.substring(0, 2), 16) / 255;
 	const g = Number.parseInt(sHex.substring(2, 4), 16) / 255;
 	const b = Number.parseInt(sHex.substring(4, 6), 16) / 255;
-	const max = Math.max(r, g, b),
-		min = Math.min(r, g, b);
-	let h = 0,
-		s = 0,
-		l = (max + min) / 2;
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	let h = 0;
+	let s = 0;
+	const l = (max + min) / 2;
 	if (max !== min) {
 		const d = max - min;
 		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -37,34 +37,35 @@ export function hexToHsl(hex: string) {
 }
 
 export function hslToHex(h: number, s: number, l: number) {
-	h = clamp(h, 0, 360);
-	s = clamp(s, 0, 100);
-	l = clamp(l, 0, 100);
-	s /= 100;
-	l /= 100;
-	const c = (1 - Math.abs(2 * l - 1)) * s;
-	const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-	const m = l - c / 2;
-	let r = 0,
-		g = 0,
-		b = 0;
-	if (h < 60) {
+	const ch = clamp(h, 0, 360);
+	const cs = clamp(s, 0, 100);
+	const cl = clamp(l, 0, 100);
+	const sh = ch;
+	const ss = cs / 100;
+	const sl = cl / 100;
+	const c = (1 - Math.abs(2 * sl - 1)) * ss;
+	const x = c * (1 - Math.abs(((sh / 60) % 2) - 1));
+	const m = sl - c / 2;
+	let r = 0;
+	let g = 0;
+	let b = 0;
+	if (sh < 60) {
 		r = c;
 		g = x;
 		b = 0;
-	} else if (h < 120) {
+	} else if (sh < 120) {
 		r = x;
 		g = c;
 		b = 0;
-	} else if (h < 180) {
+	} else if (sh < 180) {
 		r = 0;
 		g = c;
 		b = x;
-	} else if (h < 240) {
+	} else if (sh < 240) {
 		r = 0;
 		g = x;
 		b = c;
-	} else if (h < 300) {
+	} else if (sh < 300) {
 		r = x;
 		g = 0;
 		b = c;

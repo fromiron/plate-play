@@ -12,7 +12,7 @@ function hasTranslation(
 	lang: Exclude<Lang, "default">,
 ) {
 	if (!ls) return false;
-	const v = (ls as any)[lang] as string | undefined;
+	const v = ls[lang as keyof LocalizedString];
 	return !!v && v.trim().length > 0;
 }
 

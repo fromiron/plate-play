@@ -163,9 +163,11 @@ export default function PublicMenuPage() {
 	const categories = useMemo(() => {
 		if (!board) return [];
 		const cats = new Set<string>();
-		board.sections.forEach((s) =>
-			s.items.forEach((i) => cats.add(i.category || "other")),
-		);
+		for (const s of board.sections) {
+			for (const i of s.items) {
+				cats.add(i.category || "other");
+			}
+		}
 		return Array.from(cats) as CategoryKey[];
 	}, [board]);
 
@@ -176,7 +178,7 @@ export default function PublicMenuPage() {
 	const updateLangQuery = (next: Lang) => {
 		const url = new URL(window.location.href);
 		url.searchParams.set("lang", next);
-		router.replace(url.pathname + "?" + url.searchParams.toString());
+		router.replace(`${url.pathname}?${url.searchParams.toString()}`);
 	};
 
 	if (!board) {
@@ -234,7 +236,10 @@ export default function PublicMenuPage() {
 
 						<Filter className="ml-2 h-4 w-4 text-muted-foreground" />
 						<Label className="text-muted-foreground text-xs">카테고리</Label>
-						<Select value={category} onValueChange={(v: any) => setCategory(v)}>
+						<Select
+							value={category}
+							onValueChange={(v: CategoryKey | "all") => setCategory(v)}
+						>
 							<SelectTrigger className="h-8 w-[140px]">
 								<SelectValue placeholder="전체" />
 							</SelectTrigger>
@@ -242,7 +247,7 @@ export default function PublicMenuPage() {
 								<SelectItem value="all">전체</SelectItem>
 								{categories.map((c) => (
 									<SelectItem key={c} value={c}>
-										{(CATEGORY_LABEL as any)[c] || c}
+										{CATEGORY_LABEL[c as CategoryKey] || c}
 									</SelectItem>
 								))}
 							</SelectContent>
@@ -377,8 +382,9 @@ export default function PublicMenuPage() {
 															)}
 															{item.category ? (
 																<span className="ml-2 rounded bg-[var(--pp-primary)]/10 px-2 py-0.5 text-[11px] text-[var(--pp-primary)]">
-																	{(CATEGORY_LABEL as any)[item.category] ||
-																		item.category}
+																	{CATEGORY_LABEL[
+																		item.category as CategoryKey
+																	] || item.category}
 																</span>
 															) : null}
 														</h3>
@@ -521,6 +527,7 @@ function ReviewForm({ boardId, item }: { boardId: string; item: MenuItem }) {
 		<div className="mt-2 print:hidden">
 			{!showForm ? (
 				<button
+					type="button"
 					onClick={() => setShowForm(true)}
 					className="text-blue-600 text-sm underline hover:text-blue-800"
 				>

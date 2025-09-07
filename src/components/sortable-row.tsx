@@ -1,12 +1,18 @@
 "use client";
 
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { ReactNode } from "react";
 
 type SortableRowProps = {
 	id: string;
-	children?: ReactNode | ((props: { dragHandleProps: any }) => ReactNode);
+	children?:
+		| ReactNode
+		| ((props: {
+				dragHandleProps: DraggableAttributes & SyntheticListenerMap;
+		  }) => ReactNode);
 };
 
 export function SortableRow({ id, children }: SortableRowProps) {

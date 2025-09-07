@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { auth } from "@/server/auth";
 import { TRPCReactProvider } from "@/trpc/react";
-import { locales } from "i18n/routing";
+import { type Locale, locales } from "i18n/routing";
 
 export const metadata: Metadata = {
 	title: "Plate Play",
@@ -33,7 +33,7 @@ export default async function LocaleLayout({
 	const { locale } = await params;
 
 	// 지원하는 언어인지 확인
-	if (!locales.includes(locale as any)) {
+	if (!locales.includes(locale as Locale)) {
 		notFound();
 	}
 
