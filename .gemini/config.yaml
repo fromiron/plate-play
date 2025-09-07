@@ -1,0 +1,33 @@
+# PR이 열렸을 때의 기본 동작 설정
+pull_request_opened:
+  # PR 요약 기능 활성화
+  summary: true
+  # 코드 리뷰 기능 활성화
+  code_review: true
+  # Draft 상태의 PR에도 리뷰를 수행할지 여부
+  # 개발 초기 단계부터 피드백을 원하면 true, 노이즈를 줄이려면 false로 설정
+  include_drafts: true
+  # PR이 열렸을 때 도움말 메시지를 게시할지 여부
+  help: true
+
+# 코드 리뷰에 대한 상세 설정
+code_review:
+  # 코드 리뷰 기능을 완전히 비활성화하려면 true로 설정
+  disable: false
+  # 표시할 코멘트의 최소 심각도 임계값 설정
+  # LOW, MEDIUM, HIGH, CRITICAL 중 선택 가능
+  # MEDIUM 또는 HIGH로 설정하면 덜 중요한 코멘트를 줄여 핵심에 집중할 수 있음
+  comment_severity_threshold: MEDIUM
+  # 생성할 최대 리뷰 코멘트 수. -1은 무제한을 의미
+  max_review_comments: -1
+
+# Gemini가 무시할 파일 및 디렉터리 패턴 목록
+ignore_patterns:
+  - "dist/"
+  - "build/"
+  - "node_modules/"
+  - "package-lock.json"
+  - ".next"
+
+# 재미있는 기능(예: 시)을 활성화할지 여부
+have_fun: false
