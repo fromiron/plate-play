@@ -1,3 +1,12 @@
 {
-	"i18n-ally.localesPaths": ["i18n", "messages"]
+	"i18n-ally.localesPaths": [
+		"i18n",
+		"messages"
+	],
+	"chatgpt.openOnStartup": true,
+	"i18n-ally.dirStructure": "file",
+	"i18n-ally.enabledFrameworks": [
+		"general"
+	],
+	"i18n-ally.sourceLanguage": "ko"
 }
