@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Heart, Palette, RotateCcw, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { PhotoshopPicker, type ColorResult } from "react-color";
+import { useEffect, useMemo, useState } from "react";
+import { Input } from "@/components/ui/input";
 
 interface ColorPickerProps {
 	value: string;
@@ -92,15 +92,14 @@ export function ColorPicker({
 		}
 	}, [isOpen, value]);
 
-	// 색상 변경 처리
-	const handleColorChange = (colorResult: ColorResult) => {
-		setTempColor(colorResult.hex);
-	};
+	const normalizedTempHex = useMemo(() => normalizeHex(tempColor), [tempColor]);
+	const isHexValid = useMemo(() => isValidHex(tempColor), [tempColor]);
 
 	// 색상 적용
 	const applyColor = () => {
-		onChange(tempColor);
-		addToRecentColors(tempColor);
+		const hex = normalizeHex(tempColor);
+		onChange(hex);
+		addToRecentColors(hex);
 		setIsOpen(false);
 	};
 
@@ -151,26 +150,47 @@ export function ColorPicker({
 				)}
 			</DialogTrigger>
 
-			<DialogContent className="max-w-[420px]">
+			<DialogContent className="max-w-[520px]">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
 						<Palette className="h-5 w-5" />
 						{label} 색상 선택
 					</DialogTitle>
 					<DialogDescription>
-						포토샵과 같은 인터페이스로 색상을 선택하세요.
+						색상을 선택하고 미리보기/팔레트를 활용해 보세요.
 					</DialogDescription>
 				</DialogHeader>
 
 				<div className="space-y-4">
-					{/* react-color Photoshop picker */}
-					<div className="flex justify-center">
-						<PhotoshopPicker
-							color={tempColor}
-							onChange={handleColorChange}
-							onAccept={applyColor}
-							onCancel={() => setIsOpen(false)}
-						/>
+					{/* Core picker row: preview, input[type=color], hex input */}
+					<div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+						<div className="space-y-2">
+							<Label>미리보기</Label>
+							<div
+								className="h-24 w-full rounded-md border"
+								style={{ backgroundColor: normalizedTempHex }}
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label>빠른 선택</Label>
+							<input
+								type="color"
+								value={safeColorInputValue(normalizedTempHex)}
+								onChange={(e) => setTempColor(e.target.value)}
+								className="h-10 w-full cursor-pointer rounded-md border bg-background p-1"
+								aria-label="색상 선택"
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label>HEX</Label>
+							<Input
+								value={tempColor}
+								onChange={(e) => setTempColor(e.target.value)}
+								placeholder="#16a34a"
+								aria-label="HEX 색상"
+								className={isHexValid ? undefined : "border-destructive"}
+							/>
+						</div>
 					</div>
 
 					{/* 미리 정의된 색상 팔레트 */}
@@ -246,7 +266,7 @@ export function ColorPicker({
 					)}
 
 					{/* 즐겨찾기 추가 버튼 */}
-					<div className="flex justify-between">
+					<div className="flex items-center justify-between">
 						<Button
 							variant="outline"
 							size="sm"
@@ -258,9 +278,44 @@ export function ColorPicker({
 							/>
 							{favoriteColors.includes(tempColor) ? "제거" : "즐겨찾기"}
 						</Button>
+						<div className="space-x-2">
+							<Button variant="outline" size="sm" onClick={() => setIsOpen(false)}>
+								취소
+							</Button>
+							<Button size="sm" onClick={applyColor}>
+								적용
+							</Button>
+						</div>
 					</div>
 				</div>
 			</DialogContent>
 		</Dialog>
 	);
+}
+
+// Helpers
+function normalizeHex(input: string): string {
+  if (!input) return "#000000";
+  let v = input.trim().toLowerCase();
+  if (!v.startsWith("#")) v = `#${v}`;
+  // Expand #abc to #aabbcc
+  if (/^#([0-9a-f]{3})$/.test(v)) {
+    const [, s] = v.match(/^#([0-9a-f]{3})$/) as RegExpMatchArray;
+    v = `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`;
+  }
+  // Validate #rrggbb
+  if (!/^#([0-9a-f]{6})$/.test(v)) return "#000000";
+  return v;
+}
+
+function safeColorInputValue(hex: string): string {
+  // input[type=color] requires a valid #rrggbb
+  return /^#([0-9a-f]{6})$/i.test(hex) ? hex : "#000000";
+}
+
+function isValidHex(input: string): boolean {
+  if (!input) return false;
+  let v = input.trim().toLowerCase();
+  if (!v.startsWith("#")) v = `#${v}`;
+  return /^#([0-9a-f]{3}|[0-9a-f]{6})$/.test(v);
 }
