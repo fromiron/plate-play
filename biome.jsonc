@@ -1,38 +1,54 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true
+	"files": {
+		"ignoreUnknown": false
 	},
-	"files": { "ignoreUnknown": false },
-	"formatter": { "enabled": true },
+	"formatter": {
+		"enabled": true
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"nursery": {
 				"recommended": true,
 				"useSortedClasses": {
-					"level": "error",
 					"fix": "unsafe",
+					"level": "error",
 					"options": {
-						"attributes": ["classList"],
-						"functions": ["clsx", "cva", "tw", "tw.*"]
+						"attributes": ["class", "className"],
+						"functions": ["clsx", "classnames", "cva", "cn", "tw", "tw.*"]
 					}
 				}
 			},
 			"style": {
+				"noInferrableTypes": "error",
 				"noParameterAssign": "error",
+				"noUnusedTemplateLiteral": "error",
+				"noUselessElse": "error",
 				"useAsConstAssertion": "error",
 				"useDefaultParameterLast": "error",
 				"useEnumInitializers": "error",
-				"useSelfClosingElements": "error",
-				"useSingleVarDeclarator": "error",
-				"noUnusedTemplateLiteral": "error",
 				"useNumberNamespace": "error",
-				"noInferrableTypes": "error",
-				"noUselessElse": "error"
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error"
 			}
 		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.css"],
+			"linter": {
+				"rules": {
+					"nursery": {
+						"noUnknownAtRule": "off"
+					}
+				}
+			}
+		}
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": true
 	}
 }

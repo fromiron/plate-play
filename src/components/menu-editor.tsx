@@ -1,5 +1,27 @@
 "use client";
 
+import {
+	closestCenter,
+	DndContext,
+	type DragEndEvent,
+	type DragStartEvent,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import {
+	Eye,
+	EyeOff,
+	GripVertical,
+	Paintbrush,
+	Plus,
+	Trash2,
+	Wand2,
+} from "lucide-react";
+import { nanoid } from "nanoid";
+import { useMemo, useState } from "react";
 import { ColorPicker } from "@/components/color-picker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,28 +52,6 @@ import type {
 	Section,
 } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils-local";
-import {
-	DndContext,
-	type DragEndEvent,
-	type DragStartEvent,
-	closestCenter,
-} from "@dnd-kit/core";
-import {
-	SortableContext,
-	arrayMove,
-	verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import {
-	Eye,
-	EyeOff,
-	GripVertical,
-	Paintbrush,
-	Plus,
-	Trash2,
-	Wand2,
-} from "lucide-react";
-import { nanoid } from "nanoid";
-import { useMemo, useState } from "react";
 import { SortableRow } from "./sortable-row";
 
 type EditorProps = {
@@ -77,7 +77,7 @@ export function MenuEditor({
 
 	useMemo(() => {
 		if (value.id === local.id) setLocal(value);
-	}, [value]);
+	}, [value, local.id]);
 
 	const update = (updater: (prev: MenuBoard) => MenuBoard) => {
 		const next = updater(local);
@@ -355,9 +355,7 @@ export function MenuEditor({
 									<SelectItem value="zh">{LANG_LABEL.zh}</SelectItem>
 								</SelectContent>
 							</Select>
-							<Label className="font-medium text-sm">
-								통화
-							</Label>
+							<Label className="font-medium text-sm">통화</Label>
 							<Select
 								value={local.currency ?? "KRW"}
 								onValueChange={(value) =>

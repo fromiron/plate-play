@@ -1,11 +1,11 @@
 "use client";
 
-import { computeCoverage } from "@/lib/lang-stats";
-import { buildLocalMenuUrl } from "@/lib/share";
-import type { MenuBoard } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import QRCode from "react-qr-code";
+import { computeCoverage } from "@/lib/lang-stats";
+import { buildLocalMenuUrl } from "@/lib/share";
+import type { MenuBoard } from "@/lib/types";
 
 export default function BoardCard({ board }: { board: MenuBoard }) {
 	const t = useTranslations();

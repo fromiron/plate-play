@@ -1,12 +1,36 @@
 {
-	"i18n-ally.localesPaths": [
-		"i18n",
-		"messages"
-	],
+	// 다른 포매터(예: Prettier)와 충돌을 방지하기 위해
+	// 각 언어에 대해 Biome을 명시적으로 지정합니다.
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	// Allow Biome to run only when config is present
+	"biome.requireConfiguration": true,
 	"chatgpt.openOnStartup": true,
+	"editor.codeActionsOnSave": {
+		"source.biome": "always",
+		"source.fixAll.biome": "always"
+	},
+	// 이 프로젝트의 기본 포매터를 Biome으로 설정합니다.
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnSave": true,
 	"i18n-ally.dirStructure": "file",
-	"i18n-ally.enabledFrameworks": [
-		"general"
-	],
+	"i18n-ally.enabledFrameworks": ["general"],
+	"i18n-ally.localesPaths": ["i18n", "messages"],
 	"i18n-ally.sourceLanguage": "ko"
 }

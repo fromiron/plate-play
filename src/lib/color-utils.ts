@@ -266,10 +266,11 @@ export const normalizeHex = (input: string): string => {
 	if (!input) return "#000000";
 	let v = input.trim().toLowerCase();
 	if (!v.startsWith("#")) v = `#${v}`;
-	if (/^#([0-9a-f]{3})$/.test(v)) {
-		const [, s] = v.match(/^#([0-9a-f]{3})$/) as RegExpMatchArray;
-		v = `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`;
-	}
+    const short = v.match(/^#([0-9a-f]{3})$/);
+    if (short) {
+        const s = short[1]!;
+        v = `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`;
+    }
 	if (!/^#([0-9a-f]{6})$/.test(v)) return "#000000";
 	return v;
 };
