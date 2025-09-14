@@ -7,9 +7,12 @@ export const CURRENCIES = [
 	{ value: "GBP", label: "🇬🇧 GBP - British Pound", symbol: "£" },
 ] as const;
 
-export type CurrencyCode = typeof CURRENCIES[number]["value"];
+export type CurrencyCode = (typeof CURRENCIES)[number]["value"];
 
-const CURRENCY_MAP = new Map(CURRENCIES.map(c => [c.value, c]));
+// Widen Map key to string so helpers can accept arbitrary input and fall back gracefully
+const CURRENCY_MAP = new Map<string, (typeof CURRENCIES)[number]>(
+	CURRENCIES.map((c) => [c.value, c] as const),
+);
 
 export function getCurrencyLabel(code: string): string {
 	return CURRENCY_MAP.get(code)?.label ?? code;

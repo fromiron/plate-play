@@ -1,17 +1,43 @@
-#!/usr/bin/env sh
 # Husky pre-commit hook: run TS typecheck and lint-staged with Biome v2
 
-# Exit on error
-set -e
+# Note: Husky v9+ runs this via a loader with `sh -e` and augments PATH.
+# Be PM-agnostic (no npm/yarn/pnpm); call local binaries directly.
 
-# If husky helper exists (created by `husky install`), source it for consistent env
-if [ -f "$(dirname -- "$0")/_/husky.sh" ]; then
-  . "$(dirname -- "$0")/_/husky.sh"
+# Ensure node is available in non-interactive Git hook shells
+have_node() { command -v node >/dev/null 2>&1; }
+
+# Try Volta
+if ! have_node; then
+  VOLTA_BIN="${VOLTA_HOME:-$HOME/.volta}/bin"
+  [ -d "$VOLTA_BIN" ] && PATH="$VOLTA_BIN:$PATH"
+fi
+
+# Try nvm
+if ! have_node; then
+  NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use --silent >/dev/null 2>&1 || true
+fi
+
+# Try asdf
+if ! have_node; then
+  [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+fi
+
+# As a courtesy, add local node_modules/.bin if not already present
+case ":$PATH:" in
+  *":node_modules/.bin:"*) ;;
+  *) PATH="node_modules/.bin:$PATH" ;;
+esac
+
+if ! have_node; then
+  echo "❌ Node.js not found in PATH during Git pre-commit."
+  echo "   Tip: Create ~/.config/husky/init.sh to load your Node manager (nvm/asdf/Volta)."
+  echo "   Or install Node globally so 'node' is resolvable in non-interactive shells."
+  exit 127
 fi
 
 echo "🔍 Type checking (tsc --noEmit)"
-pnpm -s typecheck
+tsc --noEmit
 
 echo "🧹 Linting & formatting staged files (Biome)"
-pnpm -s lint-staged
-
+lint-staged

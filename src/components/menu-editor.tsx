@@ -574,7 +574,7 @@ export function MenuEditor({
 					<div className="grid gap-4 ">
 						{local.sections.map((section) => (
 							<SortableRow key={section.id} id={section.id}>
-								{({ dragHandleProps }) => (
+								{({ attributes, listeners }) => (
 									<Card>
 										<CardHeader className="flex flex-row items-center justify-between space-y-0">
 											<div className="flex w-full flex-col gap-2">
@@ -582,7 +582,8 @@ export function MenuEditor({
 													<GripVertical
 														className="h-4 w-4 cursor-grab text-muted-foreground active:cursor-grabbing"
 														aria-hidden
-														{...dragHandleProps}
+														{...attributes}
+														{...(listeners as any)}
 													/>
 													<Input
 														value={section.name?.default ?? ""}

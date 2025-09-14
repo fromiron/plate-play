@@ -11,7 +11,8 @@ type SortableRowProps = {
 	children?:
 		| ReactNode
 		| ((props: {
-				dragHandleProps: DraggableAttributes & SyntheticListenerMap;
+				attributes: DraggableAttributes;
+				listeners: SyntheticListenerMap | undefined;
 		  }) => ReactNode);
 };
 
@@ -23,12 +24,10 @@ export function SortableRow({ id, children }: SortableRowProps) {
 		transition,
 	};
 
-	const dragHandleProps = { ...attributes, ...listeners };
-
 	return (
 		<div ref={setNodeRef} style={style} className="w-full">
 			{typeof children === "function"
-				? children({ dragHandleProps })
+				? children({ attributes, listeners })
 				: children}
 		</div>
 	);
