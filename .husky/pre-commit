@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# Husky pre-commit hook: run TS typecheck and lint-staged with Biome v2
+
+# Exit on error
+set -e
+
+# If husky helper exists (created by `husky install`), source it for consistent env
+if [ -f "$(dirname -- "$0")/_/husky.sh" ]; then
+  . "$(dirname -- "$0")/_/husky.sh"
+fi
+
+echo "🔍 Type checking (tsc --noEmit)"
+pnpm -s typecheck
+
+echo "🧹 Linting & formatting staged files (Biome)"
+pnpm -s lint-staged
+
