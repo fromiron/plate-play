@@ -222,7 +222,7 @@ export const menuBoardRouter = createTRPCRouter({
 	 * 공개 메뉴판 조회 (로그인 불필요)
 	 */
 	getPublic: publicProcedure
-		.input(z.object({ id: z.string() }))
+		.input(z.object({ id: z.string(), locale: z.string().optional() }))
 		.query(async ({ ctx, input }) => {
 			const board = await ctx.db.menuBoard.findUnique({
 				where: { id: input.id },
@@ -246,12 +246,12 @@ export const menuBoardRouter = createTRPCRouter({
 				});
 			}
 
-			// 조회수 증가
+			// 조회수 증가 (URL 로케일 포함)
 			await ctx.db.boardView.create({
 				data: {
 					menuBoardId: board.id,
 					hour: new Date().getHours(),
-					// 필요시 IP, User-Agent 등 추가 가능
+					locale: input.locale,
 				},
 			});
 
@@ -499,13 +499,18 @@ export const menuBoardRouter = createTRPCRouter({
 				include: {
 					sections: {
 						include: {
-							items: true,
+							items: {
+								include: {
+									_count: { select: { itemViews: true } },
+								},
+							},
 						},
 					},
 					views: {
 						select: {
 							viewedAt: true,
 							hour: true,
+							locale: true,
 						},
 					},
 				},
@@ -535,9 +540,24 @@ export const menuBoardRouter = createTRPCRouter({
 			).size;
 
 			const hourlyViews = Array(24).fill(0);
-			board.views.forEach((view) => {
+			const languageCounts = new Map<string, number>();
+			for (const view of board.views) {
 				hourlyViews[view.hour]++;
-			});
+				const key = view.locale || "unknown";
+				languageCounts.set(key, (languageCounts.get(key) ?? 0) + 1);
+			}
+
+			// 인기 메뉴 계산 (아이템별 조회수 내림차순)
+			const allItems = board.sections.flatMap((s) => s.items);
+			const popularItems = allItems
+				.map((item) => ({
+					id: item.id,
+					name: parseJSON<LocalizedString>(item.name) ?? { default: "" },
+					// Use Prisma-inferred _count instead of unsafe casting
+					views: item._count?.itemViews ?? 0,
+				}))
+				.sort((a, b) => b.views - a.views)
+				.slice(0, 10);
 
 			return {
 				totalViews: board.views.length,
@@ -547,10 +567,42 @@ export const menuBoardRouter = createTRPCRouter({
 				availableItems: totalItems - soldOutItems,
 				categoriesCount: categories,
 				hourlyViews,
+				byLanguage: Array.from(languageCounts.entries()).map(
+					([locale, count]) => ({ locale, count }),
+				),
+				popularItems,
 				recentViews: board.views.slice(-10).map((view) => ({
 					viewedAt: view.viewedAt.getTime(),
 					hour: view.hour,
 				})),
 			};
+		}),
+
+	/**
+	 * 메뉴 아이템 조회수 로깅 (공개)
+	 */
+	logItemView: publicProcedure
+		.input(
+			z.object({
+				menuItemId: z.string(),
+				locale: z.string().optional(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			// 메뉴 아이템 존재 확인 후 조회 기록 추가
+			const item = await ctx.db.menuItem.findUnique({
+				where: { id: input.menuItemId },
+				select: { id: true },
+			});
+			if (!item) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Menu item not found",
+				});
+			}
+			await ctx.db.itemView.create({
+				data: { menuItemId: input.menuItemId, locale: input.locale },
+			});
+			return { success: true };
 		}),
 });

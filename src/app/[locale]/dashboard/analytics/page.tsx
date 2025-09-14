@@ -51,6 +51,9 @@ function AnalyticsCard({ board }: { board: MenuBoard }) {
 	}
 
 	const maxHour = Math.max(1, ...stats.hourlyViews);
+	const topItems = stats.popularItems?.slice(0, 5) ?? [];
+	// Avoid mutating React Query cached data by copying before sort
+	const langs = [...(stats.byLanguage ?? [])].sort((a, b) => b.count - a.count);
 
 	return (
 		<Card>
@@ -95,6 +98,47 @@ function AnalyticsCard({ board }: { board: MenuBoard }) {
 								<div className="text-[10px] text-muted-foreground">{i}</div>
 							</div>
 						))}
+					</div>
+				</div>
+
+				<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+					<div className="rounded-lg border p-3">
+						<div className="mb-2 font-medium text-sm">언어별 조회수</div>
+						{langs.length === 0 ? (
+							<div className="text-muted-foreground text-xs">데이터 없음</div>
+						) : (
+							<ul className="grid gap-1 text-sm">
+								{langs.map((l) => (
+									<li
+										key={l.locale}
+										className="flex items-center justify-between"
+									>
+										<span className="text-muted-foreground">{l.locale}</span>
+										<span className="font-medium">{l.count}</span>
+									</li>
+								))}
+							</ul>
+						)}
+					</div>
+					<div className="rounded-lg border p-3">
+						<div className="mb-2 font-medium text-sm">인기 메뉴 Top 5</div>
+						{topItems.length === 0 ? (
+							<div className="text-muted-foreground text-xs">데이터 없음</div>
+						) : (
+							<ol className="grid gap-1 text-sm">
+								{topItems.map((it, idx) => (
+									<li key={it.id} className="flex items-center justify-between">
+										<span>
+											<span className="mr-2 text-muted-foreground">
+												{idx + 1}.
+											</span>
+											{it.name?.default || "메뉴"}
+										</span>
+										<span className="font-medium">{it.views}</span>
+									</li>
+								))}
+							</ol>
+						)}
 					</div>
 				</div>
 			</CardContent>

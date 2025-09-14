@@ -110,6 +110,8 @@ model BoardView {
     // 조회 정보
     viewedAt  DateTime @default(now())
     hour      Int // 0-23, 시간대별 분석용
+    // 접속 로케일 (URL 기반 로케일, 예: 'ja', 'ko', 'en', 'zh-CN', 'zh-TW')
+    locale    String?
     userAgent String? // 브라우저 정보
     ipAddress String? // IP 주소 (해시화된 값)
     referer   String? // 유입 경로
@@ -121,6 +123,7 @@ model BoardView {
     @@index([menuBoardId])
     @@index([viewedAt])
     @@index([hour])
+    @@index([locale])
 }
 
 // 메뉴 아이템 조회 기록 (ItemView)
@@ -132,6 +135,8 @@ model ItemView {
 
     // 조회 정보
     viewedAt DateTime @default(now())
+    // 접속 로케일 (URL 기반 로케일)
+    locale   String?
 
     // 관계
     menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
@@ -139,6 +144,7 @@ model ItemView {
 
     @@index([menuItemId])
     @@index([viewedAt])
+    @@index([locale])
 }
 
 // 고객 리뷰 (Review) - 익명화된 리뷰 시스템
