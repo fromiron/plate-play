@@ -1,6 +1,20 @@
 "use client";
 
+import {
+	BarChart3,
+	ExternalLink,
+	Eye,
+	Pencil,
+	Plus,
+	QrCode,
+	Search,
+	Trash2,
+} from "lucide-react";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
 import BoardCard from "@/components/board-card";
+import { MenuCarousel } from "@/components/menu-carousel";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -28,22 +42,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { CURRENCIES } from "@/lib/currencies";
 import { computeCoverage } from "@/lib/lang-stats";
-import type { MenuBoard } from "@/lib/types";
 import { formatCount, formatDate } from "@/lib/utils-local";
 import { api } from "@/trpc/react";
-import {
-	BarChart3,
-	ExternalLink,
-	Eye,
-	Pencil,
-	Plus,
-	QrCode,
-	Search,
-	Trash2,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { useMemo, useState } from "react";
 
 export default function DashboardPage() {
 	const t = useTranslations();
@@ -132,9 +132,7 @@ export default function DashboardPage() {
 								<DialogTitle>{t("dashboard.createNew")}</DialogTitle>
 							</DialogHeader>
 							<div className="grid gap-3 py-2">
-								<label className="font-medium text-sm">
-									{t("dashboard.template")}
-								</label>
+								<p className="font-medium text-sm">{t("dashboard.template")}</p>
 								<Select
 									value={tpl}
 									onValueChange={(v: "blank" | "cafe" | "restaurant" | "pub") =>
@@ -159,13 +157,8 @@ export default function DashboardPage() {
 										</SelectItem>
 									</SelectContent>
 								</Select>
-								<label className="font-medium text-sm">
-									{t("dashboard.currency")}
-								</label>
-								<Select
-									value={currency}
-									onValueChange={setCurrency}
-								>
+								<p className="font-medium text-sm">{t("dashboard.currency")}</p>
+								<Select value={currency} onValueChange={setCurrency}>
 									<SelectTrigger className="h-9">
 										<SelectValue />
 									</SelectTrigger>
@@ -221,6 +214,7 @@ export default function DashboardPage() {
 
 			<Separator className="mb-6" />
 
+			<MenuCarousel />
 			{filtered.length === 0 ? (
 				<div className="rounded-lg border bg-muted/20 p-10 text-center text-muted-foreground text-sm">
 					{t("dashboard.noMenus")}
