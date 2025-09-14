@@ -1,5 +1,17 @@
 "use client";
 
+import {
+	ArrowLeft,
+	Download,
+	ExternalLink,
+	Printer,
+	Save,
+	Share2,
+} from "lucide-react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import QRCode from "react-qr-code";
 import { MenuEditor } from "@/components/menu-editor";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,18 +41,6 @@ import {
 } from "@/lib/share";
 import type { Lang, MenuBoard } from "@/lib/types";
 import { api } from "@/trpc/react";
-import {
-	ArrowLeft,
-	Download,
-	ExternalLink,
-	Printer,
-	Save,
-	Share2,
-} from "lucide-react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
-import QRCode from "react-qr-code";
 
 type PaperSizeKey = "a5" | "a4" | "letter" | "tabloid";
 type Orientation = "portrait" | "landscape";
