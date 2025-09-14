@@ -3,9 +3,9 @@
  * 익명 리뷰 시스템을 위한 API 엔드포인트
  */
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 const CreateReviewSchema = z.object({
 	menuItemId: z.string(),
@@ -191,7 +191,7 @@ export const reviewRouter = createTRPCRouter({
 
 		return {
 			deletedCount: deletedReviews.count,
-			cleanedAt: new Date().getTime(),
+			cleanedAt: Date.now(),
 		};
 	}),
 });

@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function Stars({
 	value = 0,

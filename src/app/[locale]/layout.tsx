@@ -1,15 +1,14 @@
 import "@/styles/globals.css";
 
+import { type Locale, locales } from "i18n/routing";
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { Geist } from "next/font/google";
 import { notFound } from "next/navigation";
-
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { auth } from "@/server/auth";
 import { TRPCReactProvider } from "@/trpc/react";
-import { type Locale, locales } from "i18n/routing";
 
 export const metadata: Metadata = {
 	title: "Plate Play",

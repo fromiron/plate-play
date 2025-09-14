@@ -1,5 +1,8 @@
 "use client";
 
+import { type Locale, locales } from "i18n/routing";
+import { usePathname, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import {
 	Select,
 	SelectContent,
@@ -7,9 +10,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { type Locale, locales } from "i18n/routing";
-import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
 
 const languageNames: Record<Locale, string> = {
 	ja: "日本語",

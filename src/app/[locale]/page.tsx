@@ -1,9 +1,3 @@
-import { LoginButton } from "@/components/auth/login-button";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { auth } from "@/server/auth";
-import { HydrateClient, api } from "@/trpc/server";
 import {
 	ArrowRight,
 	CheckCircle2,
@@ -11,9 +5,14 @@ import {
 	Printer,
 	QrCode,
 } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { LoginButton } from "@/components/auth/login-button";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { HydrateClient } from "@/trpc/server";
 
 export default async function Home() {
 	// const hello = await api.post.hello({ text: "from tRPC" });

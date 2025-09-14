@@ -1,7 +1,10 @@
 "use client";
 
+import { Download, Filter, Globe, Printer } from "lucide-react";
+import Image from "next/image";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import type React from "react";
-
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Stars } from "@/components/rating";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,10 +27,6 @@ import { decodeBoardFromQuery, encodeBoardToQuery } from "@/lib/share";
 import type { Lang, MenuBoard, MenuItem } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils-local";
 import { api } from "@/trpc/react";
-import { Download, Filter, Globe, Printer } from "lucide-react";
-import Image from "next/image";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
 
 type PaperSizeKey = "a5" | "a4" | "letter" | "tabloid";
 type Orientation = "portrait" | "landscape";
@@ -74,7 +73,7 @@ export default function PublicMenuPage() {
 	const [category, setCategory] = useState<CategoryKey | "all">("all");
 
 	// item visibility observer
-	const observerRef = useRef<IntersectionObserver | null>(null);
+	const _observerRef = useRef<IntersectionObserver | null>(null);
 
 	// Fetch board data from database
 	const { data: dbBoard } = api.menuBoard.getPublic.useQuery(
@@ -96,7 +95,7 @@ export default function PublicMenuPage() {
 
 		// 만료된 세션 정리
 		cleanupExpiredSession();
-	}, [params.id, search, dbBoard]);
+	}, [search, dbBoard]);
 
 	useEffect(() => {
 		const urlLang = (search.get("lang") as Lang) || null;

@@ -39,7 +39,8 @@ export const rgbToHex = (r: number, g: number, b: number): string => {
 };
 
 // Clamp helper
-const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
+const clamp = (n: number, min: number, max: number) =>
+	Math.min(max, Math.max(min, n));
 
 // ========== HSV/HSL ==========
 // RGB [0-255] -> HSV {h [0-360], s [0-100], v [0-100]}
@@ -85,9 +86,9 @@ export const hsvToRgb = (
 	const c = v * s;
 	const x = c * (1 - Math.abs(((hh / 60) % 2) - 1));
 	const m = v - c;
-	let r1 = 0,
-		g1 = 0,
-		b1 = 0;
+	let r1 = 0;
+	let g1 = 0;
+	let b1 = 0;
 	if (hh < 60) {
 		r1 = c;
 		g1 = x;
@@ -251,7 +252,9 @@ export const cmykToRgb = (
 };
 
 // Convenience helpers
-export const hexToHsv = (hex: string): { h: number; s: number; v: number } | null => {
+export const hexToHsv = (
+	hex: string,
+): { h: number; s: number; v: number } | null => {
 	const rgb = hexToRgb(hex);
 	if (!rgb) return null;
 	return rgbToHsv(rgb.r, rgb.g, rgb.b);
@@ -266,11 +269,11 @@ export const normalizeHex = (input: string): string => {
 	if (!input) return "#000000";
 	let v = input.trim().toLowerCase();
 	if (!v.startsWith("#")) v = `#${v}`;
-    const short = v.match(/^#([0-9a-f]{3})$/);
-    if (short) {
-        const s = short[1]!;
-        v = `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`;
-    }
+	const short = v.match(/^#([0-9a-f]{3})$/);
+	if (short?.[1]) {
+		const s = short[1];
+		v = `#${s[0]}${s[0]}${s[1]}${s[1]}${s[2]}${s[2]}`;
+	}
 	if (!/^#([0-9a-f]{6})$/.test(v)) return "#000000";
 	return v;
 };

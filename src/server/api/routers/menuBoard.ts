@@ -3,14 +3,14 @@
  * 메뉴판 CRUD 및 관련 기능을 위한 API 엔드포인트
  */
 
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import type { LocalizedString, Promotion, Theme } from "@/lib/types";
 import {
 	createTRPCRouter,
 	protectedProcedure,
 	publicProcedure,
 } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
 // 입력 스키마 정의
 const LocalizedStringSchema = z
@@ -121,7 +121,7 @@ export const menuBoardRouter = createTRPCRouter({
 
 		return menuBoards.map((board) => ({
 			id: board.id,
-			title: parseJSON<LocalizedString>(board.title)!,
+			title: parseJSON<LocalizedString>(board.title) ?? { default: "" },
 			description: parseJSON<LocalizedString>(board.description || "{}"),
 			currency: board.currency,
 			defaultLang: board.defaultLang as
@@ -136,10 +136,10 @@ export const menuBoardRouter = createTRPCRouter({
 			promotions: parseJSON<Promotion[]>(board.promotions) || [],
 			sections: board.sections.map((section) => ({
 				id: section.id,
-				name: parseJSON<LocalizedString>(section.name)!,
+				name: parseJSON<LocalizedString>(section.name) ?? { default: "" },
 				items: section.items.map((item) => ({
 					id: item.id,
-					name: parseJSON<LocalizedString>(item.name)!,
+					name: parseJSON<LocalizedString>(item.name) ?? { default: "" },
 					description: parseJSON<LocalizedString>(item.description || "{}"),
 					price: item.price / 100, // DB는 정수, 앱은 소수점
 					image: item.image,
@@ -186,7 +186,7 @@ export const menuBoardRouter = createTRPCRouter({
 
 			return {
 				id: board.id,
-				title: parseJSON<LocalizedString>(board.title)!,
+				title: parseJSON<LocalizedString>(board.title) ?? { default: "" },
 				description: parseJSON<LocalizedString>(board.description || "{}"),
 				currency: board.currency,
 				defaultLang: board.defaultLang as
@@ -201,10 +201,10 @@ export const menuBoardRouter = createTRPCRouter({
 				promotions: parseJSON<Promotion[]>(board.promotions) || [],
 				sections: board.sections.map((section) => ({
 					id: section.id,
-					name: parseJSON<LocalizedString>(section.name)!,
+					name: parseJSON<LocalizedString>(section.name) ?? { default: "" },
 					items: section.items.map((item) => ({
 						id: item.id,
-						name: parseJSON<LocalizedString>(item.name)!,
+						name: parseJSON<LocalizedString>(item.name) ?? { default: "" },
 						description: parseJSON<LocalizedString>(item.description || "{}"),
 						price: item.price / 100,
 						image: item.image,
@@ -257,7 +257,7 @@ export const menuBoardRouter = createTRPCRouter({
 
 			return {
 				id: board.id,
-				title: parseJSON<LocalizedString>(board.title)!,
+				title: parseJSON<LocalizedString>(board.title) ?? { default: "" },
 				description: parseJSON<LocalizedString>(board.description || "{}"),
 				currency: board.currency,
 				defaultLang: board.defaultLang as
@@ -272,10 +272,10 @@ export const menuBoardRouter = createTRPCRouter({
 				promotions: parseJSON<Promotion[]>(board.promotions) || [],
 				sections: board.sections.map((section) => ({
 					id: section.id,
-					name: parseJSON<LocalizedString>(section.name)!,
+					name: parseJSON<LocalizedString>(section.name) ?? { default: "" },
 					items: section.items.map((item) => ({
 						id: item.id,
-						name: parseJSON<LocalizedString>(item.name)!,
+						name: parseJSON<LocalizedString>(item.name) ?? { default: "" },
 						description: parseJSON<LocalizedString>(item.description || "{}"),
 						price: item.price / 100,
 						image: item.image,

@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { LogIn, LogOut, User } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 
 export function LoginButton() {
 	const { data: session, status } = useSession();
