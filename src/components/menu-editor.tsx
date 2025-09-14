@@ -342,7 +342,7 @@ export function MenuEditor({
 							<Label className="font-medium text-sm">기본 언어</Label>
 							<Select
 								value={local.defaultLang}
-								onValueChange={(v: any) =>
+								onValueChange={(v: Lang) =>
 									update((p) => ({ ...p, defaultLang: v }))
 								}
 							>
@@ -511,7 +511,13 @@ export function MenuEditor({
 								onValueChange={(v) =>
 									update((p) => ({
 										...p,
-										theme: { ...(p.theme ?? {}), fontPair: v as any },
+										theme: {
+											...(p.theme ?? {}),
+											fontPair: v as
+												| "inter-playfair"
+												| "inter-merriweather"
+												| "inter-roboto-slab",
+										},
 									}))
 								}
 							>
@@ -583,7 +589,7 @@ export function MenuEditor({
 														className="h-4 w-4 cursor-grab text-muted-foreground active:cursor-grabbing"
 														aria-hidden
 														{...attributes}
-														{...(listeners as any)}
+														{...listeners}
 													/>
 													<Input
 														value={section.name?.default ?? ""}

@@ -60,7 +60,7 @@ function discounted(price: number, percent: number) {
 }
 
 export default function PublicMenuPage() {
-    const params = useParams<{ id: string; locale: string }>();
+	const params = useParams<{ id: string; locale: string }>();
 	const search = useSearchParams();
 	const router = useRouter();
 	const [board, setBoard] = useState<MenuBoard | null>(null);
@@ -76,10 +76,10 @@ export default function PublicMenuPage() {
 	const _observerRef = useRef<IntersectionObserver | null>(null);
 
 	// Fetch board data from database
-    const { data: dbBoard } = api.menuBoard.getPublic.useQuery(
-        { id: params.id, locale: params.locale },
-        { enabled: !search.get("data") }, // Only fetch if not using query data
-    );
+	const { data: dbBoard } = api.menuBoard.getPublic.useQuery(
+		{ id: params.id, locale: params.locale },
+		{ enabled: !search.get("data") }, // Only fetch if not using query data
+	);
 
 	useEffect(() => {
 		// Try query-embedded data first
@@ -157,39 +157,41 @@ export default function PublicMenuPage() {
 		}
 	}, [board, params.id, paper, orientation, marginMm, lang]);
 
-    // Track item impressions with IntersectionObserver -> item view logging
-    const logItemView = api.menuBoard.logItemView.useMutation();
-    const seenRef = useRef<Set<string>>(new Set());
+	// Track item impressions with IntersectionObserver -> item view logging
+	const logItemView = api.menuBoard.logItemView.useMutation();
+	const seenRef = useRef<Set<string>>(new Set());
 
-    useEffect(() => {
-        if (!board) return;
-        if (_observerRef.current) {
-            _observerRef.current.disconnect();
-            _observerRef.current = null;
-        }
-        const obs = new IntersectionObserver(
-            (entries) => {
-                for (const e of entries) {
-                    if (!e.isIntersecting) continue;
-                    const el = e.target as HTMLElement;
-                    const itemId = el.getAttribute("data-itemid");
-                    if (!itemId) continue;
-                    if (seenRef.current.has(itemId)) continue;
-                    seenRef.current.add(itemId);
-                    // fire and forget (no await to keep UI snappy)
-                    logItemView.mutate({ menuItemId: itemId, locale: params.locale });
-                }
-            },
-            { threshold: 0.6 },
-        );
-        _observerRef.current = obs;
-        // observe current items
-        const nodes = document.querySelectorAll('[data-itemid]');
-        nodes.forEach((n) => obs.observe(n));
-        return () => {
-            obs.disconnect();
-        };
-    }, [board, params.locale, category]);
+	useEffect(() => {
+		if (!board) return;
+		if (_observerRef.current) {
+			_observerRef.current.disconnect();
+			_observerRef.current = null;
+		}
+		const obs = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) {
+					if (!e.isIntersecting) continue;
+					const el = e.target as HTMLElement;
+					const itemId = el.getAttribute("data-itemid");
+					if (!itemId) continue;
+					if (seenRef.current.has(itemId)) continue;
+					seenRef.current.add(itemId);
+					// fire and forget (no await to keep UI snappy)
+					logItemView.mutate({ menuItemId: itemId, locale: params.locale });
+				}
+			},
+			{ threshold: 0.6 },
+		);
+		_observerRef.current = obs;
+		// observe current items
+		const nodes = document.querySelectorAll("[data-itemid]");
+		nodes.forEach((n) => {
+			obs.observe(n);
+		});
+		return () => {
+			obs.disconnect();
+		};
+	}, [board, params.locale, logItemView.mutate]);
 
 	const categories = useMemo(() => {
 		if (!board) return [];

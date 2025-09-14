@@ -125,6 +125,8 @@ export default function BoardEditorPage() {
 				...section,
 				items: section.items.map((item) => ({
 					...item,
+					image: item.image || undefined,
+					category: item.category || undefined,
 					description: item.description
 						? {
 								...item.description,
@@ -134,7 +136,7 @@ export default function BoardEditorPage() {
 				})),
 			})),
 		};
-		updateMutation.mutate(cleanedData as any);
+		updateMutation.mutate(cleanedData);
 		// broadcast saved state
 		broadcastBoardUpdate(cleanedData);
 	};

@@ -12,11 +12,10 @@
 			"nursery": {
 				"recommended": true,
 				"useSortedClasses": {
-					"fix": "unsafe",
+					"fix": "safe",
 					"level": "error",
 					"options": {
-						"attributes": ["class", "className"],
-						"functions": ["clsx", "classnames", "cva", "cn", "tw", "tw.*"]
+						"functions": ["clsx", "cva", "cn", "tw", "tw.*"]
 					}
 				}
 			},
