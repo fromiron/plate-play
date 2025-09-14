@@ -221,23 +221,23 @@ export const menuBoardRouter = createTRPCRouter({
 	/**
 	 * 공개 메뉴판 조회 (로그인 불필요)
 	 */
-	getPublic: publicProcedure
-		.input(z.object({ id: z.string() }))
-		.query(async ({ ctx, input }) => {
-			const board = await ctx.db.menuBoard.findUnique({
-				where: { id: input.id },
-				include: {
-					sections: {
-						include: {
-							items: {
-								where: { status: { not: "hidden" } }, // 숨김 상태 제외
-								orderBy: { order: "asc" },
-							},
-						},
-						orderBy: { order: "asc" },
-					},
-				},
-			});
+    getPublic: publicProcedure
+        .input(z.object({ id: z.string(), locale: z.string().optional() }))
+        .query(async ({ ctx, input }) => {
+            const board = await ctx.db.menuBoard.findUnique({
+                where: { id: input.id },
+                include: {
+                    sections: {
+                        include: {
+                            items: {
+                                where: { status: { not: "hidden" } }, // 숨김 상태 제외
+                                orderBy: { order: "asc" },
+                            },
+                        },
+                        orderBy: { order: "asc" },
+                    },
+                },
+            });
 
 			if (!board) {
 				throw new TRPCError({
@@ -246,14 +246,14 @@ export const menuBoardRouter = createTRPCRouter({
 				});
 			}
 
-			// 조회수 증가
-			await ctx.db.boardView.create({
-				data: {
-					menuBoardId: board.id,
-					hour: new Date().getHours(),
-					// 필요시 IP, User-Agent 등 추가 가능
-				},
-			});
+            // 조회수 증가 (URL 로케일 포함)
+            await ctx.db.boardView.create({
+                data: {
+                    menuBoardId: board.id,
+                    hour: new Date().getHours(),
+                    locale: input.locale,
+                },
+            });
 
 			return {
 				id: board.id,
@@ -488,28 +488,33 @@ export const menuBoardRouter = createTRPCRouter({
 	/**
 	 * 메뉴판 통계 조회
 	 */
-	getStats: protectedProcedure
-		.input(z.object({ id: z.string() }))
-		.query(async ({ ctx, input }) => {
-			const board = await ctx.db.menuBoard.findFirst({
-				where: {
-					id: input.id,
-					createdById: ctx.session.user.id,
-				},
-				include: {
-					sections: {
-						include: {
-							items: true,
-						},
-					},
-					views: {
-						select: {
-							viewedAt: true,
-							hour: true,
-						},
-					},
-				},
-			});
+    getStats: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const board = await ctx.db.menuBoard.findFirst({
+                where: {
+                    id: input.id,
+                    createdById: ctx.session.user.id,
+                },
+                include: {
+                    sections: {
+                        include: {
+                            items: {
+                                include: {
+                                    _count: { select: { itemViews: true } },
+                                },
+                            },
+                        },
+                    },
+                    views: {
+                        select: {
+                            viewedAt: true,
+                            hour: true,
+                            locale: true,
+                        },
+                    },
+                },
+            });
 
 			if (!board) {
 				throw new TRPCError({
@@ -534,23 +539,69 @@ export const menuBoardRouter = createTRPCRouter({
 				),
 			).size;
 
-			const hourlyViews = Array(24).fill(0);
-			board.views.forEach((view) => {
-				hourlyViews[view.hour]++;
-			});
+            const hourlyViews = Array(24).fill(0);
+            const languageCounts = new Map<string, number>();
+            for (const view of board.views) {
+                hourlyViews[view.hour]++;
+                const key = view.locale || "unknown";
+                languageCounts.set(key, (languageCounts.get(key) ?? 0) + 1);
+            }
 
-			return {
-				totalViews: board.views.length,
-				totalSections: board.sections.length,
-				totalItems,
-				soldOutItems,
-				availableItems: totalItems - soldOutItems,
-				categoriesCount: categories,
-				hourlyViews,
-				recentViews: board.views.slice(-10).map((view) => ({
-					viewedAt: view.viewedAt.getTime(),
-					hour: view.hour,
-				})),
-			};
-		}),
+            // 인기 메뉴 계산 (아이템별 조회수 내림차순)
+            const allItems = board.sections.flatMap((s) => s.items);
+            const popularItems = allItems
+                .map((item) => ({
+                    id: item.id,
+                    name: parseJSON<LocalizedString>(item.name) ?? { default: "" },
+                    views: (item as unknown as { _count?: { itemViews?: number } })._count
+                        ?.itemViews
+                        ??
+                        0,
+                }))
+                .sort((a, b) => b.views - a.views)
+                .slice(0, 10);
+
+            return {
+                totalViews: board.views.length,
+                totalSections: board.sections.length,
+                totalItems,
+                soldOutItems,
+                availableItems: totalItems - soldOutItems,
+                categoriesCount: categories,
+                hourlyViews,
+                byLanguage: Array.from(languageCounts.entries()).map(
+                    ([locale, count]) => ({ locale, count }),
+                ),
+                popularItems,
+                recentViews: board.views.slice(-10).map((view) => ({
+                    viewedAt: view.viewedAt.getTime(),
+                    hour: view.hour,
+                })),
+            };
+        }),
+
+    /**
+     * 메뉴 아이템 조회수 로깅 (공개)
+     */
+    logItemView: publicProcedure
+        .input(
+            z.object({
+                menuItemId: z.string(),
+                locale: z.string().optional(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            // 메뉴 아이템 존재 확인 후 조회 기록 추가
+            const item = await ctx.db.menuItem.findUnique({
+                where: { id: input.menuItemId },
+                select: { id: true },
+            });
+            if (!item) {
+                throw new TRPCError({ code: "NOT_FOUND", message: "Menu item not found" });
+            }
+            await ctx.db.itemView.create({
+                data: { menuItemId: input.menuItemId, locale: input.locale },
+            });
+            return { success: true };
+        }),
 });
